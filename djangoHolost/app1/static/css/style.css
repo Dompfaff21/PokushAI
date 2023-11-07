@@ -1,0 +1,141 @@
+.burger__menu{
+    display: flex;
+}
+
+.menu__item > a:hover {
+    font-size: 18px;
+}
+
+.main__content {
+    display: grid;
+}
+
+.main__block {
+    display: grid;
+    justify-items: center;
+}
+
+    .header {
+        display: block;
+        text-align:center;
+    }
+
+    .header__logo {
+        display: grid;
+    }
+
+    .header__title {
+        text-align: center;
+    }
+
+    .menu__item > a {
+        text-decoration: none;
+        color: black;
+        transition-duration: 0.25s;
+    }
+
+    .menu__item > a:hover {
+        color: red;
+        font-size: 25px;
+        transition-duration: 0.25s;
+     }
+
+input {
+    display: none;
+}
+
+    .menu__bottom {
+        float: right;
+        align-items: center;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        z-index: 999;
+    }
+
+    .menu__bottom > span,
+    .menu__bottom > span::before,
+    .menu__bottom > span::after {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #616161;
+    }
+
+        .menu__bottom > span::before {
+            content: '';
+            top: -8px;
+        }
+
+        .menu__bottom > span::after {
+            content: '';
+            top: 8px;
+        }
+
+    .menu {
+        display: block;
+        position: fixed;
+        visibility: hidden;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100%;
+        margin: 0;
+        padding: 80px 0;
+        list-style: none;
+        text-align: center;
+        background-color: #ECEFF1;
+        z-index: 998;
+    }
+    .menu__item {
+        display: block;
+        padding: 12px 24px;
+        color: black;
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+    #menu__toggle:checked ~ .menu__bottom > span {
+        transform: rotate(45deg);
+    }
+
+        #menu__toggle:checked ~ .menu__bottom > span::before {
+            top: 0;
+            transform: rotate(0);
+        }
+
+        #menu__toggle:checked ~ .menu__bottom > span::after {
+            top: 0;
+            transform: rotate(90deg);
+        }
+
+    #menu__toggle:checked ~ .menu {
+        visibility: visible;
+        right: 0;
+    }
+
+    .menu__bottom > span,
+    .menu__bottom > span::before,
+    .menu__bottom > span::after {
+        transition-duration: .25s;
+    }
+
+    .menu {
+        transition-duration: .25s;
+    }
+
+
+    .menu__item > a:hover {
+        color: red;
+        transition-duration: 0.25s;
+    }
+
+    .menu__item > a {
+        text-decoration: none;
+        color: black;
+    }

@@ -1,19 +1,20 @@
 <!DOCTYPE HTML>
 <html lang="ru">
+  {% load static %}
   <head>
     <meta charset="UTF-8">
     <title>Холостяк-Домохозяйка</title>
     <meta name="description" content="Описание страницы" />
 
-    <link rel="stylesheet" type="" href="" />
-    <link rel="icon" href="">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <link rel="icon" href="{% static '/pictures/icon.ico' %}">
     <script type="" src=""></script>
 
     <script src=""></script>
   </head>
   <body>
     <header>
-       <div class="burger-menu">
+      <div class="burger-menu">
             <input id="menu__toggle" type="checkbox">
             <label class="menu__bottom" for="menu__toggle">
                 <span></span>
@@ -22,7 +23,7 @@
                 <ul class="menu__list">
                     <li class="menu__item">
                         <a href="#"><b>На главную</b></a>
-                    </li>>
+                    </li>
                 </ul>
             </nav>
         </div>
