@@ -1,4 +1,4 @@
-# HolostyakDomohozyaikaWeb🍴::
+# ПокушAIWeb🍴::
 **ТАМ БЛЯ О БЛЯ**
 
 **ТО БЛЯТЬ О БЛЯ**
