@@ -5,7 +5,6 @@ body{
 }
 
 p {
-        color: white;
 }
 
     .header {
@@ -23,16 +22,12 @@ p {
 
 .sidebar {
     width: 60px;
-    height: 100px;
     box-sizing: border-box;
     padding: 10px;
-    background-color: #ffffffff;
-    transition: ease-in-out;
     overflow: hidden;
 }
 
 .sidebar:hover {
-    width: 200px;
 }
 
 .sidebar:hover > .sidebar__item > .item__text {
@@ -40,8 +35,6 @@ p {
 }
 
 hr {
-    height: 1px;
-    color: #919191;
     margin: 15px 0;
 }
 
@@ -51,21 +44,12 @@ hr {
     margin: 20px 0;
 }
 
-.sidebar__item .item__text {
     width: 40px;
-    height: 30px;
     flex-shrink: 0;
     fill: #424242;
 }
-
 .sidebar__item .item__text {
     opacity: 0;
-    transition: ease-in-out 0.3s;
-    transition-delay: .2s;
     margin-left: 15px;
     white-space: nowrap;
-}
-
-.icon {
-    max-width: 40px;
 }
