@@ -83,6 +83,8 @@ header {
         background-color: #bc4410;
         transition: ease-in-out  0.25s;
         overflow: hidden;
+        position: relative;
+        top:-95px;
 }
 
 .sidebar a {
