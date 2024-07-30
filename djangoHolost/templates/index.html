@@ -1,22 +1,28 @@
 <!DOCTYPE HTML>
 <html lang="ru">
+  {% load static %}
   <head>
     <meta charset="UTF-8">
     <title>Холостяк-Домохозяйка</title>
     <meta name="description" content="Описание страницы" />
-
-    <link rel="stylesheet" type="" href="" />
-    <link rel="icon" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <link rel="icon" href="{% static '/pictures/logotitle.ico' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script type="" src=""></script>
-
     <script src=""></script>
   </head>
   <body>
     <header>
-      Шапка
-      <nav>
-        Навигация
-      </nav>
+      <div class="logo-container">
+        <div class="logo">
+          <img alt="логотип" src="{% static '/pictures/pig.png' %}">
+        </div>
+      </div>
+        <div class="autors">
+          <p>3pigs.inc</p>
+          <a href="https://t.me/three_pigs_inc"><img alt="tg" src="{% static '/pictures/tg.png' %}"></a>
+        </div>
     </header>
     <main>
       <section>
@@ -25,7 +31,72 @@
       </section>
     </main>
     <aside>
-      Боковая колонка (сайдбар)
+     <div class="sidebar">
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/pig-work.gif' %}"/>
+
+                <div class="item__text">
+
+                  <a>ПокушAI</a>
+                </div>
+              </li>
+              <hr>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">Главная</a>
+                </div>
+              </li>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">Приложение</a>
+                </div>
+              </li>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">Подборки</a>
+                </div>
+              </li>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">Личный кабинет</a>
+                </div>
+              </li>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">О нас</a>
+                </div>
+              </li>
+              <li class="sidebar__item">
+
+                <img class="icon" src="{% static '/pictures/home_light.png' %}"/>
+
+                <div class="item__text">
+
+                  <a href="">Настройки</a>
+                </div>
+              </li>
+     </div>
     </aside>
     <footer>
       Подвал
