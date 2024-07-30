@@ -7,15 +7,22 @@
     <meta name="description" content="Описание страницы" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-    <link rel="icon" href="{% static '/pictures/logo.ico' %}">
+    <link rel="icon" href="{% static '/pictures/logotitle.ico' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script type="" src=""></script>
     <script src=""></script>
   </head>
   <body>
     <header>
-      <nav>
-        Навигация
-      </nav>
+      <div class="logo-container">
+        <div class="logo">
+          <img alt="логотип" src="{% static '/pictures/pig.png' %}">
+        </div>
+      </div>
+        <div class="autors">
+          <p>3pigs.inc</p>
+          <a href="https://t.me/three_pigs_inc"><img alt="tg" src="{% static '/pictures/tg.png' %}"></a>
+        </div>
     </header>
     <main>
       <section>
@@ -31,7 +38,7 @@
 
                 <div class="item__text">
 
-                  <a>Холостяк-Домохозяйка</a>
+                  <a>ПокушAI</a>
                 </div>
               </li>
               <hr>
