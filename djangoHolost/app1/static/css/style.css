@@ -5,7 +5,7 @@ body{
         padding: 0;
 }
 
-/* Параметры текста */
+/* TEXT */
 
 /* h1 {
         color: #DDDDDD;
@@ -24,19 +24,22 @@ a {
 a:active {
         color: #FFFFFFFF;
 } */
-/* Хедер */
+
+/* HEADER */
+
 header {
         text-align: center;
         width: 100%;
         height: 90px;
         background-color: #7c4958;
-        border-bottom: 1px solid #443435;        
+        border-bottom: 2px solid #443435;        
         box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 10px;
         position: relative;
+        z-index: 3;
 }
 
 .logo {
@@ -50,7 +53,7 @@ header {
         width: 100px;
 }
 
-.autors {
+.authors {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -59,7 +62,7 @@ header {
         right: 30px;
 }
 
-.autors p {
+.authors p {
         margin:0px;
         color: #FFFFFFFF;
         font-size: 20px;
@@ -68,23 +71,56 @@ header {
         margin-top:5px;
 }
 
-.autors img {
+.authors img {
         width:30px;
 }
 
+/* MEDIA */
 
-/* Сайдбар */
+@media only screen and (max-width:450px) {
+        header {
+                height: 150px;
+                padding: 0px 10px 10px;
+                flex-direction: column;
+        }
+            
+        .logo {
+                order: 1;
+        }
+
+        .authors {
+                margin-top:5px;
+                position: relative;
+                order: 2;
+                left: 0;
+                padding-left:10px;
+        }
+        .sidebar {
+                position: absolute;
+                top:150px;
+        }
+
+}
+
+@media only screen and (min-width:450px) {
+        .sidebar {
+                position: absolute;
+                top:90px;
+        }
+}
+
+/* SIDEBAR */
+
 .sidebar {
         width: 60px;
-        height: 100%;
+        height: auto;
         box-sizing: border-box;
         padding: 0px 10px;
         /* background-color: #F28303; */
         background-color: #bc4410;
         transition: ease-in-out  0.25s;
         overflow: hidden;
-        position: relative;
-        top:-95px;
+        z-index: 2;
 }
 
 .sidebar a {
@@ -98,7 +134,7 @@ header {
 } 
 
 .sidebar:hover {
-        width: 250px;
+        width: 220px;
 
 }
 
@@ -126,7 +162,9 @@ hr {
         flex-shrink: 0;
         fill: #424242;
 }
-/* Анимация выхода блока */
+
+/* ANIMATION SIDEBAR */
+
 .sidebar__item .item__text {
         opacity: 0;
         transition: ease-in-out 0.15s;
@@ -134,4 +172,38 @@ hr {
         margin-left: 15px;
         margin-top: 5px;
         white-space: nowrap;
+}
+
+/* MAIN */
+
+main {
+        display: flex;
+        padding: 0px 60px;
+        flex: 1;
+}
+
+section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+}
+
+/* FOOTER*/
+
+.wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+}
+
+footer {
+        background-color: #7c4958;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-top: 2px solid #443435;        
+        box-sizing: border-box;
+        z-index: 3;
 }
