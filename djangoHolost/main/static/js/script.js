@@ -1,3 +1,5 @@
+// SCRIPT FOR SIDEBAR
+
 function updateSidebarPosition() {
     var header = document.querySelector("header");
     var sidebar = document.querySelector(".sidebar");
@@ -10,14 +12,35 @@ function updateSidebarPosition() {
     }
 }
 
-// Обработчик события прокрутки
 document.addEventListener("scroll", updateSidebarPosition);
 
-// Обработчик события изменения размера окна
 window.addEventListener("resize", updateSidebarPosition);
 
-// Обработчик события изменения ориентации устройства
 window.addEventListener("orientationchange", updateSidebarPosition);
 
-// Вызов функции сразу после загрузки страницы
 updateSidebarPosition();
+
+// SCRIPT FOR ICON
+
+document.querySelector('.sidebar').addEventListener('mouseenter', function() {
+    const icons = document.querySelectorAll('.sidebar__item .icon_hover');
+    icons.forEach(icon => {
+        const originalSrc = icon.src;
+        icon.setAttribute('data-original', originalSrc);
+        icon.src = '/static/pictures/pig-work.gif';
+    });
+});
+
+document.querySelector('.sidebar').addEventListener('mouseleave', function() {
+    const icons = document.querySelectorAll('.sidebar__item .icon_hover');
+    icons.forEach(icon => {
+        setTimeout(() => {
+            icon.classList.add('hidden');
+            setTimeout(() => {
+                const originalSrc = icon.getAttribute('data-original');
+                icon.src = originalSrc;
+                icon.classList.remove('hidden');
+            }, 20);
+        }, 50);
+    });
+});

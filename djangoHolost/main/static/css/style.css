@@ -1,8 +1,9 @@
-body{
+html,body{
         background-color: #f7f4ed;
         font-family: 'Manrope', sans-serif;
         margin: 0;
         padding: 0;
+        scroll-behavior: smooth;
 }
 
 /* TEXT */
@@ -41,6 +42,27 @@ header {
         z-index: 3;
 }
 
+.button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        position: absolute;
+        left: 50px;
+        text-decoration: none;
+        color: #FFFFFFFF;
+        font-size: 16px;
+}
+
+.button img {
+        width:40px;
+        height:40px;
+}
+
+.button p {
+        margin: 0;
+}
+
 .logo {
         display: flex;
         justify-content: center;
@@ -66,7 +88,7 @@ header {
         color: #FFFFFFFF;
         font-size: 20px;
 }
-.autors a {
+.authors a {
         margin-top:5px;
 }
 
@@ -76,7 +98,7 @@ header {
 
 /* MEDIA */
 
-@media only screen and (max-width:450px) {
+@media only screen and (max-width:700px) {
         header {
                 height: 150px;
                 padding: 0px 10px 10px;
@@ -85,6 +107,11 @@ header {
             
         .logo {
                 order: 1;
+        }
+
+        
+        .button {
+                font-size: 12px;
         }
 
         .authors {
@@ -99,36 +126,57 @@ header {
                 top:150px;
         }
 
+        .name h1 {
+                font-size: 60px;
+                line-height: 100px;
+        }
+
         .name p {
-                width:100px;
-                font-size: 18px;
+                width: 340px;
+                font-size: 14px;
+                font-weight: 900;
+                line-height: 20px;
+        }
+
+        .name {
+                height: calc(100vh - 150px);
         }
 
 }
 
-@media only screen and (min-width:450px) {
+@media only screen and (min-width:700px) {
         .sidebar {
                 position: fixed;
                 top:90px;
         }
 
-        .name p {
-                width:450px;
-                font-size: 20px;
+        .name h1 {
+                font-size: 60px;
+                line-height: 110px;
         }
 
+        .name p {
+                width: 700px;
+                font-size: 26px;
+                font-weight: 900;
+                line-height: 40px;
+        }
+
+        .name {
+                height: calc(100vh - 90px);
+        }
 }
 
 /* SIDEBAR */
 
 .sidebar {
         width: 60px;
-        height: auto;
+        height: 78px;
         box-sizing: border-box;
         padding: 0px 10px;
         /* background-color: #F28303; */
-        background-color: #bc4410;
-        transition: width 0.25s ease-in-out;
+        background-color: #bc441000;
+        transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
         z-index: 2;
 }
@@ -141,6 +189,7 @@ header {
         color: #FFFFFFFF;
         text-decoration: none;
         font-size: 18px;
+        font-weight: 600;
 }
 
 .sidebar a:active {
@@ -148,8 +197,9 @@ header {
 } 
 
 .sidebar:hover {
+        height: 390px;
         width: 220px;
-
+        background-color: #443435;
 }
 
 .sidebar:hover > .sidebar__item > .item__text {
@@ -174,17 +224,20 @@ hr {
         width: 40px;
         height: 38px;
         flex-shrink: 0;
-        fill: #424242;
+}
+
+.sidebar__item .icon_hover {
+        width: 40px;
+        height: 38px;
+        flex-shrink: 0;
 }
 
 /* ANIMATION SIDEBAR */
 
 .sidebar__item .item__text {
         opacity: 0;
-        transition: ease-in-out 0.15s;
-        transition-delay: .3s;
+        transition: ease-in-out 0.25s;
         margin-left: 15px;
-        margin-top: 5px;
         white-space: nowrap;
 }
 
@@ -197,21 +250,100 @@ main {
 }
 
 .name {
-        height: 500px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        background-image: url("/static/pictures/background.jpg");
-        background-repeat: no-repeat; 
+        background-image: linear-gradient(270deg,#7c495876, #44343582),
+                url("/static/pictures/background.jpg");
+        background-repeat: no-repeat;
         background-size: cover;
         justify-content: center;
+}
+
+.name h1 {
+        color: #FFFFFFFF;
+        margin:0px;
 }
 
 .name p {
         color: #FFFFFFFF;
         margin:0px;
 }
+
+.advantages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: #f7f4ed;
+        justify-content: center;
+        height: calc(100vh - 76px);
+}
+
+/* ARROW */
+
+.scroll-button {
+        position: absolute;
+        bottom: 5px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .scroll-button .arrow {
+        width: 20px;
+        height: 20px;
+        border-left: 3px solid white;
+        border-bottom: 3px solid white;
+        transform: rotate(-45deg);
+        animation: moveArrow 2s infinite;
+    }
+
+    .scroll_up {
+        position: absolute;
+        bottom: -45px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .scroll_up .arrow_up {
+        width: 20px;
+        height: 20px;
+        border-left: 3px solid black;
+        border-bottom: 3px solid black;
+        transform: rotate(45deg);
+        animation: moveArrowUp 2s infinite;
+    }
+    
+    /* АNIMATION ARROW */
+
+    @keyframes moveArrow {
+        0%, 100% {
+            transform: rotate(-45deg) translateY(0);
+        }
+        50% {
+            transform: rotate(-45deg) translateY(-5px) translateX(5px);
+        }
+    }  
+
+    @keyframes moveArrowUp {
+        0%, 100% {
+            transform: rotate(135deg) translateY(0);
+        }
+        50% {
+            transform: rotate(135deg) translateY(-5px) translateX(5px);
+        }
+    }
 
 /* FOOTER*/
 

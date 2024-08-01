@@ -1,58 +1,6 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="PyGlobalUndefinedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignoredPackages">
-        <value>
-          <list size="1">
-            <item index="0" class="java.lang.String" itemvalue="keras" />
-          </list>
-        </value>
-      </option>
-    </inspection_tool>
-    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
-      <option name="ignoredErrors">
-        <list>
-          <option value="E302" />
-          <option value="E501" />
-          <option value="E128" />
-          <option value="E231" />
-        </list>
-      </option>
-    </inspection_tool>
-    <inspection_tool class="PyTypeCheckerInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ignoredIdentifiers">
-        <list>
-          <option value="eel" />
-          <option value="app.recipes_window" />
-          <option value="app.checkboxes" />
-          <option value="app.label" />
-          <option value="app.QtGui" />
-          <option value="app.unique_recipes" />
-          <option value="app.current_recipe" />
-          <option value="app.recipes" />
-          <option value="app2.App.sidebar_button_event" />
-          <option value="app2.App.search_recipes_event" />
-          <option value="customtkinter.windows.widgets.ctk_switch.CTkSwitch.get_state" />
-          <option value="customtkinter.windows.widgets.ctk_frame.CTkFrame.append" />
-          <option value="app2.csv" />
-          <option value="app2.App.button" />
-          <option value="customtkinter.CtkFrame" />
-          <option value="customtkinter.CtkRadiobutton" />
-          <option value="customtkinter.CtkRadioButton" />
-          <option value="app2.App.recipes_df" />
-          <option value="app2.App.get_selected_ingredients" />
-          <option value="customtkinter.windows.widgets.ctk_switch.CTkSwitch.get_text" />
-          <option value="customtkinter.windows.widgets.ctk_switch.CTkSwitch.set" />
-          <option value="tkinter.messagebox" />
-          <option value="customtkinter.windows.widgets.ctk_combobox.CTkComboBox.add_items" />
-          <option value="sv_ttk" />
-          <option value="str.destroy" />
-        </list>
-      </option>
-    </inspection_tool>
   </profile>
 </component>
