@@ -35,12 +35,12 @@ document.querySelector('.sidebar').addEventListener('mouseleave', function() {
     const icons = document.querySelectorAll('.sidebar__item .icon_hover');
     icons.forEach(icon => {
         setTimeout(() => {
-            icon.classList.add('hidden'); // Начинаем плавно скрывать текущую иконку
+            icon.classList.add('hidden');
             setTimeout(() => {
                 const originalSrc = icon.getAttribute('data-original');
-                icon.src = originalSrc; // Восстанавливаем оригинальную иконку
-                icon.classList.remove('hidden'); // Показываем иконку снова
-            }, 30); // Задержка перед сменой изображения
-        }, 200); // Задержка перед началом скрытия
+                icon.src = originalSrc;
+                icon.classList.remove('hidden');
+            }, 20);
+        }, 50);
     });
 });

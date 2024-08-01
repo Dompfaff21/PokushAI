@@ -160,7 +160,7 @@ button {
         padding: 0px 10px;
         /* background-color: #F28303; */
         background-color: #bc441000;
-        transition: width 0.25s ease-in-out, height 0.25s ease-in-out;;
+        transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
         z-index: 2;
 }
@@ -181,7 +181,7 @@ button {
 } 
 
 .sidebar:hover {
-        height: 447px;
+        height: 390px;
         width: 220px;
         background-color: #bc4410;
 }
@@ -221,9 +221,7 @@ hr {
 .sidebar__item .item__text {
         opacity: 0;
         transition: ease-in-out 0.25s;
-        transition-delay: .2s;
         margin-left: 15px;
-        margin-top: 5px;
         white-space: nowrap;
 }
 
