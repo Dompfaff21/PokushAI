@@ -14,8 +14,7 @@
   </head>
   <body>
   <div class="wrapper">
-    <header>
-      <a href="{% url 'new' %}"><button>Зарегестрироваться</button></a>
+    <header id="name-section">
         <div class="logo">
           <img alt="логотип" src="{% static '/pictures/pig.png' %}">
         </div>
@@ -23,17 +22,26 @@
           <p>3pigs.inc</p>
           <a href="https://t.me/three_pigs_inc"><img alt="tg" src="{% static '/pictures/tg.png' %}"></a>
         </div>
+        <a class="button" href="{% url 'new' %}">
+          <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
+          <p>Войти</p>
+        </a>
     </header>
     <main>
       <div class="name">
         <h1>ПокушAI</h1>
         <p>Кулинарное приложение с мобильной версией.
         Отличные блюда из подручных продуктов.</p>
+        <a href="#next-section" class="scroll-button">
+          <div class="arrow"></div>
+        </a>
       </div>
-      <div class="1">
-        <h1>ПокушAI</h1>
-        <p>Кулинарное приложение с мобильной версией.
-        Отличные блюда из подручных продуктов.</p>
+      <div id="next-section" class="advantages">
+          <h2>Следующий блок</h2>
+          <p>Содержимое следующего блока...</p>
+          <a href="#name-section" class="scroll_up">
+            <div class="arrow_up"></div>
+          </a>
       </div>
     </main>
     <div class="sidebar">
@@ -43,7 +51,7 @@
 
         <div class="item__text">
 
-          <a>ПокушAI</a>
+          <a>Навигация</a>
         </div>
       </li>
       <hr>

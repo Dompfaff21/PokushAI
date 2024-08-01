@@ -1,8 +1,9 @@
-body{
+html,body{
         background-color: #f7f4ed;
         font-family: 'Manrope', sans-serif;
         margin: 0;
         padding: 0;
+        scroll-behavior: smooth;
 }
 
 /* TEXT */
@@ -41,15 +42,25 @@ header {
         z-index: 3;
 }
 
-button {
+.button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
         position: absolute;
-        left: 30px;
-        border: none;
-        border-radius: 20px;
-        height: 40px;
-        padding: 8px;
-        background-color: #443435;
-        color: #FFFFFFFF; 
+        left: 50px;
+        text-decoration: none;
+        color: #FFFFFFFF;
+        font-size: 16px;
+}
+
+.button img {
+        width:40px;
+        height:40px;
+}
+
+.button p {
+        margin: 0;
 }
 
 .logo {
@@ -77,7 +88,7 @@ button {
         color: #FFFFFFFF;
         font-size: 20px;
 }
-.autors a {
+.authors a {
         margin-top:5px;
 }
 
@@ -98,6 +109,11 @@ button {
                 order: 1;
         }
 
+        
+        .button {
+                font-size: 12px;
+        }
+
         .authors {
                 margin-top:5px;
                 position: relative;
@@ -112,7 +128,7 @@ button {
 
         .name h1 {
                 font-size: 60px;
-                line-height: 120px;
+                line-height: 100px;
         }
 
         .name p {
@@ -136,7 +152,7 @@ button {
 
         .name h1 {
                 font-size: 60px;
-                line-height: 120px;
+                line-height: 110px;
         }
 
         .name p {
@@ -183,7 +199,7 @@ button {
 .sidebar:hover {
         height: 390px;
         width: 220px;
-        background-color: #bc4410;
+        background-color: #443435;
 }
 
 .sidebar:hover > .sidebar__item > .item__text {
@@ -238,7 +254,7 @@ main {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        background-image: linear-gradient(270deg,#7c495876, #bc441073),
+        background-image: linear-gradient(270deg,#7c495876, #44343582),
                 url("/static/pictures/background.jpg");
         background-repeat: no-repeat;
         background-size: cover;
@@ -254,6 +270,80 @@ main {
         color: #FFFFFFFF;
         margin:0px;
 }
+
+.advantages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: #f7f4ed;
+        justify-content: center;
+        height: calc(100vh - 76px);
+}
+
+/* ARROW */
+
+.scroll-button {
+        position: absolute;
+        bottom: 5px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .scroll-button .arrow {
+        width: 20px;
+        height: 20px;
+        border-left: 3px solid white;
+        border-bottom: 3px solid white;
+        transform: rotate(-45deg);
+        animation: moveArrow 2s infinite;
+    }
+
+    .scroll_up {
+        position: absolute;
+        bottom: -45px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .scroll_up .arrow_up {
+        width: 20px;
+        height: 20px;
+        border-left: 3px solid black;
+        border-bottom: 3px solid black;
+        transform: rotate(45deg);
+        animation: moveArrowUp 2s infinite;
+    }
+    
+    /* АNIMATION ARROW */
+
+    @keyframes moveArrow {
+        0%, 100% {
+            transform: rotate(-45deg) translateY(0);
+        }
+        50% {
+            transform: rotate(-45deg) translateY(-5px) translateX(5px);
+        }
+    }  
+
+    @keyframes moveArrowUp {
+        0%, 100% {
+            transform: rotate(135deg) translateY(0);
+        }
+        50% {
+            transform: rotate(135deg) translateY(-5px) translateX(5px);
+        }
+    }
 
 /* FOOTER*/
 
