@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %}Войти{% endblock %}
+
+{% block content %}
+        <a class="button" href="{% url 'new' %}">
+            <img alt="Регистрация" src="{% static '/pictures/light_theme/face_light.png' %}">
+            <p>Регистрация</p>
+        </a>
+{% endblock %}
