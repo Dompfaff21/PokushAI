@@ -7,6 +7,12 @@ html,body{
         user-select: none;
 }
 
+.wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+}
+
 /* TEXT */
 
 /* h1 {
@@ -257,7 +263,7 @@ main {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        background-image: linear-gradient(270deg,#7c495876, #44343582),
+        background-image: linear-gradient(270deg, #44343582, #fdd1b86d),
                 url("/static/pictures/background.jpg");
         background-repeat: no-repeat;
         background-size: cover;
@@ -282,6 +288,18 @@ main {
         background-color: #f7f4ed;
         justify-content: center;
         height: calc(100vh - 76px);
+}
+
+.advantages h2 {
+        
+}
+
+.adv_row1 {
+        display: flex;
+        flex-direction: row;
+        width: 100px;
+        height: 100px;
+        align-items: center;
 }
 
 /* ARROW */
@@ -349,12 +367,6 @@ main {
     }
 
 /* FOOTER*/
-
-.wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-}
 
 footer {
         background-color: #7c4958;
