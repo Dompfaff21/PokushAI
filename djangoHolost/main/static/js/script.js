@@ -44,3 +44,9 @@ document.querySelector('.sidebar').addEventListener('mouseleave', function() {
         }, 50);
     });
 });
+
+// SCRIPT FOR TG
+
+document.getElementById("tg").addEventListener("click", function() {
+    window.open("https://t.me/three_pigs_inc", "_blank");
+});

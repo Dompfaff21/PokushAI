@@ -3,7 +3,7 @@
   {% load static %}
   <head>
     <meta charset="UTF-8">
-    <title>Холостяк-Домохозяйка</title>
+    <title>ПокушAI</title>
     <meta name="description" content="Описание страницы" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
@@ -18,11 +18,11 @@
         <div class="logo">
           <img alt="логотип" src="{% static '/pictures/pig.png' %}">
         </div>
-        <div class="authors">
+        <div class="authors" id="tg">
           <p>3pigs.inc</p>
-          <a href="https://t.me/three_pigs_inc"><img alt="tg" src="{% static '/pictures/tg.png' %}"></a>
+          <img alt="tg" src="{% static '/pictures/tg.png' %}">
         </div>
-        <a class="button" href="{% url 'new' %}">
+        <a class="button" href="{% url 'user' %}">
           <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
           <p>Войти</p>
         </a>
@@ -37,8 +37,43 @@
         </a>
       </div>
       <div id="next-section" class="advantages">
-          <h2>Следующий блок</h2>
-          <p>Содержимое следующего блока...</p>
+          <h2>Почему мы?</h2>
+          <div class="adv_row">
+            <div class="adv_column">
+              <img src="{% static '/pictures/adv1.svg' %}">
+              <h3>Удобство и экономия времени</h3>
+              <p>
+                Наше приложение поможет пользователям быстро и легко выбрать блюда на основе имеющихся продуктов, 
+                что позволит сэкономить время на походы в магазин и поиски рецептов.
+              </p>
+            </div>
+            <div class="adv_column">
+              <img src="{% static '/pictures/adv2.svg' %}">
+              <h3>Персонализация</h3>
+              <p>
+			          Наша нейронная сеть предложит блюда именно на основе выбранных продуктов, 
+                учитывая предпочтения пользователя и его диетические ограничения.
+              </p>
+            </div>
+          </div>
+          <div class="adv_row">
+            <div class="adv_column">
+              <img src="{% static '/pictures/adv3.svg' %}">
+              <h3>Подробные инструкции</h3>
+              <p>       
+			          В нашем приложении вы найдете подробные рецепты с пошаговыми инструкциями, 
+                что сделает процесс приготовления блюд максимально понятным и простым.
+              </p>
+            </div>
+            <div class="adv_column">
+              <img src="{% static '/pictures/adv4.svg' %}">
+              <h3>Удобный дизайн</h3>
+              <p>
+			          Наше приложение разработано с учетом удобства использования, 
+                что делает его привлекательным для всех категорий пользователей, вне зависимости от уровня опыта в кулинарии.
+              </p>
+            </div>
+          </div>
           <a href="#name-section" class="scroll_up">
             <div class="arrow_up"></div>
           </a>
@@ -47,7 +82,7 @@
     <div class="sidebar">
       <li class="sidebar__item">
 
-        <img class="icon_hover" src="{% static '/pictures/light_theme/menu_light.png' %}"/>
+        <img class="icon_hover" src="{% static '/pictures/dark_theme/menu_dark.png' %}"/>
 
         <div class="item__text">
 
