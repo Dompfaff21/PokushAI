@@ -4,6 +4,7 @@ html,body{
         margin: 0;
         padding: 0;
         scroll-behavior: smooth;
+        user-select: none;
 }
 
 /* TEXT */
@@ -81,6 +82,7 @@ header {
         gap: 10px;
         position: absolute;
         right: 30px;
+        cursor: pointer;
 }
 
 .authors p {
@@ -120,6 +122,7 @@ header {
                 order: 2;
                 left: 0;
                 padding-left:10px;
+                cursor: pointer;
         }
         .sidebar {
                 position: fixed;
