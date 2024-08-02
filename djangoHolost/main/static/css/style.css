@@ -307,7 +307,6 @@ main {
 .adv_column {
         display: flex;
         flex-direction: column;
-        width:auto;
         align-items: center;
         max-width: 500px;
 }
@@ -324,7 +323,7 @@ main {
         font-size: 26px;
 }
 
-.adv_row img {
+.adv_column img {
         max-width: 150px;
 }
 
