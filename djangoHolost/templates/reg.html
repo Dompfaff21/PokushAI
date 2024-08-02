@@ -1,3 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block title %}Регистрация{% endblock %}
+
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Отправить</button>
+{% endblock %}
