@@ -138,7 +138,6 @@ header {
         .sidebar:hover {
                 height: 100vh;
                 width: 100vw;
-                background-color: #443435;
         }
 
         .name h1 {
@@ -318,7 +317,7 @@ header {
                 height: 390px;
                 width: 220px;
         }
-
+        
         .name h1 {
                 font-size: 60px;
                 line-height: 110px;
@@ -370,13 +369,11 @@ header {
 
 
 /* SIDEBAR */
-
 .sidebar {
         width: 60px;
         height: 78px;
         box-sizing: border-box;
         padding: 0px 10px;
-        /* background-color: #F28303; */
         background-color: #bc441000;
         transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
@@ -385,6 +382,11 @@ header {
 
 .sidebar.sticky {
         top: 0px;
+}
+
+.sidebar.collapsed {
+        width: 60px;
+        height: 78px;
 }
 
 .sidebar a {
@@ -398,9 +400,9 @@ header {
         color: #FFFFFFFF;
 } 
 
-.sidebar:hover {
+/* .sidebar:hover {
         background-color: #443435;
-}
+} */
 
 .sidebar:hover > .sidebar__item > .item__text {
         opacity: 1;
@@ -444,12 +446,19 @@ hr {
 .close-btn {
         cursor: pointer;
         color: white;
+        position: absolute;
+        right: 20px;
+        font-size: 40px;
 }
       
 .close-btn:hover {
-        color: red;
+        color: #7c4958;
 }
 
+.sidebar.collapsed .close-btn {
+        opacity: 0;
+        pointer-events:none;
+}
 
 /* MAIN */
 
