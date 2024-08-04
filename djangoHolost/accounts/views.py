@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def login_user(request):
-    return render(request, 'user.html')
+    return render(request, 'registration/login.html')
 
 def registrate(request):
     if request.method == 'POST':
@@ -13,4 +13,4 @@ def registrate(request):
             return redirect('/')
     else:
         form = UserCreationForm()
-    return render(request, 'reg.html', {'form': form})
+    return render(request, 'registration/registration.html', {'form': form})
