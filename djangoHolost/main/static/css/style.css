@@ -135,6 +135,11 @@ header {
                 top:150px;
         }
 
+        .sidebar:hover {
+                height: 100vh;
+                width: 100vw;
+        }
+
         .name h1 {
                 font-size: 60px;
                 line-height: 100px;
@@ -149,6 +154,10 @@ header {
 
         .name {
                 height: calc(100vh - 150px);
+        }
+
+        .advantages {
+                block-size: fit-content;
         }
 
         .advantages h2 {
@@ -184,6 +193,11 @@ header {
                 position: fixed;
                 top: 90px;
         }
+        
+        .sidebar:hover {
+                height: 390px;
+                width: 220px;
+        }
 
         .name h1 {
                 font-size: 60px;
@@ -204,6 +218,10 @@ header {
         .adv_row {
                 flex-direction: column;
                 gap: 20px;
+        }
+
+        .advantages {
+                block-size: fit-content;
         }
 
         .advantages h2 {
@@ -230,10 +248,15 @@ header {
     }
 
 
-@media only screen and (min-width:1141px) {
+@media only screen and (min-width:1141px) and (max-width:1799px){
         .sidebar {
                 position: fixed;
                 top: 90px;
+        }
+        
+        .sidebar:hover {
+                height: 390px;
+                width: 220px;
         }
 
         .name h1 {
@@ -250,6 +273,69 @@ header {
 
         .name {
                 height: calc(100vh - 90px);
+        }
+
+        .advantages{
+                block-size: fit-content;
+        }
+
+        .advantages h2 {
+                font-size: 60px;
+        }
+
+        .adv_row {
+                flex-direction: row;
+                gap: 140px;
+        }
+        
+        .adv_column {
+                width: 500px;
+        }
+
+        .adv_column img {
+                width: 150px;
+        }
+
+        .adv_column p {
+                font-size: 20px;
+                font-weight: 300;
+        }
+
+        .adv_column h3 {
+                font-size: 26px;
+        }
+        
+}
+
+@media only screen and (min-width:1800px) {
+        .sidebar {
+                position: fixed;
+                top: 90px;
+        }
+
+        .sidebar:hover {
+                height: 390px;
+                width: 220px;
+        }
+        
+        .name h1 {
+                font-size: 60px;
+                line-height: 110px;
+        }
+
+        .name p {
+                width: 700px;
+                font-size: 26px;
+                font-weight: 900;
+                line-height: 40px;
+        }
+
+        .name {
+                height: calc(100vh - 90px);
+        }
+
+        .advantages{
+                height: calc(100vh - 76px);
         }
 
         .advantages h2 {
@@ -280,14 +366,14 @@ header {
 
 }
 
-/* SIDEBAR */
 
+
+/* SIDEBAR */
 .sidebar {
         width: 60px;
         height: 78px;
         box-sizing: border-box;
         padding: 0px 10px;
-        /* background-color: #F28303; */
         background-color: #bc441000;
         transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
@@ -296,6 +382,11 @@ header {
 
 .sidebar.sticky {
         top: 0px;
+}
+
+.sidebar.collapsed {
+        width: 60px;
+        height: 78px;
 }
 
 .sidebar a {
@@ -309,11 +400,9 @@ header {
         color: #FFFFFFFF;
 } 
 
-.sidebar:hover {
-        height: 390px;
-        width: 220px;
+/* .sidebar:hover {
         background-color: #443435;
-}
+} */
 
 .sidebar:hover > .sidebar__item > .item__text {
         opacity: 1;
@@ -354,6 +443,23 @@ hr {
         white-space: nowrap;
 }
 
+.close-btn {
+        cursor: pointer;
+        color: white;
+        position: absolute;
+        right: 20px;
+        font-size: 40px;
+}
+      
+.close-btn:hover {
+        color: #7c4958;
+}
+
+.sidebar.collapsed .close-btn {
+        opacity: 0;
+        pointer-events:none;
+}
+
 /* MAIN */
 
 main {
@@ -391,7 +497,6 @@ main {
         background-color: #f7f4ed;
         justify-content: center;
         gap: 20px;
-        block-size: fit-content;
         padding: 20px 0px 73px;
 }
 
@@ -494,6 +599,5 @@ footer {
         padding: 10px;
         border-top: 2px solid #443435;        
         box-sizing: border-box;
-        z-index: 3;
         height: 76px;
 }

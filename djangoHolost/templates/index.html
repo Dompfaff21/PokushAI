@@ -22,7 +22,7 @@
           <p>3pigs.inc</p>
           <img alt="tg" src="{% static '/pictures/tg.png' %}">
         </div>
-        <a class="button" href="{% url 'user' %}">
+        <a class="button" href="{% url 'accounts' %}">
           <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
           <p>Войти</p>
         </a>
@@ -79,7 +79,7 @@
           </a>
       </div>
     </main>
-    <div class="sidebar">
+    <div class="sidebar collapsed">
       <li class="sidebar__item">
 
         <img class="icon_hover" src="{% static '/pictures/dark_theme/menu_dark.png' %}"/>
@@ -87,7 +87,9 @@
         <div class="item__text">
 
           <a>Навигация</a>
+          
         </div>
+        <span class="close-btn">&times;</span>
       </li>
       <hr>
       <li class="sidebar__item">
