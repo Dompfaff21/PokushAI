@@ -9,7 +9,6 @@
 <div class="container" id="container">
     <div class="form-container sign-up">
         <form method="post">
-        <form method="post">
             {% csrf_token %}
             <h1>Создать аккаунт</h1>
             <div class="social-icons">
@@ -24,13 +23,11 @@
             {{ form.password1 }}
             {{ form.password2 }}
             <button type="submit" name="reg">Зарегистрироваться</button>
-            <button type="submit" name="reg">Зарегистрироваться</button>
         </form>
     </div>
 
 
     <div class="form-container sign-in">
-        <form method="post">
         <form method="post">
             {% csrf_token %}
             <h1>Войти</h1>
