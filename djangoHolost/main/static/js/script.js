@@ -42,7 +42,18 @@ function toggleIcons(src) {
     });
 }
 
+function toggleBodyScroll() {
+    const body = document.querySelector('body');
+    const isSmallScreen = window.matchMedia('(max-width: 700px) and (min-height: 390px)').matches;
+    if (isSmallScreen && isMobile) {
+        body.style.overflow = 'hidden';
+    } else {
+        body.style.overflow = 'visible'; 
+    }
+}
+
 function openSidebar() {
+    toggleBodyScroll();
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.remove('collapsed');
     sidebar.style.backgroundColor = '#443435';
@@ -51,8 +62,10 @@ function openSidebar() {
 
 function closeSidebar() {
     const sidebar = document.querySelector('.sidebar');
+    const body = document.querySelector('body');
     sidebar.classList.add('collapsed');
     sidebar.style.backgroundColor = '';
+    body.style.overflow = 'visible'; 
     toggleIcons('static/pictures/dark_theme/menu_dark.png');
 }
 
