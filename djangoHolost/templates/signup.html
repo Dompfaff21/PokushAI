@@ -4,11 +4,12 @@
 
 {% block content %}
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
 <div class="container" id="container">
     <div class="form-container sign-up">
         <form method="post" action="{% url 'register' %}" name="register">
             {% csrf_token %}
-            <h1>Создать аккаунт</h1>
+            <h1>Create Account</h1>
             <div class="social-icons">
                 <a href="#" class="icons"><i class='bx bxl-google'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
@@ -29,7 +30,7 @@
     <div class="form-container sign-in">
         <form method="post" action="{% url 'login' %}" name="login">
             {% csrf_token %}
-            <h1>Войти</h1>
+            <h1>Sign In</h1>
             <div class="social-icons">
                 <a href="#" class="icons"><i class='bx bxl-google'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
