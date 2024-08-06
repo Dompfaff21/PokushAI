@@ -53,7 +53,7 @@ function closeSidebar() {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.add('collapsed');
     sidebar.style.backgroundColor = '';
-    toggleIcons('static/pictures/dark_theme/menu_dark.png');
+    toggleIcons('/static/pictures/dark_theme/menu_dark.png');
 }
 
 if (!isMobile) {

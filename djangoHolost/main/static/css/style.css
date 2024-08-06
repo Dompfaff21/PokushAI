@@ -436,7 +436,7 @@ header {
         background-color: #bc441000;
         transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
-        z-index: 2;
+        z-index: 1001;
         user-select: none;
 }
 
