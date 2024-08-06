@@ -25,7 +25,7 @@ header {
         justify-content: center;
         padding: 10px;
         position: relative;
-        z-index: 3;
+        z-index: 1001;
         user-select: none;
 }
 

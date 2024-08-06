@@ -11,9 +11,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:100px;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+}
 
 @media only screen and (min-width:400px) and (max-width:699px) {
     .centerbox {
@@ -221,13 +224,19 @@
 
 } 
 
-@media only screen and (min-width:700px) and (max-width:1199px) {
+@media only screen and (min-width:700px) and (max-width:1299px) {
     .centerbox {
-        height: calc(100vh - 366px);
+        block-size: fit-content;
     }
 
-    .container {
-        width: 600px;
+    .container{
+        background-color: #fff;
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        min-height: 500px;
     }
     .container p{
         font-size: 14px;
@@ -333,13 +342,11 @@
         height: 100%;
         overflow: hidden;
         transition: all 0.6s ease-in-out;
-        border-radius: 20px;
         z-index: 1000;
     }
     
     .container.active .toggle-container{
         transform: translateX(-100%);
-        border-radius: 20px;
     }
     
     .toggle{
@@ -407,13 +414,26 @@
 
 }
 
-@media only screen and (min-width:1200px) {
+@media only screen and (min-width:1300px) {
     .centerbox {
         height: calc(100vh - 366px);
+        margin:100px;
     }
 
-    .container {
-        width: 900px;
+    .container{
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 1000px;
+        max-width: 100%;
+        min-height: 500px;
+    }
+    
+    .container button.hidden{
+        background-color: transparent;
+        border-color: #fff;
     }
 
     .container p{
@@ -586,18 +606,5 @@
     
 }
 
-.container{
-    background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
-    position: relative;
-    overflow: hidden;
-    max-width: 100%;
-    min-height: 800px;
-}
 
-.container button.hidden{
-    background-color: transparent;
-    border-color: #fff;
-}
 
