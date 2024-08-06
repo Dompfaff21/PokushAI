@@ -4,6 +4,7 @@ html,body{
         margin: 0;
         padding: 0;
         scroll-behavior: smooth;
+        user-select: none;
 }
 
 .wrapper {
@@ -12,6 +13,25 @@ html,body{
         min-height: 100vh;
 }
 
+/* TEXT */
+
+/* h1 {
+        color: #DDDDDD;
+}
+p {
+        color: #FFFFFFFF;
+
+}
+
+a {
+        color: #FFFFFFFF;
+        text-decoration: none;
+        font-size: 18px;
+}
+
+a:active {
+        color: #FFFFFFFF;
+} */
 
 /* HEADER */
 
@@ -27,7 +47,6 @@ header {
         padding: 10px;
         position: relative;
         z-index: 3;
-        user-select: none;
 }
 
 .button {
@@ -359,7 +378,6 @@ header {
         transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
         z-index: 2;
-        user-select: none;
 }
 
 .sidebar.sticky {
@@ -380,7 +398,11 @@ header {
 
 .sidebar a:active {
         color: #FFFFFFFF;
-}
+} 
+
+/* .sidebar:hover {
+        background-color: #443435;
+} */
 
 .sidebar:hover > .sidebar__item > .item__text {
         opacity: 1;
@@ -490,10 +512,6 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
-}
-
-.adv_column img {
-        user-select: none;
 }
 
 .adv_column p {
