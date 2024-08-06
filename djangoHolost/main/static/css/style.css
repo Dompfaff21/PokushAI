@@ -662,4 +662,7 @@ footer {
         border-top: 2px solid #443435;        
         box-sizing: border-box;
         height: 76px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
 }
