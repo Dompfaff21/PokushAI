@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField('Номер телефона', max_length=11,)
-    birth_date = models.DateField('Дата рождения')
 
     def __str__(self):
         return self.phone

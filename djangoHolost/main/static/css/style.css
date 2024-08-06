@@ -86,7 +86,8 @@ header {
 
 /* MEDIA */
 
-@media only screen and (max-width:700px) {
+@media only screen and (max-width:399px) {
+
         header {
                 height: 150px;
                 padding: 0px 10px 10px;
@@ -97,7 +98,6 @@ header {
                 order: 1;
         }
 
-        
         .button {
                 font-size: 12px;
         }
@@ -117,7 +117,87 @@ header {
 
         .sidebar:hover {
                 height: 100vh;
-                width: 100vw;
+                width: 100%;
+        }
+
+        .name h1 {
+                font-size: 60px;
+                line-height: 100px;
+        }
+
+        .name p {
+                width: 300px;
+                font-size: 12px;
+                font-weight: 900;
+                line-height: 20px;
+        }
+
+        .name {
+                height: calc(100vh - 150px);
+        }
+
+        .advantages {
+                block-size: fit-content;
+        }
+
+        .advantages h2 {
+                font-size: 50px;
+        }
+
+        .adv_row {
+                flex-direction: column;
+                gap: 20px;
+        }
+
+        .adv_column {
+                width: 300px;
+        }
+
+        .adv_column img {
+                width: 75px;
+        }
+
+        .adv_column p {
+                font-size: 16px;
+                font-weight: 300;
+        }
+
+        .adv_column {
+                font-size: 22px;
+        }
+}
+
+@media only screen and (min-width: 400px) and (max-width:699px) {
+        header {
+                height: 150px;
+                padding: 0px 10px 10px;
+                flex-direction: column;
+        }
+            
+        .logo {
+                order: 1;
+        }
+
+        .button {
+                font-size: 12px;
+        }
+
+        .authors {
+                margin-top:5px;
+                position: relative;
+                order: 2;
+                left: 0;
+                padding-left:10px;
+                cursor: pointer;
+        }
+        .sidebar {
+                position: fixed;
+                top:150px;
+        }
+
+        .sidebar:hover {
+                height: 390px;
+                width: 220px;
         }
 
         .name h1 {
@@ -167,7 +247,7 @@ header {
         }
 }
 
-@media only screen and (min-width: 701px) and (max-width: 1140px) {
+@media only screen and (min-width: 700px) and (max-width: 1140px) {
 
         .sidebar {
                 position: fixed;
@@ -346,9 +426,8 @@ header {
 
 }
 
-
-
 /* SIDEBAR */
+
 .sidebar {
         width: 60px;
         height: 78px;
@@ -420,18 +499,14 @@ hr {
         white-space: nowrap;
 }
 
+/* CLOSE BUTTON SIDEBAR */
+
 .close-btn {
         cursor: pointer;
         color: white;
         position: absolute;
         right: 20px;
         font-size: 40px;
-}
-
-/* CLOSE BUTTON SIDEBAR */
-
-.close-btn:hover {
-        color: #7c4958;
 }
 
 .sidebar.collapsed .close-btn {
