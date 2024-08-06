@@ -20,9 +20,7 @@ def signup(request):
     elif 'log' in request.POST:
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('user')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(username=form.cleaned_data.get('name'), password=form.cleaned_data.get('password'))
             login(request, user)
             return redirect('/')
 
