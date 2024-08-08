@@ -12,11 +12,14 @@ class SignUpForm(UserCreationForm):
         widgets = {
             'username': forms.TextInput(attrs = {
                     'placeholder':'Введите логин'}),
-            'phone': forms.TextInput(attrs = {
-                    'placeholder': 'Введите номер телефона'}),
             'email': forms.EmailInput(attrs = {
                     'placeholder': 'Введите E-mail'}),
         }
+
+    def __init__(self):
+        super().__init__()
+        self.fields['password1'].widget.attrs.update({'placeholder': 'Введите пароль'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'Повторите пароль'})
 
 class LoginForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs = {
