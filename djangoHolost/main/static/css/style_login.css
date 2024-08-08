@@ -18,15 +18,11 @@ main {
     justify-content: center;
 }
 
-@media only screen and (min-width:400px) and (max-width:699px) {
+@media only screen and (max-width:699px) {
     .centerbox {
         block-size: fit-content;
-        height: 770px;
         background-color: white;
-    }
-
-    .container {
-        width: 400px;
+        height: 830px;
     }
     .container p{
         font-size: 14px;
@@ -90,18 +86,18 @@ main {
     }
     
     .sign-in {
-        top: 0;
-        height: 50%;
+        top: 150px;
+        height: calc(500px - 150px);
         z-index: 2;
     }
     
     .container.active .sign-in {
         transform: translateY(100%);
+        opacity: 0;
     }
-    
     .sign-up {
-        top: 100%;
-        height: 50%;
+        top: 200px;
+        height: calc(500px - 150px);
         opacity: 0;
         z-index: 1;
     }
@@ -142,8 +138,9 @@ main {
     .toggle-container {
         position: absolute;
         left: 0;
+        top: 500px;
         width: 100%;
-        height: 42.4%;
+        height: calc(500px - 17px);
         overflow: hidden;
         transition: all 0.6s ease-in-out;
         z-index: 1000;
@@ -151,7 +148,7 @@ main {
     
     .container.active .toggle-container {
         transform: translateY(-100%);
-        top: 460px;
+        top: 500px;
     }
     
     .toggle {
@@ -185,15 +182,15 @@ main {
         transition: all 0.6s ease-in-out;
     }
     
-    .toggle-left {
-        transform: translateY(-200%);
-    }
-    
     .container.active .toggle-left {
         transform: translateY(0);
-        height: 55%;
+        top: 50px;
     }
     
+    .toggle-left {
+        top:50px;
+    }
+
     .toggle-right {
         bottom: 0;
         transform: translateY(0);
@@ -203,25 +200,6 @@ main {
         transform: translateY(-100%);
         display: none;
     }
-    
-    .container form{
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 0 40px;
-        height: 100%;
-    }
-    
-    .form-container {
-        position: absolute;
-        top: 145px;
-        height: 40%;
-        transition: all 0.6s ease-in-out;
-    }
-
-    
     
 } 
 
@@ -386,10 +364,6 @@ main {
         transition: all 0.6s ease-in-out;
     }
     
-    .toggle-left{
-        transform: translateX(-200%);
-    }
-    
     .container.active .toggle-left{
         transform: translateX(0);
     }
@@ -415,9 +389,6 @@ main {
         height: 100%;
         transition: all 0.6s ease-in-out;
     }
-    
-    
-
 }
 
 @media only screen and (min-width:1300px) {
@@ -579,10 +550,6 @@ main {
         transition: all 0.6s ease-in-out;
     }
     
-    .toggle-left{
-        transform: translateX(-200%);
-    }
-    
     .container.active .toggle-left{
         transform: translateX(0);
     }
@@ -608,8 +575,6 @@ main {
         height: 100%;
         transition: all 0.6s ease-in-out;
     }
-    
-    
 }
 
 
