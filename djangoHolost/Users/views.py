@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
@@ -21,11 +22,12 @@ def signup(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             user = authenticate(username=form.cleaned_data.get('name'), password=form.cleaned_data.get('password'))
-            login(request, user)
-            return redirect('/')
+            if user is not None:
+                login(request, user)
+                return redirect('/')
 
     content = {
         'form': SignUpForm(),
-        'form1': LoginForm()
+        'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
