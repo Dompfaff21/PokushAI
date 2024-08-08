@@ -197,8 +197,7 @@ main {
     }
     
     .container.active .toggle-right {
-        transform: translateY(-100%);
-        display: none;
+        transform: translateY(0);
     }
     
 } 
