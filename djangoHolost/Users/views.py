@@ -7,6 +7,7 @@ from .forms import  SignUpForm, LoginForm
 
 # Create your views here.
 def signup(request):
+    error_message = ''
     if 'reg' in request.POST:
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -25,9 +26,12 @@ def signup(request):
             if user is not None:
                 login(request, user)
                 return redirect('/')
+            else:
+                error_message = 'Неверный логин и/или пароль'
 
     content = {
         'form': SignUpForm(),
         'form1': LoginForm(),
+        'error_message': error_message
     }
     return render(request, 'signup.html', content)

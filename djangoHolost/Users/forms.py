@@ -8,7 +8,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'phone', 'email', 'password1', 'password2',)
+        fields = ('username', 'phone', 'email')
         widgets = {
             'username': forms.TextInput(attrs = {
                     'placeholder':'Введите логин'}),
@@ -16,8 +16,8 @@ class SignUpForm(UserCreationForm):
                     'placeholder': 'Введите E-mail'}),
         }
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields['password1'].widget.attrs.update({'placeholder': 'Введите пароль'})
         self.fields['password2'].widget.attrs.update({'placeholder': 'Повторите пароль'})
 

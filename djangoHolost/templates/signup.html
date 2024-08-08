@@ -35,9 +35,12 @@
                 <a href="#" class="icons"><i class='bx bxl-github'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
             </div>
+                    <div class="alert alert-success">
+                        {{ error_message }}
+                    </div>
             {{ form1.name }}
             {{ form1.password }}
-            <a href="#">Забыли пароль?</a>
+            <a href="">Забыли пароль?</a>
             <button type="submit" name="log">Войти</button>
         </form>
     </div>
