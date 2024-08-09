@@ -472,7 +472,7 @@ header {
         opacity: 1;
 }
 
-hr {
+.shr {
         height: 0.01px;
         color: white;
         margin: 15px 0;
@@ -673,4 +673,52 @@ footer {
         align-items: center;
         display: flex;
         justify-content: center;
+}
+
+/* ABOUT.HTML */
+
+.us {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fcfefc;
+        justify-content: center;
+        gap: 20px;
+        height: calc(100vh - 150px);
+}
+
+.us_row {
+        display: flex;
+        flex-direction: row;
+        gap: 140px;
+}
+
+.us_column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 500px;
+}
+
+.us_column p {
+        text-align: justify;
+        text-align-last: center;
+        font-size: 18px;
+        font-weight: 300;
+}
+
+.us_column h1 {
+        margin-bottom: 0px;
+        text-align: center;
+        font-size: 50px;
+}
+
+.ahr {
+        height: 0.01px;
+        color: #7c4958;
+        margin: 15px 0;
+        width: 300px;
+        border: 0.8px solid;
+        border-radius: 1px;
 }
