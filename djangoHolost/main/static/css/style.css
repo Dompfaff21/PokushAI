@@ -86,7 +86,7 @@ header {
 
 /* MEDIA */
 
-@media only screen and (max-width:399px) {
+@media only screen and (max-width:400px) {
 
         header {
                 height: 150px;
@@ -167,7 +167,7 @@ header {
         }
 }
 
-@media only screen and (min-width: 400px) and (max-width:699px) {
+@media only screen and (min-width: 401px) and (max-width:700px) {
         header {
                 height: 150px;
                 padding: 0px 10px 10px;
@@ -247,7 +247,7 @@ header {
         }
 }
 
-@media only screen and (min-width: 700px) and (max-width: 1140px) {
+@media only screen and (min-width: 701px) and (max-width: 1140px) {
 
         .sidebar {
                 position: fixed;
@@ -308,7 +308,7 @@ header {
     }
 
 
-@media only screen and (min-width:1141px) and (max-width:1799px){
+@media only screen and (min-width:1141px) and (max-width:1800px){
         .sidebar {
                 position: fixed;
                 top: 90px;
@@ -367,7 +367,7 @@ header {
         
 }
 
-@media only screen and (min-width:1800px) {
+@media only screen and (min-width:1801px) {
         .sidebar {
                 position: fixed;
                 top: 90px;
