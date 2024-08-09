@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class SignUpForm(UserCreationForm):
-    phone = forms.CharField(max_length = 11, required = True, widget = forms.TextInput(attrs = {
-        'placeholder': 'Введите номер телефона'}))
+    phone = forms.CharField(max_length = 20, required = True, widget = forms.TextInput(attrs = {
+        'placeholder': 'Введите номер телефона', 'data-mask': "+7 (000)-000-00-00"}))
 
     class Meta:
         model = User
