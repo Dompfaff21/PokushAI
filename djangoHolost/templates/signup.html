@@ -3,7 +3,7 @@
 {% block title %}Войти{% endblock %}
 
 {% block content %}
-{% load i18n %}
+
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
 <div class="centerbox">
@@ -29,16 +29,16 @@
     <div class="form-container sign-in">
         <form method="post">
             {% csrf_token %}
-            <h1>Войти</h1>
+            <h1>Вход в аккаунт</h1>
             <div class="social-icons">
                 <a href="#" class="icons"><i class='bx bxl-google'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-github'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
             </div>
-{% if messages %}
+    {% if messages %}
         {% for message in messages %}
-            <div id="login_error" role="alert">
+            <div id="login_error" class="login_error" role="alert">
                 {{ message }}
             </div>
         {% endfor %}
@@ -61,7 +61,7 @@
             <div class="toggle-panel toggle-right">
                 <h1>Добро пожаловать</h1>
                 <p>У вас еще нет аккаунта?</p>
-                <button class="hidden" id="reg_btn">Создать аккаунт</button>
+                <button class="hidden" id="reg_btn">Зарегистрироваться</button>
             </div>
         </div>
     </div>

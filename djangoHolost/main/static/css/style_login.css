@@ -399,7 +399,8 @@ main {
     .container{
         background-color: #fff;
         border-radius: 30px;
-        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
+        box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2),
+        -10px -10px 10px #fff;
         position: relative;
         overflow: hidden;
         width: 1000px;
@@ -576,5 +577,7 @@ main {
     }
 }
 
-
+.login_error {
+    font-size: 14px;
+}
 

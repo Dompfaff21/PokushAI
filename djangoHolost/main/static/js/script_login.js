@@ -11,10 +11,3 @@ registerBtn.addEventListener('click', () => {
 loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-        var closeAlert = document.getElementById('login_error');
-                setTimeout(function() {
-                    closeAlert.style.display = 'none';
-                }, 3000)
-    });

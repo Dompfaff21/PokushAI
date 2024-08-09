@@ -27,6 +27,7 @@ def signup(request):
                 return redirect('/')
             else:
                 messages.error(request, 'Логин и/или пароль неверный!')
+                return redirect('signup')
 
     content = {
         'form': SignUpForm(),
