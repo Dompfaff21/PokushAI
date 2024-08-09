@@ -1,5 +1,5 @@
 html,body{
-        background-color: #f7f4ed;
+        background-color: #f9f9f9;
         font-family: 'Manrope', sans-serif;
         margin: 0;
         padding: 0;
@@ -454,6 +454,14 @@ header {
         text-decoration: none;
         font-size: 18px;
         font-weight: 600;
+}
+
+.item__text p {
+        color: #FFFFFFFF;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0px;
 }
 
 .sidebar a:active {
