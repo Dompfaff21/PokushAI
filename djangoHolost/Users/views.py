@@ -2,12 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
-from .forms import  SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm
 
 
 # Create your views here.
 def signup(request):
-    error_message = ''
     if 'reg' in request.POST:
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -27,11 +26,10 @@ def signup(request):
                 login(request, user)
                 return redirect('/')
             else:
-                error_message = 'Неверный логин и/или пароль'
+                messages.error(request, 'Логин и/или пароль неверный!')
 
     content = {
         'form': SignUpForm(),
         'form1': LoginForm(),
-        'error_message': error_message
     }
     return render(request, 'signup.html', content)

@@ -3,6 +3,7 @@
 {% block title %}Войти{% endblock %}
 
 {% block content %}
+{% load i18n %}
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
 <div class="centerbox">
@@ -35,9 +36,13 @@
                 <a href="#" class="icons"><i class='bx bxl-github'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
             </div>
-                    <div class="alert alert-success">
-                        {{ error_message }}
-                    </div>
+{% if messages %}
+        {% for message in messages %}
+            <div id="login_error" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
             {{ form1.name }}
             {{ form1.password }}
             <a href="">Забыли пароль?</a>
