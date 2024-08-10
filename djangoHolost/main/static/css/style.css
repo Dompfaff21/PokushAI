@@ -165,6 +165,37 @@ header {
         .adv_column {
                 font-size: 22px;
         }
+
+        .us {
+                block-size: fit-content;
+        }
+
+        .us_row {
+                flex-direction: column;
+                gap: 20px;
+        }
+
+        .us_column {
+                width: 360px;
+        }
+
+        .us_column p {
+                font-size: 18px;
+                font-weight: 300;
+        }
+
+        .us_column h1 {
+                font-size: 40px;
+        }
+
+        .us_column img {
+                width: 360px;
+        }
+
+        .ahr {
+                width: 160px;
+        }
+
 }
 
 @media only screen and (min-width: 401px) and (max-width:700px) {
@@ -245,6 +276,37 @@ header {
         .adv_column {
                 font-size: 22px;
         }
+
+        .us {
+                block-size: fit-content;
+        }
+
+        .us_row {
+                flex-direction: column;
+                gap: 20px;
+        }
+
+        .us_column {
+                width: 380px;
+        }
+
+        .us_column p {
+                font-size: 18px;
+                font-weight: 300;
+        }
+
+        .us_column h1 {
+                font-size: 40px;
+        }
+
+        .us_column img {
+                width: 400px;
+        }
+
+        .ahr {
+                width: 200px;
+        }
+
 }
 
 @media only screen and (min-width: 701px) and (max-width: 1140px) {
@@ -305,7 +367,33 @@ header {
                 font-size: 24px;
         }
 
-    }
+        .us {
+                block-size: fit-content;
+        }
+
+        .us_row {
+                flex-direction: column;
+                gap: 20px;
+        }
+
+        .us_column {
+                width: 500px;
+        }
+
+        .us_column p {
+                font-size: 18px;
+                font-weight: 300;
+        }
+
+        .us_column h1 {
+                font-size: 50px;
+        }
+        
+        .ahr {
+                width: 350px;
+        }
+
+}
 
 
 @media only screen and (min-width:1141px) and (max-width:1800px){
@@ -365,6 +453,32 @@ header {
                 font-size: 26px;
         }
         
+        .us {
+                block-size: fit-content;
+        }
+
+        .us_row {
+                flex-direction: row;
+                gap: 100px;
+        }
+
+        .us_column {
+                width: 500px;
+        }
+
+        .us_column p {
+                font-size: 18px;
+                font-weight: 300;
+        }
+
+        .us_column h1 {
+                font-size: 50px;
+        }
+        
+        .ahr {
+                width: 350px;
+        }
+
 }
 
 @media only screen and (min-width:1801px) {
@@ -422,6 +536,32 @@ header {
 
         .adv_column h3 {
                 font-size: 26px;
+        }
+
+        .us {
+                block-size: fit-content;
+        }
+
+        .us_row {
+                flex-direction: row;
+                gap: 100px;
+        }
+
+        .us_column {
+                width: 500px;
+        }
+
+        .us_column p {
+                font-size: 18px;
+                font-weight: 300;
+        }
+
+        .us_column h1 {
+                font-size: 50px;
+        }
+
+        .ahr {
+                width: 350px;
         }
 
 }
@@ -528,6 +668,7 @@ main {
         display: flex;
         flex: 1;
         flex-direction: column;
+        background-color: #fcfefc;
 }
 
 /* BLOCK NAME */
@@ -683,14 +824,11 @@ footer {
         align-items: center;
         background-color: #fcfefc;
         justify-content: center;
-        gap: 20px;
-        height: calc(100vh - 150px);
+        padding: 20px 0px 73px;
 }
 
 .us_row {
         display: flex;
-        flex-direction: row;
-        gap: 140px;
 }
 
 .us_column {
@@ -698,27 +836,26 @@ footer {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 500px;
 }
 
 .us_column p {
         text-align: justify;
         text-align-last: center;
-        font-size: 18px;
-        font-weight: 300;
 }
 
 .us_column h1 {
         margin-bottom: 0px;
         text-align: center;
-        font-size: 50px;
+}
+
+.us_column img {
+        user-select: none;
 }
 
 .ahr {
         height: 0.01px;
         color: #7c4958;
-        margin: 15px 0;
-        width: 300px;
-        border: 0.8px solid;
-        border-radius: 1px;
+        margin: 5px 0 15px;
+        border: 2px solid;
+        border-radius: 3px;
 }

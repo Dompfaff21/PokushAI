@@ -2,6 +2,13 @@
 {% load static %}
 {% block title %}О нас{% endblock %}
 
+{% block button_login_content %}
+    <a class="button" href="{% url 'signup' %}">
+        <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
+        <p>Войти</p>
+    </a>
+{% endblock %}
+
 {% block content %}
     <div class="us">
         <div class="us_row">
@@ -11,9 +18,30 @@
             <div class="us_column">
                 <h1>О нашей команде</h1>
                 <hr class="ahr">
-                <p>Мы, команда <span style="color: #7c4958">3pigs.Inc</span>, создаем проекты,
-                которые облегчают Вашу повседневную жизнь. 
-                Наша команда состоит из трёх человек.</p>
+                <p>
+                    <span style="color: #7c4958">3pigs.inc</span> — это независимая команда разработчиков, 
+                    создающая уникальные и увлекательные проекты. 
+                    Наша миссия — воплощать в жизнь захватывающие идеи и создавать проекты, 
+                    которые будут вас вдохновлять и увлекать
+                </p>
+            </div>
+        </div>
+        <h1>Команда</h1>
+        <div class="us_row">
+            <div class="us_column">
+                <img src="{% static '/pictures/pig-work.gif' %}">
+                <h2>Илья Карпов</h2>
+                <p>Занимался Frontend-разработкой сайта и созданием ПК-приложения.</p>
+            </div>
+            <div class="us_column">
+                <img src="{% static '/pictures/pig-work.gif' %}">
+                <h2>Артемий Куцев</h2>
+                <p>Отвечал за Backend-разработку сайта и разработку нейросети.</p>
+            </div>
+            <div class="us_column">
+                <img src="{% static '/pictures/pig-work.gif' %}">
+                <h2>Кирилл Колодинов</h2>
+                <p>Разрабатывал мобильное приложение и создавал дизайн</p>
             </div>
         </div>
     </div>
