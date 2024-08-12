@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
 from .forms import SignUpForm, LoginForm
-from django.contrib.auth import alogout
+from django.contrib.auth import logout
 
 
 # Create your views here.
