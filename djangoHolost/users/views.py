@@ -43,7 +43,3 @@ def signup(request):
         'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
-
-def logout(request):
-    alogout(request)
-    return redirect('signup')

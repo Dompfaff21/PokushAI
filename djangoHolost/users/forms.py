@@ -33,6 +33,8 @@ class SignUpForm(UserCreationForm):
         phone = self.cleaned_data.get('phone')
         if Profile.objects.filter(phone=phone).exists():
             raise forms.ValidationError("Номер телефона уже занят!")
+        if len(phone) < 18:
+            raise forms.ValidationError("Неверный номер телефона!")
         return phone
 
     def clean_password(self):
