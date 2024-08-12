@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     @media only screen and (max-width:700px) {
         block-size: fit-content;
@@ -24,7 +25,7 @@
 
     @media only screen and (min-width:1301px) {
         height: 500px;
-        margin:100px;
+        margin: 100px;
     };
 }
 
@@ -379,6 +380,22 @@ main {
     };
 }
 
-.login_error {
-    font-size: 14px;
+.messages {
+    justify-content: center ;
+    display: flex;
+    color: #732014;
+    background-color: #ffeae7; 
+    box-sizing: border-box;
+    @media only screen and (min-width:701px) {
+        margin: 20px 0;
+        padding: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 20px;
+        border: 0.5px solid #dc1110;
+    };
+}
+
+.errorlist {
+    list-style-type: none;
 }

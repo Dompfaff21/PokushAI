@@ -6,14 +6,14 @@
 
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
 <div class="centerbox">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="container" id="container">
     <div class="form-container sign-up">
         <form method="post">
@@ -25,17 +25,11 @@
                 <a href="#" class="icons"><i class='bx bxl-github'></i></a>
                 <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
             </div>
-            {{ form.non_field_errors }}
             {{ form.username }}
-            {{ form.username.errors }}
             {{ form.phone }}
-            {{ form.phone.errors }}
             {{ form.email }}
-            {{ form.email.errors }}
             {{ form.password1 }}
-            {{ form.password1.errors }}
             {{ form.password2 }}
-            {{ form.password2.errors }}
             <button type="submit" name="reg">Зарегистрироваться</button>
         </form>
     </div>
