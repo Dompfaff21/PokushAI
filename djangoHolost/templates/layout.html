@@ -22,6 +22,10 @@
           <p>3pigs.inc</p>
           <img alt="tg" src="{% static '/pictures/tg.png' %}">
         </div>
+        <a class="button" href="{% url 'logout' %}">
+          <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
+          <p>Выйти</p>
+        </a>
         {% block button_login_content %}
         {% endblock %}
     </header>

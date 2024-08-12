@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
 from .forms import SignUpForm, LoginForm
+from django.contrib.auth import alogout
 
 
 # Create your views here.
@@ -42,3 +43,7 @@ def signup(request):
         'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
+
+def logout(request):
+    alogout(request)
+    return redirect('signup')
