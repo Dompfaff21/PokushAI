@@ -19,7 +19,8 @@ def signup(request):
                 login(request, user)
                 return redirect('/')
             else:
-                messages.error(request, "Хуйня, переделывай!")
+                for error in form.errors.values():
+                    messages.error(request, error)
                 return redirect('signup')
 
         elif 'log' in request.POST:

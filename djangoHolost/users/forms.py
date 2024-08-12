@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile
 
 class SignUpForm(UserCreationForm):
     phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
@@ -21,6 +22,26 @@ class SignUpForm(UserCreationForm):
             'email': forms.EmailInput(attrs={
                     'placeholder': 'Введите E-mail'}),
         }
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Логин уже занят!")
+        return username
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if Profile.objects.filter(phone=phone).exists():
+            raise forms.ValidationError("Номер телефона уже занят!")
+        return phone
+
+    def clean_password(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Пароли не совпадают!")
+        return cleaned_data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
