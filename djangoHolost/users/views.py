@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .models import Profile
 from .forms import SignUpForm, LoginForm
+from django.contrib.auth import alogout
 
 
 # Create your views here.
@@ -19,7 +20,8 @@ def signup(request):
                 login(request, user)
                 return redirect('/')
             else:
-                messages.error(request, "Хуйня, переделывай!")
+                for error in form.errors.values():
+                    messages.error(request, error)
                 return redirect('signup')
 
         elif 'log' in request.POST:
@@ -41,3 +43,7 @@ def signup(request):
         'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
+
+def logout(request):
+    alogout(request)
+    return redirect('signup')
