@@ -125,6 +125,10 @@ main {
     flex-direction: column;
     padding: 0 40px;
     height: 100%;
+
+    @media only screen and (max-width:700px) {
+        margin-top: 15px;
+    };
 }
 
 .container input {
@@ -354,11 +358,11 @@ main {
         transform: translateX(0);
     };
 
-};
+}
 
 .toggle-left {
     @media only screen and (max-width:700px) {
-        top:50px;
+        top: 50px;
     };
 }
 
@@ -386,6 +390,19 @@ main {
     color: #732014;
     background-color: #ffeae7; 
     box-sizing: border-box;
+
+    @media only screen and (max-width:700px) {
+        margin: 5px 0 0;
+        top:150px;
+        position: absolute;
+        padding: 3px;
+        font-size: 10px;
+        font-weight: 500;
+        border-radius: 10px;
+        border: 0.5px solid #dc1110;
+        z-index: 3;
+    };
+
     @media only screen and (min-width:701px) {
         margin: 20px 0;
         padding: 5px;
@@ -398,4 +415,5 @@ main {
 
 .errorlist {
     list-style-type: none;
+    margin-left: 3px;
 }
