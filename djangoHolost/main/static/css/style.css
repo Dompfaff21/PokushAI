@@ -483,25 +483,38 @@ footer {
 
 /* ABOUT.HTML */
 
+.team {
+        text-align: center;
+        margin-bottom: 20px;
+
+        @media only screen and (max-width:700px) {
+                font-size: 18px;
+        };
+
+        @media only screen and (min-width: 701px) {
+                font-size: 20px;
+        };
+}
+
 .us {
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: #fcfefc;
         justify-content: center;
-        padding: 20px 0px 73px;
+        padding: 20px 10px 73px;
         block-size: fit-content;
 }
 
 .us_row {
         display: flex;
 
-        @media only screen and (max-width:1140px) {
+        @media only screen and (max-width:1200px) {
                 flex-direction: column;
                 gap: 20px;
         };
 
-        @media only screen and (min-width:1141px) {
+        @media only screen and (min-width:1201px) {
                 flex-direction: row;
                 gap: 100px;
         };
@@ -578,6 +591,68 @@ footer {
         };
 }
 
+.us_column1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        @media only screen and (max-width:400px) {
+                width: 360px;
+        };
+
+        @media only screen and (min-width: 401px) and (max-width:700px) {
+                width: 380px;
+        };
+
+        @media only screen and (min-width: 701px) and (max-width: 1300px) {
+                width: 300px;
+        };
+
+        @media only screen and (min-width: 1301px) {
+                width: 350px;
+        };
+}
+
+.us_column1 p {
+        text-align: center;
+        text-align-last: center;
+        font-size: 18px;
+        font-weight: 300;
+}
+
+.us_column1 img {
+        user-select: none;
+}
+
+.circle-image{
+        display: inline-block;
+        border-radius: 50%;
+        overflow: hidden;
+        
+
+        @media only screen and (max-width:400px) {
+                width: 360px; 
+        };
+
+        @media only screen and (min-width: 401px) and (max-width:700px) {
+                width: 400px;
+        };
+
+        @media only screen and (min-width: 701px) {
+                width: 300px;
+                height: 300px;
+        };
+}
+
+.circle-image img{
+        width:100%;
+        height:100%;
+        object-fit: cover;
+}
+
+/* LOGOUT BUTTON */
+
 .logout {
         display: flex;
         flex-direction: column;
@@ -592,6 +667,7 @@ footer {
         color: #FFFFFFFF;
         font-size: 16px;
         cursor: pointer;
+        padding: 0px;
 
         @media only screen and (max-width:700px) {
                 font-size: 12px;
@@ -605,4 +681,5 @@ footer {
 
 .logout p {
         margin: 0;
+        font-family: 'Manrope', 'sans-serif';
 }
