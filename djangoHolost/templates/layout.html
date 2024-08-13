@@ -25,7 +25,10 @@
       {% if user.is_authenticated %}
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
-          <button class="logout" type="submit">logout</button>
+          <button class="logout" type="submit">
+            <img alt="войти" src="{% static '/pictures/light_theme/logout_light.png' %}">
+            <p>Выйти</p>
+          </button>
         </form>
       {% endif %}
         {% block button_login_content %}

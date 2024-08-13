@@ -7,11 +7,17 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
 <div class="centerbox">
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
+{% if messages %}
+    <div class="messages-popup">
+        <ul class="messages">
+            <p>Ошибка:</p>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <div class="messages-header">
+            <span class="close-button">&times;</span>
+        </div>
     </div>
 {% endif %}
 <div class="container" id="container">
@@ -30,7 +36,7 @@
             {{ form.email }}
             {{ form.password1 }}
             {{ form.password2 }}
-            <button type="submit" name="reg">Зарегистрироваться</button>
+            <button type="submit" name="reg" id="registerBtn">Зарегистрироваться</button>
         </form>
     </div>
     <div class="form-container sign-in">
@@ -46,7 +52,7 @@
             {{ form1.name }}
             {{ form1.password }}
             <a href="#">Забыли пароль?</a>
-            <button type="submit" name="log">Войти</button>
+            <button type="submit" name="log" id="loginBtn">Войти</button>
         </form>
     </div>
 
