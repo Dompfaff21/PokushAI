@@ -128,14 +128,43 @@ main {
 }
 
 .container input {
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
+    background-color: #fff;
+    border: 0.5px solid black;
+    margin: 8px 0 13px;
     padding: 10px 15px;
     font-size: 13px;
     border-radius: 8px;
     width: 100%;
     outline: none;
+}
+
+input::placeholder {
+    color: transparent;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+}
+
+.form-label {
+    position: absolute;
+    top: 17px;
+    left: 15px;
+    font-size: 13px;
+    color: #aaa;
+    transition: 0.3s ease;
+    pointer-events: none;
+
+}
+
+input:focus + .form-label, 
+input:not(:placeholder-shown) + .form-label {
+    top: -7px;
+    font-size: 16px;
+    color:black;
+    background-color: white;
+    padding: 0px 6px;
 }
 
 .form-container {

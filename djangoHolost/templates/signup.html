@@ -30,11 +30,29 @@
                 <a href="#" class="icons" style="background-color:#0078ff"><i style="color:#fff" class='bx bxl-vk'></i></a>
                 <a href="#" class="icons" style="background-color:#3ae158"><i style="color:#fff" class='bx bxl-whatsapp'></i></a>
             </div>
-            {{ form.username }}
-            {{ form.phone }}
-            {{ form.email }}
-            {{ form.password1 }}
-            {{ form.password2 }}
+            <div class="form-group">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}" class="form-label">Логин</label>
+            </div>
+            
+            <div class="form-group">
+                {{ form.phone }}
+                <label for="{{ form.phone.id_for_label }}" class="form-label">Номер телефона</label>
+            </div>
+            
+            <div class="form-group">
+                {{ form.email }}
+                <label for="{{ form.email.id_for_label }}" class="form-label">E-mail</label>
+            </div>
+            
+            <div class="form-group">
+                {{ form.password1 }}
+                <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+            </div>
+            <div class="form-group">
+                {{ form.password2 }}
+                <label for="{{ form.password2.id_for_label }}" class="form-label">Повторите пароль</label>
+            </div>
             <button type="submit" name="reg" id="registerBtn">Зарегистрироваться</button>
         </form>
     </div>
@@ -47,8 +65,16 @@
                 <a href="#" class="icons" style="background-color:#0078ff"><i style="color:#fff" class='bx bxl-vk'></i></a>
                 <a href="#" class="icons" style="background-color:#3ae158"><i style="color:#fff" class='bx bxl-whatsapp'></i></a>
             </div>
-            {{ form1.name }}
-            {{ form1.password }}
+            <div class="form-group">
+                {{ form1.name }}
+                <label for="{{ form1.name.id_for_label }}" class="form-label">Логин</label>
+            </div>
+        
+            <div class="form-group">
+                
+                {{ form1.password }}
+                <label for="{{ form1.password.id_for_label }}" class="form-label">Пароль</label>
+            </div>
             <a href="#">Забыли пароль?</a>
             <button type="submit" name="log" id="loginBtn">Войти</button>
         </form>
