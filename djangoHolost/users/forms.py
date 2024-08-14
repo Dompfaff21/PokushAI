@@ -2,16 +2,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 
 class SignUpForm(UserCreationForm):
     phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Номер телефона', 'data-mask': "+7 (000)-000-00-00"}))
-    error_messages = {
-        'password_mismatch': "Пароли не совпадают.",
-        'username': {
-            'unique': 'Логин занят.'
-        }
-    }
 
     class Meta:
         model = User
@@ -61,3 +57,26 @@ class LoginForm(forms.Form):
     class Meta:
         model = User
         fields = ('name', 'password',)
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'E-mail'
+        })
+    )
+
+class CustomSetPasswordForm(SetPasswordForm):
+    error_messages ={
+        'password_mismatch': "Пароли не совпадают!"
+    }
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Новый пароль'
+        }),
+    strip=False
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Повторите пароль'
+        })
+    )

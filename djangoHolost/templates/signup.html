@@ -49,7 +49,7 @@
             </div>
             {{ form1.name }}
             {{ form1.password }}
-            <a href="#">Забыли пароль?</a>
+            <a href="{% url 'password-reset' %}">Забыли пароль?</a>
             <button type="submit" name="log" id="loginBtn">Войти</button>
         </form>
     </div>
