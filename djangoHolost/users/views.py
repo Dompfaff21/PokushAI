@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+
 from .models import Profile
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 # Create your views here.
 def signup(request):
@@ -41,3 +44,14 @@ def signup(request):
         'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
+
+class CustomPasswordResetViews(PasswordResetView):
+    template_name = 'password_reset.html'
+    email_template_name = 'password_reset_email.html'
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy('password_reset_done')
+
+class CustomPasswordResetConfirmViews(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'
+    email_template_name = 'password_reset_email.html'
+    success_url = reverse_lazy('password_reset_complete')
