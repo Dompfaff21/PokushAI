@@ -144,6 +144,10 @@ input::placeholder {
     color: transparent;
 }
 
+input:-webkit-autofill {
+    box-shadow: 0 0 0 30px #ffffff inset !important;
+}
+
 .form-group {
     position: relative;
     width: 100%;
@@ -564,7 +568,7 @@ input:not(:placeholder-shown) + .form-label {
 }
 
 .container1 a {
-    color: #333;
+    color: rgb(255, 13, 13);
     text-decoration: none;
     margin: 15px 0 10px;
 
