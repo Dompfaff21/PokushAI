@@ -7,6 +7,8 @@
     font-family: 'Manrope', sans-serif;
 }
 
+/* LOG FORM STYLES */
+
 .centerbox {
     display: flex;
     align-items: center;
@@ -404,6 +406,8 @@ input:not(:placeholder-shown) + .form-label {
     };
 }
 
+/* ERROR STYLES */
+
 .messages {
     justify-content: center ;
     display: flex;
@@ -483,3 +487,127 @@ input:not(:placeholder-shown) + .form-label {
     font-size: 40px;
 }
 
+/* RESET PASSWORD.HTML */
+
+.centerbox1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    @media only screen and (max-width:700px) {
+        block-size: fit-content;
+        background-color: white;
+        height: 300px;
+    };
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        block-size: fit-content;
+    };
+
+    @media only screen and (min-width:1301px) {
+        height: 500px;
+        margin: 100px;
+    };
+}
+
+.container1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        background-color: #fff;
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        min-height: 500px;
+    };
+
+    @media only screen and (min-width:1301px) {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2),
+        -10px -10px 10px #fff;
+        position: relative;
+        overflow: hidden;
+        width: 500px;
+        max-width: 100%;
+        min-height: 300px;
+    };
+}
+
+.container1 h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        font-size: 24px;
+        margin: 0;
+        margin-bottom: 20px;
+        width:220px;
+    };
+}
+
+.container1 h2 {
+    text-align: center;
+    width:360px;
+    
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        font-size: 24px;
+        margin: 0;
+        margin-bottom: 20px;
+    };
+}
+
+.container1 a {
+    color: #333;
+    text-decoration: none;
+    margin: 15px 0 10px;
+
+    @media only screen and (max-width:1300px) {
+        font-size: 13px;
+    };
+
+    @media only screen and (min-width:1301px) {
+        font-size: 16px;
+    };
+}
+
+.container1 button {
+    background-color: rgb(255, 13, 13);
+    color: #fff;
+    font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+
+    @media only screen and (max-width:700px) {
+        padding: 10px 45px;
+    };
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        padding: 10px 20px;
+    };
+    @media only screen and (min-width:1301px) {
+        padding: 10px 45px;
+    };
+}
+
+.container1 input {
+    background-color: #fff;
+    border: 0.5px solid black;
+    margin: 8px 0 13px;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
