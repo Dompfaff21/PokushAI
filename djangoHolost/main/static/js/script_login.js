@@ -56,12 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
       <path d="M240.4 104c-84.6 4.9-164.4 50.2-228 129.4-16.6 20.7-16.6 24.4.1 45.3C76 358 156.1 403.2 241.1 407.9c96.1 5.2 187-40.2 258.5-129.3 16.6-20.7 16.6-24.4-.1-45.3-46.4-57.9-101.6-97.7-162.6-117.2-19-6.1-41.9-10.5-59.9-11.6-19.6-1.1-23.8-1.2-36.6-.5zm36.8 46.6c28.7 5.4 56.3 25 71.3 50.5 18 30.8 19.9 68 5.1 99.5-5.8 12.3-11.4 20.3-20.9 30.1-53.5 55.1-144.6 38.3-175.6-32.4-11.2-25.5-11.4-56.7-.5-83.3 10.5-25.9 33.4-48.5 59.5-58.8 19.8-7.8 39.6-9.6 61.1-5.6z"/>
       <path d="M245.5 199c-16.3 3.5-30.7 13.6-38.9 27.4-6.1 10.1-8.1 17.6-8 29.6 0 11.6 1.1 16.3 5.7 26 4.3 8.9 16.7 21.3 25.8 25.7 32.1 15.5 69.4-.3 81-34.2 3.3-9.7 3.4-24.9.2-35-7.3-23.1-28.5-39.2-52.8-40.1-4.9-.2-10.8.1-13 .6z"/>
     </svg>`;
-    
-    function encodeSvgToDataUrl(svg) {
-        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg).replace(/'/g, "%27").replace(/"/g, "%22")}`;
-    }
-    encodeSvgToDataUrl(svgHideEye);
-    encodeSvgToDataUrl(svgShowEye);
 
     const passwordFields = document.querySelectorAll('input[name="password"], input[name="password1"], input[name="password2"]');
     const eyeIcons = document.querySelectorAll('.eye');
