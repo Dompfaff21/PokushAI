@@ -131,7 +131,7 @@ main {
 
 .container input {
     background-color: #fff;
-    border: 0.5px solid black;
+    border: 1.75px solid black;
     margin: 8px 0 13px;
     padding: 10px 15px;
     font-size: 13px;
@@ -153,22 +153,51 @@ input:-webkit-autofill {
     width: 100%;
 }
 
+.form-group img {
+    position: absolute;
+    top: 17.5px;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+}
+
+.eye {
+    cursor: pointer;
+    position: absolute;
+    top: 21px;
+    width: 20px;
+    height: 20px;
+    right: 10px;
+    transform: scale(1.5);
+}
+
 .form-label {
     position: absolute;
-    top: 17px;
-    left: 15px;
-    font-size: 13px;
+    display: block;
+    top: 17.5px;
+    left: 16px;
+    font-size: 14px;
     color: #aaa;
     transition: 0.3s ease;
     pointer-events: none;
 
 }
 
+input:focus ~ .form-label + .eye path,
+input:not(:placeholder-shown) ~ .form-label + .eye path {
+    fill: #7c4958;
+}
+
+input:focus, 
+input:not(:placeholder-shown) {
+    border-color: #7c4958;
+}
+
 input:focus + .form-label, 
 input:not(:placeholder-shown) + .form-label {
     top: -7px;
     font-size: 16px;
-    color:black;
+    color: #7c4958;
     background-color: white;
     padding: 0px 6px;
 }

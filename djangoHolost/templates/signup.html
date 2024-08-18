@@ -33,25 +33,30 @@
             <div class="form-group">
                 {{ form.username }}
                 <label for="{{ form.username.id_for_label }}" class="form-label">Логин</label>
-            </div>
+                
             
+            </div>
             <div class="form-group">
                 {{ form.phone }}
                 <label for="{{ form.phone.id_for_label }}" class="form-label">Номер телефона</label>
+
             </div>
-            
             <div class="form-group">
                 {{ form.email }}
                 <label for="{{ form.email.id_for_label }}" class="form-label">E-mail</label>
-            </div>
             
+            </div>
             <div class="form-group">
                 {{ form.password1 }}
                 <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+                <svg class="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                </svg>
             </div>
             <div class="form-group">
                 {{ form.password2 }}
                 <label for="{{ form.password2.id_for_label }}" class="form-label">Повторите пароль</label>
+                <svg class="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                </svg>
             </div>
             <button type="submit" name="reg" id="registerBtn">Зарегистрироваться</button>
         </form>
@@ -71,9 +76,10 @@
             </div>
         
             <div class="form-group">
-                
                 {{ form1.password }}
                 <label for="{{ form1.password.id_for_label }}" class="form-label">Пароль</label>
+                <svg class="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                </svg>
             </div>
             <a href="{% url 'password-reset' %}">Забыли пароль?</a>
             <button type="submit" name="log" id="loginBtn">Войти</button>
