@@ -64,6 +64,12 @@ class CustomPasswordResetForm(PasswordResetForm):
         })
     )
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists:
+            raise forms.ValidationError("Эта почта не зарегистрирована")
+        return email
+
 class CustomSetPasswordForm(SetPasswordForm):
     error_messages ={
         'password_mismatch': "Пароли не совпадают!"
