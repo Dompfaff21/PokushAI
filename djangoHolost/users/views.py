@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
@@ -35,23 +36,40 @@ def signup(request):
                 else:
                     messages.error(request, 'Логин и/или пароль неверный.')
                     return redirect('signup')
-    else:
-        form = SignUpForm()
-        form1 = LoginForm()
-
     content = {
         'form': SignUpForm(),
         'form1': LoginForm(),
     }
     return render(request, 'signup.html', content)
 
-class CustomPasswordResetViews(PasswordResetView):
+class CustomPasswordResetViews(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
     email_template_name = 'password_reset_email.html'
     form_class = CustomPasswordResetForm
-    success_url = reverse_lazy('password_reset_done')
+    success_url = reverse_lazy('home')
+    success_message = 'Письмо с инструкцией смены пароля отправлена Вам на почту'
 
-class CustomPasswordResetConfirmViews(PasswordResetConfirmView):
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            for error in form.errors.values():
+                messages.error(request, error)
+            return redirect('password-reset')
+
+class CustomPasswordResetConfirmViews(SuccessMessageMixin, PasswordResetConfirmView):
     template_name = 'password_reset_confirm.html'
     email_template_name = 'password_reset_email.html'
     form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('signup')
+    success_message = 'Вы успешно сменили пароль'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            for error in form.errors.values():
+                messages.error(request, error)
+            return self.form_invalid(form)
