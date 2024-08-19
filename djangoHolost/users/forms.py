@@ -66,7 +66,7 @@ class CustomPasswordResetForm(PasswordResetForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if not User.objects.filter(email=email).exists:
+        if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("Эта почта не зарегистрирована")
         return email
 
