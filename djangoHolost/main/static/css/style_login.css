@@ -101,17 +101,7 @@ main {
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
-
-    @media only screen and (max-width:700px) {
-        padding: 10px 45px;
-    };
-
-    @media only screen and (min-width:701px) and (max-width:1300px) {
-        padding: 10px 20px;
-    };
-    @media only screen and (min-width:1301px) {
-        padding: 10px 45px;
-    };
+    padding: 10px 45px;
 }
 
 .container button.hidden {
@@ -134,18 +124,11 @@ main {
     border: 1.75px solid black;
     margin: 8px 0 13px;
     padding: 10px 15px;
-    font-size: 13px;
     border-radius: 8px;
     width: 100%;
+    font-size: 14px;
+    font-weight: 900;
     outline: none;
-}
-
-input::placeholder {
-    color: transparent;
-}
-
-input:-webkit-autofill {
-    box-shadow: 0 0 0 30px #ffffff inset !important;
 }
 
 .form-group {
@@ -153,21 +136,22 @@ input:-webkit-autofill {
     width: 100%;
 }
 
-.form-group img {
+.eye {
+    cursor: pointer;
     position: absolute;
     top: 17.5px;
     width: 20px;
     height: 20px;
     right: 15px;
+    transform: scale(1.5);
 }
 
-.eye {
-    cursor: pointer;
+.svg-icon {
     position: absolute;
-    top: 21px;
+    top: 17.5px;
     width: 20px;
     height: 20px;
-    right: 10px;
+    right: 15px;
     transform: scale(1.5);
 }
 
@@ -175,31 +159,12 @@ input:-webkit-autofill {
     position: absolute;
     display: block;
     top: 17.5px;
-    left: 16px;
+    left: 15px;
     font-size: 14px;
     color: #aaa;
     transition: 0.3s ease;
     pointer-events: none;
 
-}
-
-input:focus ~ .form-label + .eye path,
-input:not(:placeholder-shown) ~ .form-label + .eye path {
-    fill: #7c4958;
-}
-
-input:focus, 
-input:not(:placeholder-shown) {
-    border-color: #7c4958;
-}
-
-input:focus + .form-label, 
-input:not(:placeholder-shown) + .form-label {
-    top: -7px;
-    font-size: 16px;
-    color: #7c4958;
-    background-color: white;
-    padding: 0px 6px;
 }
 
 .form-container {
@@ -552,12 +517,11 @@ input:not(:placeholder-shown) + .form-label {
 
     @media only screen and (min-width:701px) and (max-width:1300px) {
         background-color: #fff;
-        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
         position: relative;
         overflow: hidden;
-        width: 100%;
+        width: 500px;
         max-width: 100%;
-        min-height: 500px;
+        min-height: 300px;
     };
 
     @media only screen and (min-width:1301px) {
@@ -621,26 +585,61 @@ input:not(:placeholder-shown) + .form-label {
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
+    padding: 10px 45px;
+}
 
-    @media only screen and (max-width:700px) {
-        padding: 10px 45px;
-    };
-
-    @media only screen and (min-width:701px) and (max-width:1300px) {
-        padding: 10px 20px;
-    };
-    @media only screen and (min-width:1301px) {
-        padding: 10px 45px;
-    };
+.container1 form {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
 }
 
 .container1 input {
     background-color: #fff;
-    border: 0.5px solid black;
+    border: 1.75px solid black;
     margin: 8px 0 13px;
     padding: 10px 15px;
-    font-size: 13px;
     border-radius: 8px;
     width: 100%;
+    font-size: 14px;
+    font-weight: 900;
     outline: none;
+}
+
+/* INPUT: */
+
+input:focus ~ .form-label + .eye path,
+input:not(:placeholder-shown) ~ .form-label + .eye path {
+    fill: #7c4958;
+}
+
+input:focus ~ .form-label + .svg-icon path,
+input:not(:placeholder-shown) ~ .form-label + .svg-icon path {
+    fill: #7c4958;
+}
+
+input:focus, 
+input:not(:placeholder-shown) {
+    border-color: #7c4958;
+}
+
+input:focus + .form-label, 
+input:not(:placeholder-shown) + .form-label {
+    top: -7px;
+    font-size: 16px;
+    color: #7c4958;
+    background-color: white;
+    padding: 0px 6px;
+}
+
+input::placeholder {
+    color: transparent;
+    user-select: none;
+}
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0 30px #ffffff inset !important;
 }

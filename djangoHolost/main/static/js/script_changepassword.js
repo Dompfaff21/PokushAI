@@ -1,36 +1,3 @@
-// LOGIN
-
-const container = document.getElementById('container');
-const registerBtn = document.getElementById('reg_btn');
-const loginBtn = document.getElementById('log_btn');
-const regBTN = document.getElementById('registerBtn');
-const logBTN = document.getElementById('loginBtn');
-
-registerBtn.addEventListener('click', () => {
-    container.classList.add("active");
-});
-
-loginBtn.addEventListener('click', () => {
-    container.classList.remove("active");
-});
-
-regBTN.addEventListener('click', () => {
-    localStorage.setItem('containerState', 'active');
-});
-
-logBTN.addEventListener('click', () => {
-    localStorage.setItem('containerState', '');
-});
-
-window.addEventListener('load', () => {
-    const state = localStorage.getItem('containerState');
-    if (state === 'active') {
-        container.classList.add("active");
-    } else {
-        container.classList.remove("active");
-    }
-});
-
 // ERROR
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -61,6 +28,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const eyeIcon = eyeIcons[index];
 
         if (passwordField && eyeIcon) {
+            
+
             eyeIcon.innerHTML = svgShowEye;   
             eyeIcon.addEventListener('click', function() {
                 if (passwordField.type === 'password') {
