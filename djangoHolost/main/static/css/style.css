@@ -12,6 +12,23 @@ html,body{
         min-height: 100vh;
 }
 
+html::-webkit-scrollbar {
+        width: 0.3vw;
+        background-color: transparent;
+        margin-top:90px;
+      }
+      
+      html::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #443435;
+      }
+      
+      html::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25);
+        background-color: #f9f9fd;
+      }
+
+
 /* HEADER */
 
 header {
@@ -672,86 +689,3 @@ footer {
         margin: 0;
         font-family: 'Manrope', 'sans-serif';
 }
-
-/* ERROR STYLES */
-
-.messages {
-        justify-content: center ;
-        display: flex;
-        color: #000000;
-        background-color: #f9f9f9; 
-        box-sizing: border-box;
-        flex-direction: column;
-        list-style-type: none;
-    
-        @media only screen and (max-width:700px) {
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 1002;
-            padding: 0px;
-        };
-    
-        @media only screen and (min-width:701px) {
-            margin: 20px 0;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 20px;
-            border: 0.5px solid #0cb84b;
-        };
-    }
-    
-    .messages-popup {
-    
-        @media (max-width: 700px) {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            gap: 10px;
-            top: 0px;
-            padding: 5px;
-            width: calc(100vw - 12px);
-            height: 150px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1002;
-            color: #000000;
-            background-color: #f9f9f9;
-            border: 0.5px solid #0cb84b;
-        };
-    }
-    
-    .messages-popup p {
-        @media (max-width: 700px) {
-            color: black;
-            font-size: 14px;
-            font-weight: 900;
-            width: -webkit-fill-available;
-            padding: 0px;
-        }
-
-        @media only screen and (min-width:701px) {
-            display: none;
-        };
-    }
-    
-    .messages-header {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        position: absolute;
-        top: -5px;
-        right: 10px;
-        z-index: 1004;
-    
-        @media only screen and (min-width:701px) {
-            display: none;
-        };
-    }
-    
-    .close-button {
-        cursor: pointer;
-        font-size: 40px;
-    }

@@ -1,0 +1,95 @@
+/* ERROR STYLES */
+
+.messages {
+    justify-content: center ;
+    display: flex;
+    color: #000000;
+    background-color: #f9f9f9; 
+    box-sizing: border-box;
+    flex-direction: column;
+    list-style-type: none;
+
+    @media only screen and (max-width:700px) {
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 1002;
+        padding: 0px;
+    };
+
+    @media only screen and (min-width:701px) {
+        margin: 20px 0;
+        padding: 10px;
+        flex-direction: row;
+        position: absolute;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 20px;
+        border: 0.5px solid #0cb84b;
+        opacity: 1;
+        transition: opacity 5s ease-in-out;
+    };
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.messages-popup {
+
+    @media (max-width: 700px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        top: 0px;
+        padding: 5px;
+        width: calc(100vw - 12px);
+        height: 150px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1002;
+        color: #000000;
+        background-color: #f9f9f9;
+        border: 0.5px solid #0cb84b;
+    };
+
+    @media (min-width: 701px) {
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+
+.messages-popup p {
+    @media (max-width: 700px) {
+        color: black;
+        font-size: 14px;
+        font-weight: 900;
+        width: -webkit-fill-available;
+        padding: 0px;
+    }
+
+    @media only screen and (min-width:701px) {
+        display: none;
+    };
+}
+
+.messages .close-button {
+    @media only screen and (max-width:700px) {
+        position: absolute;
+        top: 0px;
+        font-size: 40px;
+        right: 10px;
+    };
+
+    @media only screen and (min-width:701px) { 
+        font-size: 30px;
+        cursor: pointer;
+        display: flex;
+        height: 20px;
+        margin-left: 15px;
+        align-items: center;
+    }
+}
