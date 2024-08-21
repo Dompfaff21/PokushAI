@@ -85,3 +85,14 @@ class CustomSetPasswordForm(SetPasswordForm):
             'placeholder': 'Повторите пароль'
         })
     )
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'placeholder': 'Логин'}),
+            'email': forms.EmailInput(attrs={
+                'placeholder': 'E-mail'}),
+        }

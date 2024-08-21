@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from .models import Profile
-from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm
+from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 # Create your views here.
@@ -73,3 +74,23 @@ class CustomPasswordResetConfirmViews(SuccessMessageMixin, PasswordResetConfirmV
             for error in form.errors.values():
                 messages.error(request, error)
             return self.form_invalid(form)
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Ваш профиль успешно обновлен')
+            return redirect('profile')
+        else:
+            for error in form.errors.values():
+                messages.error(request, error)
+            return redirect('profile')
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    content = {
+        'form': form
+    }
+    return render(request, 'profile.html', content)
