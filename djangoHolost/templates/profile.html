@@ -3,31 +3,53 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-{% if messages %}
-<div class="messages-popup">
-    <ul class="messages">
-      {% for message in messages %}
-        {% if "error" in message.tags %}
-        <p>Ошибка:</p>
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% elif "success" in message.tags %}
-        <p>Успех:</p>
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endif %}
-      {% endfor %}
-      <span class="close-button">&times;</span>
-    </ul>
+<script src="{% static '/js/script_changepassword.js' %}" type="text/javascript" defer></script>
+<div class="centerbox1">
+    {% if messages %}
+    <div class="messages-popup">
+        <ul class="messages">
+        {% for message in messages %}
+            {% if "error" in message.tags %}
+            <p>Ошибка:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% elif "success" in message.tags %}
+            <p>Успех:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+        <span class="close-button">&times;</span>
+        </ul>
+    </div>
+    {% endif %}
+    <div class="container1">
+        <h1>Профиль {{ user.username }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}" class="form-label">Логин</label>
+                <div class="svg-icon">
+                    {% include 'svg/login_dark.svg' %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.email }}
+                <label for="{{ form.email.id_for_label }}" class="form-label">E-mail</label>
+                <div class="svg-icon">
+                    {% include 'svg/mail_dark.svg' %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form1.phone }}
+                <label for="{{ form1.phone.id_for_label }}" class="form-label">Номер телефона</label>
+                <div class="svg-icon">
+                    {% include 'svg/phone_dark.svg' %}
+                </div>
+            </div>
+            <button type="submit">Изменить данные</button>
+        </form>
+    </div>
 </div>
-{% endif %}
-    {{ user.username }}
-    {{ user.email }}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.username }}
-        {{ form.email }}
-        {{ form1.phone }}
-        <button type="submit">Изменить данные</button>
-    </form>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 {% endblock %}

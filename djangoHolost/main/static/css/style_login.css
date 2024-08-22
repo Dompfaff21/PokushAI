@@ -428,11 +428,12 @@ main {
     };
 }
 
-.container1{
+.container1 {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 20px 0px;
 
     @media only screen and (min-width:701px) and (max-width:1300px) {
         background-color: #fff;
@@ -452,8 +453,12 @@ main {
         overflow: hidden;
         width: 500px;
         max-width: 100%;
-        min-height: 300px;
+        min-height: 330px;
     };
+}
+
+.container1 .form-group {
+    width: 300px;
 }
 
 .container1 h1 {
