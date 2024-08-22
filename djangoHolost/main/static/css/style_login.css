@@ -535,6 +535,14 @@ main {
 
 /* INPUT: */
 
+.form-group input[type="text"], 
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    padding-right: 45px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
 input:focus ~ .form-label + .eye path,
 input:not(:placeholder-shown) ~ .form-label + .eye path {
     fill: #7c4958;
