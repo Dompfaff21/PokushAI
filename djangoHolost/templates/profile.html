@@ -25,6 +25,9 @@
         {% csrf_token %}
         {{ form.username }}
         {{ form.email }}
+        {{ form1.phone }}
         <button type="submit">Изменить данные</button>
     </form>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 {% endblock %}

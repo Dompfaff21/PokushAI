@@ -46,6 +46,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'placeholder': 'Повторите пароль'})
         self.fields['password1'].required = True
         self.fields['password2'].required = True
+        self.fields['email'].required = True
 
 class LoginForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={
@@ -96,3 +97,10 @@ class UserUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'placeholder': 'E-mail'}),
         }
+
+class UserUpdatePhoneForm(forms.ModelForm):
+    phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
+        'placeholder': 'Номер телефона', 'data-mask': "+7 (000)-000-00-00"}))
+    class Meta:
+        model = Profile
+        fields = ['phone']
