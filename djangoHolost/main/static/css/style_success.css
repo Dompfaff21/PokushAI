@@ -25,13 +25,7 @@
         font-weight: 600;
         border-radius: 20px;
         border: 0.5px solid #0cb84b;
-        opacity: 1;
-        transition: opacity 5s ease-in-out;
     };
-}
-
-.fade-out {
-    opacity: 0;
 }
 
 .messages-popup {

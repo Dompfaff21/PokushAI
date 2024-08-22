@@ -1,16 +1,3 @@
-// ERROR
-
-document.addEventListener('DOMContentLoaded', function () {
-    var closeButton = document.querySelector('.messages-popup .close-button');
-    var messagesPopup = document.querySelector('.messages-popup');
-
-    if (closeButton) {
-        closeButton.addEventListener('click', function () {
-            messagesPopup.style.display = 'none';
-        });
-    }
-});
-
 // PASSWORD DISPLAY
 
 async function loadSvg(filePath) {

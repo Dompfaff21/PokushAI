@@ -96,3 +96,39 @@ document.getElementById("tg").addEventListener("click", function() {
     window.open("https://t.me/three_pigs_inc", "_blank");
 });
 
+// ERROR
+
+document.addEventListener('DOMContentLoaded', function () {
+    var closeButton = document.querySelector('.messages-popup .close-button');
+    var messagesPopup = document.querySelector('.messages-popup');
+
+    if (closeButton) {
+        closeButton.addEventListener('click', function () {
+            messagesPopup.style.display = 'none';
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var messages = document.querySelector('.messages');
+
+    if (messages) {
+        if (messages.querySelector('.error')) {
+            messages.classList.add('has-error');
+        } else if (messages.querySelector('.success')) {
+            messages.classList.add('has-success');
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var messagespopup = document.querySelector('.messages-popup');
+
+    if (messagespopup) {
+        if (messagespopup.querySelector('.error')) {
+            messagespopup.classList.add('hav-error');
+        } else if (messagespopup.querySelector('.success')) {
+            messagespopup.classList.add('hav-success');
+        }
+    }
+});

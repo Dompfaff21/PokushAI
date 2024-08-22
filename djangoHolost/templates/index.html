@@ -7,12 +7,10 @@
     <meta name="description" content="Описание страницы" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/css/style_success.css' %}">
     <link rel="icon" href="{% static '/pictures/logotitle.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script src="{% static '/js/script.js' %}" type="text/javascript" defer></script>
     <script src="{% static '/js/script_changepassword.js' %}" type="text/javascript" defer></script>
-    <script src=""></script>
   </head>
   <body>
   <div class="wrapper">
@@ -34,7 +32,7 @@
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button class="logout" type="submit">
-            <img alt="войти" src="{% static '/pictures/light_theme/logout_light.png' %}">
+            <img alt="выйти" src="{% static '/pictures/light_theme/logout_light.png' %}">
             <p>Выйти</p>
           </button>
         </form>
@@ -42,16 +40,21 @@
     </header>
     <main>
       {% if messages %}
-      <div class="messages-popup">
+      <div class="messages-popup" style="width: calc(100vw - 12px);">
           <ul class="messages">
+            {% for message in messages %}
+              {% if "error" in message.tags %}
+              <p>Ошибка:</p>
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% elif "success" in message.tags %}
               <p>Успех:</p>
-              {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-              {% endfor %}
-                  <span class="close-button">&times;</span>
-                </ul>
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endif %}
+            {% endfor %}
+            <span class="close-button">&times;</span>
+          </ul>
       </div>
-    {% endif %}
+      {% endif %}
       <div class="name">
         <h1>ПокушAI</h1>
         <p>Кулинарное приложение с мобильной версией.

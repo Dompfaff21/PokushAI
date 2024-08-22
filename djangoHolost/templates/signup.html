@@ -7,19 +7,22 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="{% static '/js/script_login.js' %}" type="text/javascript" defer></script>
 <div class="centerbox">
-{% if messages %}
+    {% if messages %}
     <div class="messages-popup">
         <ul class="messages">
+          {% for message in messages %}
+            {% if "error" in message.tags %}
             <p>Ошибка:</p>
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% elif "success" in message.tags %}
+            <p>Успех:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+          {% endfor %}
+          <span class="close-button">&times;</span>
         </ul>
-        <div class="messages-header">
-            <span class="close-button">&times;</span>
-        </div>
     </div>
-{% endif %}
+    {% endif %}
 <div class="container" id="container">
     <div class="form-container sign-up">
         <form method="post">
