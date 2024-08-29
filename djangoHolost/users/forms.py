@@ -104,3 +104,9 @@ class UserUpdatePhoneForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['phone']
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if len(phone) < 18:
+            raise forms.ValidationError("Номер телефона введён неверно.")
+        return phone
