@@ -85,7 +85,7 @@ def profile(request):
             messages.success(request, f'Ваш профиль успешно обновлен')
             return redirect('profile')
         else:
-            for error in form.errors.values():
+            for error in form.errors.values() or form1.errors.values():
                 messages.error(request, error)
             return redirect('profile')
     else:
