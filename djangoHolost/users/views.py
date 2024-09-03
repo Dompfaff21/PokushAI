@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from .models import Profile
-from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdatePhoneForm
+from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 def signup(request):
@@ -78,7 +78,7 @@ class CustomPasswordResetConfirmViews(SuccessMessageMixin, PasswordResetConfirmV
 def profile(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
-        form1 = UserUpdatePhoneForm(request.POST, instance=request.user.profile)
+        form1 = UserUpdateProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid() and form1.is_valid():
             form.save()
             form1.save()
@@ -90,7 +90,7 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserUpdateForm(instance=request.user)
-        form1 = UserUpdatePhoneForm(instance=request.user.profile)
+        form1 = UserUpdateProfileForm(instance=request.user.profile)
 
     content = {
         'form': form,
