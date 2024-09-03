@@ -98,12 +98,12 @@ class UserUpdateForm(forms.ModelForm):
                 'placeholder': 'E-mail'}),
         }
 
-class UserUpdatePhoneForm(forms.ModelForm):
+class UserUpdateProfileForm(forms.ModelForm):
     phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Номер телефона', 'data-mask': "+7 (000)-000-00-00"}))
     class Meta:
         model = Profile
-        fields = ['phone']
+        fields = ['phone', 'image']
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
