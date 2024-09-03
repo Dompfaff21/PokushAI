@@ -91,7 +91,7 @@ main {
 }
 
 .container button {
-    background-color: rgb(255, 13, 13);
+    background-color: #EC4E20;
     color: #fff;
     font-size: 12px;
     border: 1px solid transparent;
@@ -110,7 +110,7 @@ main {
 }
 
 .container form {
-    background-color: #fff;
+    background-color: #FBFFFE;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -184,6 +184,7 @@ main {
 
 .sign-in {
     z-index: 2;
+    animation: move 0.6s;
     @media only screen and (max-width:700px) {
         top: 150px;
         height: calc(500px - 150px);
@@ -247,18 +248,12 @@ main {
 }
 
 .social-icons {
-    @media only screen and (max-width:700px) {
-        margin: 10px 0;
-    };
-    
-    @media only screen and (min-width:701px) {
-        margin: 20px 0;
-    };
+    margin: 10px 0;
 }
 
 .social-icons a {
     border: 1px solid #ccc;
-    border-radius: 20%;
+    border-radius: 50%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -313,7 +308,7 @@ main {
 }
 
 .toggle {
-    background-color: rgba(255, 4, 4, 0.952);
+    background-color: #EC4E20;
     color: #fff;
     position: relative;
     transition: all 0.6s ease-in-out;
@@ -484,7 +479,7 @@ main {
 }
 
 .container1 a {
-    color: rgb(255, 13, 13);
+    color: #EC4E20;
     text-decoration: none;
     margin: 15px 0 10px;
 
@@ -498,7 +493,7 @@ main {
 }
 
 .container1 button {
-    background-color: rgb(255, 13, 13);
+    background-color: #EC4E20;
     color: #fff;
     font-size: 12px;
     border: 1px solid transparent;
