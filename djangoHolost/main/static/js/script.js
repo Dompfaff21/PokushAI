@@ -132,3 +132,60 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+// THEME
+
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) {
+        body.classList.add(savedTheme);
+    } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            body.classList.add('dark-theme');
+        } else {
+            body.classList.add('light-theme');
+        }
+    }
+}
+
+function toggleTheme() {
+    if (body.classList.contains('light-theme')) {
+        body.classList.remove('light-theme');
+        body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark-theme');
+    } else {
+        body.classList.remove('dark-theme');
+        body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light-theme');
+    }
+}
+
+themeToggle.addEventListener('click', toggleTheme);
+
+initializeTheme();
+
+// AVATAR PREVIEW
+
+    const inputElement = document.getElementById('id_image');
+    const previewElement = document.getElementById('preview');
+
+    previewElement.addEventListener('click', function() {
+        inputElement.click();
+    });
+
+    inputElement.addEventListener('change', function() {
+        if (inputElement.files && inputElement.files[0]) {
+            const file = inputElement.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });

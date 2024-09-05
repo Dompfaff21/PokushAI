@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script src="{% static '/js/script.js' %}" type="text/javascript" defer></script>
   </head>
-  <body>
+  <body  class="light-theme">
   <div class="wrapper">
     <header id="name-section">
         <div class="logo">
@@ -36,6 +36,9 @@
           </button>
         </form>
       {% endif %}
+      <div class="theme" id="theme-toggle">
+        {% include 'svg/theme.svg' %}
+      </div>
     </header>
     <main>
       {% if messages %}

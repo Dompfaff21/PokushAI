@@ -47,8 +47,13 @@
         <div class="content">
             <div id="personal-info" class="content-box">
                 <h1>Профиль {{ user.username }}</h1>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <div class="avatar">
+                        <img id="preview" src="{% if form1.instance.image %}{{ form1.instance.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображение">
+                        <input type="file" name="image" id="id_image">
+                        <button type="submit" name="action" value="delete_avatar">Удалить аватар</button>
+                    </div>
                     <div class="form-group">
                         {{ form.username }}
                         <label for="{{ form.username.id_for_label }}" class="form-label">Логин</label>
@@ -70,10 +75,7 @@
                             {% include 'svg/phone_dark.svg' %}
                         </div>
                     </div>
-                    <div class="form-group">
-                        {{ form1.image }}
-                    </div>>
-                    <button type="submit">Изменить данные</button>
+                    <button type="submit" name="action" value="update">Изменить данные</button>
                 </form>
             </div>
     
