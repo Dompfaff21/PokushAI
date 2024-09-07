@@ -81,6 +81,11 @@
     
             <div id="security-info" class="content-box" style="display:none;">
                 <h1>Безопасность и вход</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form2 }}
+                    <button type="submit" name="change_password">Сменить пароль</button>
+                </form>
             </div>
     
             <div id="subscription-info" class="content-box" style="display:none;">

@@ -1,7 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 import os
@@ -86,41 +87,55 @@ def profile(request):
         if 'profile_pics' not in old_image_path:
             old_image_path = os.path.join(r'C:\Users\Admin\Desktop\PokushAI\djangoHolost\media\profile_pics', old_image_name)
     if request.method == 'POST':
-        action = request.POST.get('action')
-        if action == 'update':
-            form = UserUpdateForm(request.POST, instance=request.user)
-            form1 = UserUpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if 'action' in request.POST:
+            action = request.POST.get('action')
+            if action == 'update':
+                form = UserUpdateForm(request.POST, instance=request.user)
+                form1 = UserUpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
-            if form.is_valid() and form1.is_valid():
-                with transaction.atomic():
-                    form1.save()
-                    new_image = request.user.profile.image
-                    new_image_path = new_image.path if new_image else None
-                    if old_image_path and old_image_path != new_image_path:
-                        if old_image_name != default_image_name:
-                            if old_image_path and os.path.exists(old_image_path):
-                                os.remove(old_image_path)
-                    form.save()
-                messages.success(request, 'Ваш профиль успешно обновлен')
-            else:
-                for error in form.errors.values() or form1.errors.values():
-                    messages.error(request, error)
+                if form.is_valid() and form1.is_valid():
+                    with transaction.atomic():
+                        form1.save()
+                        new_image = request.user.profile.image
+                        new_image_path = new_image.path if new_image else None
+                        if old_image_path and old_image_path != new_image_path:
+                            if old_image_name != default_image_name:
+                                if old_image_path and os.path.exists(old_image_path):
+                                    os.remove(old_image_path)
+                        form.save()
+                    messages.success(request, 'Ваш профиль успешно обновлен')
+                else:
+                    for error in form.errors.values() or form1.errors.values():
+                        messages.error(request, error)
 
-        elif action == 'delete_avatar':
-            if request.user.profile.image:
-                request.user.profile.image.delete()
-                request.user.profile.image = None
-                request.user.profile.save()
-                messages.success(request, 'Аватар успешно удален')
+            elif action == 'delete_avatar':
+                if request.user.profile.image:
+                    request.user.profile.image.delete()
+                    request.user.profile.image = None
+                    request.user.profile.save()
+                    messages.success(request, 'Аватар успешно удален')
 
         return redirect('profile')
+
+    elif 'change_password' in request.POST:
+        form2 = PasswordChangeForm(request.user, request.POST)
+        if form2.is_valid():
+            user = form2.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Пароль сменен успешно')
+            return redirect('profile')
+        else:
+            for error in form2.errors.values():
+                messages.error(request, error)
 
     else:
         form = UserUpdateForm(instance=request.user)
         form1 = UserUpdateProfileForm(instance=request.user.profile)
+        form2 = PasswordChangeForm
 
     content = {
         'form': form,
-        'form1': form1
+        'form1': form1,
+        'form2': form2
     }
     return render(request, 'profile.html', content)
