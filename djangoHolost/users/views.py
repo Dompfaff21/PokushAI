@@ -115,23 +115,23 @@ def profile(request):
                     request.user.profile.save()
                     messages.success(request, 'Аватар успешно удален')
 
-        return redirect('profile')
+            elif action == 'change_password':
+                form2 = PasswordChangeForm(request.user, request.POST)
+                if form2.is_valid():
+                    user = form2.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, 'Пароль сменен успешно')
+                    return redirect('profile')
+                else:
+                    for error in form2.errors.values():
+                        messages.error(request, error)
 
-    elif 'change_password' in request.POST:
-        form2 = PasswordChangeForm(request.user, request.POST)
-        if form2.is_valid():
-            user = form2.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Пароль сменен успешно')
-            return redirect('profile')
-        else:
-            for error in form2.errors.values():
-                messages.error(request, error)
+        return redirect('profile')
 
     else:
         form = UserUpdateForm(instance=request.user)
         form1 = UserUpdateProfileForm(instance=request.user.profile)
-        form2 = PasswordChangeForm
+        form2 = PasswordChangeForm(request.user)
 
     content = {
         'form': form,
