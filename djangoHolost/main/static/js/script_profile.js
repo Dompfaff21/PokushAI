@@ -9,7 +9,7 @@ async function loadSvg(filePath) {
 document.addEventListener('DOMContentLoaded', async function() {
     let svgShowEye = await loadSvg('/static/pictures/dark_theme/eye_dark.svg');
     let svgHideEye = await loadSvg('/static/pictures/dark_theme/hide_eye_dark.svg');
-    const passwordFields = document.querySelectorAll('input[name="password"], input[name="password1"], input[name="password2"], input[name="new_password1"], input[name="new_password2"]');
+    const passwordFields = document.querySelectorAll('input[name="password"], input[name="password1"], input[name="password2"], input[name="new_password1"], input[name="new_password2"], input[name="old_password"]');
     const eyeIcons = document.querySelectorAll('.eye');
     passwordFields.forEach((passwordField, index) => {
         const eyeIcon = eyeIcons[index];

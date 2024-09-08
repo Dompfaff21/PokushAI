@@ -85,17 +85,17 @@
                     {% csrf_token %}
                     <div class="form-group">
                         {{ form2.old_password }}
-                        <label for="{{ from2.old_password.id_for_label }}" class="from-label">Старый пароль</label>
+                        <label for="{{ form2.old_password.id_for_label }}" class="form-label">Старый пароль</label>
                         <div class="eye"></div>
                     </div>
                     <div class="form-group">
                         {{ form2.new_password1 }}
-                        <label for="{{ from2.new_password1.id_for_label }}" class="from-label">Новый пароль</label>
+                        <label for="{{ form2.new_password1.id_for_label }}" class="form-label">Новый пароль</label>
                         <div class="eye"></div>
                     </div>
                     <div class="form-group">
                         {{ form2.new_password2 }}
-                        <label for="{{ from2.new_password2.id_for_label }}" class="from-label">Повтор нового пароля</label>
+                        <label for="{{ form2.new_password2.id_for_label }}" class="form-label">Повтор нового пароля</label>
                         <div class="eye"></div>
                     </div>
                     <button type="submit" name="action" value="change_password">Сменить пароль</button>
