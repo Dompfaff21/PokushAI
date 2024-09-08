@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
@@ -110,3 +110,16 @@ class UserUpdateProfileForm(forms.ModelForm):
         if len(phone) < 18:
             raise forms.ValidationError("Номер телефона введён неверно.")
         return phone
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    error_messages ={
+        'password_mismatch': "Новые пароли не совпадают!",
+        'password_incorrect': "Неверный пароль! Повторите ввод."
+    }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'placeholder': 'Введите старый пароль'})
+        self.fields['new_password1'].widget.attrs.update({'placeholder': 'Введите новый пароль'})
+        self.fields['new_password2'].widget.attrs.update({'placeholder': 'Повторите новый пароль'})
+        self.fields['new_password1'].required = True
+        self.fields['new_password2'].required = True

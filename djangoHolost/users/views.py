@@ -2,13 +2,12 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 import os
 from django.db import transaction
 from .models import Profile
-from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm
+from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 def signup(request):
@@ -116,7 +115,7 @@ def profile(request):
                     messages.success(request, 'Аватар успешно удален')
 
             elif action == 'change_password':
-                form2 = PasswordChangeForm(request.user, request.POST)
+                form2 = CustomPasswordChangeForm(request.user, request.POST)
                 if form2.is_valid():
                     user = form2.save()
                     update_session_auth_hash(request, user)
@@ -131,7 +130,7 @@ def profile(request):
     else:
         form = UserUpdateForm(instance=request.user)
         form1 = UserUpdateProfileForm(instance=request.user.profile)
-        form2 = PasswordChangeForm(request.user)
+        form2 = CustomPasswordChangeForm(request.user)
 
     content = {
         'form': form,
