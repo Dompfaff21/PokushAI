@@ -37,18 +37,39 @@ document.addEventListener("DOMContentLoaded", function() {
     const sidebarItems = document.querySelectorAll('.sidebarp ul li');
     const contentBoxes = document.querySelectorAll('.content-box');
 
+    function setActiveTab(item) {
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        contentBoxes.forEach(box => box.style.display = 'none');
+        const target = item.getAttribute('data-target');
+        document.getElementById(target).style.display = 'block';
+
+        // Сохранение активной вкладки в localStorage
+        const activeIndex = Array.from(sidebarItems).indexOf(item);
+        localStorage.setItem('activeTabIndex', activeIndex);
+    }
+
     sidebarItems.forEach(item => {
         item.addEventListener('click', function() {
-            sidebarItems.forEach(i => i.classList.remove('active'));
-
-            item.classList.add('active');
-
-            contentBoxes.forEach(box => box.style.display = 'none');
-
-            const target = item.getAttribute('data-target');
-            document.getElementById(target).style.display = 'block';
+            setActiveTab(item);
         });
     });
 
-    document.getElementById('personal-info').style.display = 'block';
+    const isNavigatedFromAnotherPage = performance.getEntriesByType("navigation")[0].type !== "reload";
+    const savedTabIndex = localStorage.getItem('activeTabIndex');
+
+    if (isNavigatedFromAnotherPage) {
+        // Если переход с другой страницы, показываем первую вкладку
+        setActiveTab(sidebarItems[0]);
+    } else if (savedTabIndex !== null) {
+        // Если это обновление страницы, восстанавливаем активную вкладку
+        const savedTab = sidebarItems[savedTabIndex];
+        if (savedTab) {
+            setActiveTab(savedTab);
+        }
+    } else {
+        // Если ничего не сохранено, показываем первую вкладку
+        setActiveTab(sidebarItems[0]);
+    }
 });

@@ -73,7 +73,7 @@ class CustomPasswordResetForm(PasswordResetForm):
 
 class CustomSetPasswordForm(SetPasswordForm):
     error_messages ={
-        'password_mismatch': "Пароли не совпадают!"
+        'password_mismatch': "Пароли не совпадают."
     }
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
@@ -113,13 +113,13 @@ class UserUpdateProfileForm(forms.ModelForm):
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     error_messages ={
-        'password_mismatch': "Новые пароли не совпадают!",
-        'password_incorrect': "Неверный пароль! Повторите ввод."
+        'password_mismatch': "Новые пароли не совпадают.",
+        'password_incorrect': "Неверный пароль. Повторите ввод."
     }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['old_password'].widget.attrs.update({'placeholder': 'Введите старый пароль'})
-        self.fields['new_password1'].widget.attrs.update({'placeholder': 'Введите новый пароль'})
-        self.fields['new_password2'].widget.attrs.update({'placeholder': 'Повторите новый пароль'})
+        self.fields['old_password'].widget.attrs.update({'placeholder': 'Старый пароль'})
+        self.fields['new_password1'].widget.attrs.update({'placeholder': 'Новый пароль'})
+        self.fields['new_password2'].widget.attrs.update({'placeholder': 'Повторите пароль'})
         self.fields['new_password1'].required = True
         self.fields['new_password2'].required = True
