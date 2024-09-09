@@ -179,7 +179,6 @@ header {
 .sidebar {
         box-sizing: border-box;
         padding: 0px 10px;
-        
         transition: width 0.25s ease-in-out, height 0.25s ease-in-out;
         overflow: hidden;
         z-index: 1001;
@@ -187,15 +186,15 @@ header {
         position: fixed;
 }
 
-.dark-theme .sidebar:hover {
+.dark-theme .sidebar {
         background-color: #1A1A1A;
 }
-
-.light-theme .sidebar:hover {
+        
+.light-theme .sidebar{
         background-color: #443435;
 }
 
-.sidebar:not(:hover) {
+.sidebar.collapsed {
         background-color: transparent;
 }
 
