@@ -22,6 +22,6 @@ def new_post(request):
             title=title,
             description=description,
         )
-        return redirect('new_post')
+        return redirect('posts')
 
     return render(request, 'new_post.html')

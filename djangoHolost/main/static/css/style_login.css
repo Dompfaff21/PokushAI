@@ -11,8 +11,8 @@
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.container, input, .container1 {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.container, input, .container1, .container2 {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
 }
 /* LOG FORM STYLES */
 
@@ -36,6 +36,14 @@
         height: 500px;
         margin: 100px;
     };
+}
+
+.light-theme .centerbox {
+    background-color: #fff;
+}
+
+.dark-theme .centerbox {
+    background-color: #1f1f1f;
 }
 
 main {
@@ -484,7 +492,6 @@ main {
 
     @media only screen and (max-width:700px) {
         block-size: fit-content;
-        background-color: white;
         max-height: 1000px;
     };
 
@@ -496,6 +503,14 @@ main {
         height: 500px;
         margin: 100px;
     };
+}
+
+.light-theme .centerbox1 {
+    background-color: #fff;
+}
+
+.dark-theme .centerbox1 {
+    background-color: #1f1f1f;
 }
 
 .container1 {
@@ -607,7 +622,6 @@ main {
 }
 
 .container1 form {
-    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -624,8 +638,6 @@ main {
 }
 
 .container1 input {
-    background-color: #fff;
-    border: 1.75px solid black;
     margin: 8px 0 13px;
     padding: 10px 15px;
     border-radius: 8px;
@@ -705,10 +717,11 @@ input::placeholder {
 .light-theme input:-webkit-autofill {
     box-shadow: 0 0 0 30px #FBFFFE inset !important;
     -webkit-text-fill-color: black !important;
+    caret-color: black !important;
 }
 
 .dark-theme input:-webkit-autofill {
     box-shadow: 0 0 0 30px #1f1f1f inset !important;
     -webkit-text-fill-color: white !important;
-
+    caret-color: white !important;
 }
