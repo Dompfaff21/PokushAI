@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect
 from .models import Posts
 
 def posts(request):
-    return render(request, 'posts.html')
+    post = Posts.objects.all
+    content = {
+        'form': post
+    }
+    return render(request, 'posts.html', content)
 
 def new_post(request):
     if request.method == 'POST':
