@@ -3,5 +3,14 @@
 {% block title %}Подборки{% endblock %}
 
 {% block content %}
-    <a class="button" href="{% url 'new_post' %}">Создать рецепт</a>
+    {% for post in form %}
+        {{ post.author }} <br>
+        {{ post.title }} <br>
+        {{ post.description }} <br>
+        {{ post.created_at }} <br>
+        {{ post.update_at }} <br>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <a class="button" href="{% url 'new_post' %}">Создать рецепт</a>
+    {% endif %}
 {% endblock %}
