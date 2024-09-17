@@ -152,4 +152,4 @@ def delete_post(request, id):
 def update_post(request, id):
     post = get_object_or_404(Posts, pk=id)
     messages.success(request, 'Проверка')
-    redirect('profile')
+    return redirect('profile')
