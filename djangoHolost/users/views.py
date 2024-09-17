@@ -2,9 +2,10 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 import os
+from recipe.models import Posts
 from django.db import transaction
 from .models import Profile
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
@@ -121,6 +122,7 @@ def profile(request):
                     update_session_auth_hash(request, user)
                     messages.success(request, 'Пароль сменен успешно')
                     return redirect('profile')
+
                 else:
                     for error in form2.errors.values():
                         messages.error(request, error)
@@ -131,10 +133,23 @@ def profile(request):
         form = UserUpdateForm(instance=request.user)
         form1 = UserUpdateProfileForm(instance=request.user.profile)
         form2 = CustomPasswordChangeForm(request.user)
+        form3 = Posts.objects.filter(author=request.user)
 
     content = {
         'form': form,
         'form1': form1,
-        'form2': form2
+        'form2': form2,
+        'form3': form3
     }
     return render(request, 'profile.html', content)
+
+def delete_post(request, id):
+    post = get_object_or_404(Posts, pk=id)
+    post.delete()
+    messages.success(request, 'Рецепт успешно удален')
+    return redirect('profile')
+
+def update_post(request, id):
+    post = get_object_or_404(Posts, pk=id)
+    messages.success(request, 'Проверка')
+    redirect('profile')
