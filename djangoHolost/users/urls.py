@@ -9,5 +9,7 @@ urlpatterns = [
         path('password_reset_confirm/<uidb64>/<token>/',
              views.CustomPasswordResetConfirmViews.as_view(),
              name='password-reset-confirm'),
-        path('profile', views.profile, name='profile')
+        path('profile', views.profile, name='profile'),
+        path('delete_post/<int:id>', views.delete_post, name='delete_post'),
+        path('update_post/<int:id>', views.update_post, name='update_post')
 ]

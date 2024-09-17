@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Posts(models.Model):
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField('Заголовок', max_length=160)
     description = models.TextField('Описание', max_length=1000)
     post_image = models.ImageField('Фото к рецепту', null=True, blank=True, upload_to='recipe_pics')

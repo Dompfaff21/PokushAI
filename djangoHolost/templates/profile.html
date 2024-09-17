@@ -35,6 +35,12 @@
                 </div>
                 Безопасность и вход
             </li>
+            <li data-target="posts-info">
+                <div class="svg-li">
+                    {% include 'svg/sub.svg' %}
+                </div>
+                Мои рецепты
+            </li>
             <li data-target="subscription-info">
                 <div class="svg-li">
                     {% include 'svg/sub.svg' %}
@@ -99,6 +105,26 @@
                         <div class="eye"></div>
                     </div>
                     <button type="submit" name="action" value="change_password">Сменить пароль</button>
+                </form>
+            </div>
+
+            <div id="posts-info" class="content-box" style="display:none;">
+                <h1>Мои рецепты</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form3 %}
+                        {% for post in form3 %}
+                            {{ post.author }} <br>
+                            {{ post.title }} <br>
+                            {{ post.description }} <br>
+                            {{ post.created_at }} <br>
+                            {{ post.update_at }} <br>
+                            <a href="{% url 'update_post' post.id %}">Редактировать рецепт</a>
+                            <a href="{% url 'delete_post' post.id %}">Удалить рецепт</a>
+                        {% endfor %}
+                    {% else %}
+                        <h1>Вы еще не добавляли свои рецепты</h1>
+                    {% endif %}
                 </form>
             </div>
     
