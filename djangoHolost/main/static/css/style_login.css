@@ -11,7 +11,7 @@
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.container, input, .container1, .container2 {
+.container, input, .container1, .container2, .centerbox1, .centerbox {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
 }
 /* LOG FORM STYLES */
@@ -133,7 +133,7 @@ main {
 }
 
 .container button {
-    background-color: #EC4E20;
+    background-color: #d98236;
     color: #fff;
     font-size: 12px;
     border: 1px solid transparent;
@@ -391,7 +391,7 @@ main {
 }
 
 .toggle {
-    background-color: #EC4E20;
+    background-color: #d98236;
     color: #fff;
     position: relative;
     transition: all 0.6s ease-in-out;

@@ -5,7 +5,8 @@
 {% block button_login_content %}
 {% if not user.is_authenticated %}
     <a class="button" href="{% url 'signup' %}">
-        <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
+        <div id="auth-icon">
+        </div>
         <p>Войти</p>
     </a>
 {% endif %}
@@ -21,7 +22,7 @@
                 <h1>О нашей команде</h1>
                 <hr class="ahr">
                 <p>
-                    <span style="color: #7c4958">3pigs.inc</span> — это независимая команда разработчиков, 
+                    <span style="color: var(--accent-color)">3pigs.inc</span> — это независимая команда разработчиков, 
                     создающая уникальные и увлекательные проекты. 
                     Наша миссия — воплощать в жизнь захватывающие идеи и создавать проекты, 
                     которые будут вас вдохновлять и увлекать.

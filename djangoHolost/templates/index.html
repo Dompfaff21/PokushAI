@@ -23,15 +23,17 @@
         </div>
       {% if not user.is_authenticated %}
       <a class="button" href="{% url 'signup' %}">
-          <img alt="войти" src="{% static '/pictures/light_theme/face_light.png' %}">
+          <div id="auth-icon">
+          </div>
           <p>Войти</p>
-        </a>
+      </a>
       {% endif %}
       {% if user.is_authenticated %}
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
           <button class="logout" type="submit">
-            <img alt="выйти" src="{% static '/pictures/light_theme/logout_light.png' %}">
+            <div id="logout-icon">
+            </div>
             <p>Выйти</p>
           </button>
         </form>
@@ -122,7 +124,8 @@
       <hr class="shr">
       <li class="sidebar__item">
 
-        <img class="icon 1" src="{% static '/pictures/light_theme/home_light.png' %}"/>
+        <div id="home">
+        </div>
 
         <div class="item__text">
 
@@ -131,7 +134,8 @@
       </li>
       <li class="sidebar__item">
 
-        <img class="icon 2" src="{% static '/pictures/light_theme/programm_light.png' %}"/>
+        <div id="programm">
+        </div>
 
         <div class="item__text">
 
@@ -140,7 +144,8 @@
       </li>
       <li class="sidebar__item">
 
-        <img class="icon 3" src="{% static '/pictures/light_theme/recipe_light.png' %}"/>
+        <div id="recipe">
+        </div>
 
         <div class="item__text">
 
@@ -149,7 +154,8 @@
       </li>
       <li class="sidebar__item">
 
-        <img class="icon 4" src="{% static '/pictures/light_theme/user_light.png' %}"/>
+        <div id="user">
+        </div>
 
         <div class="item__text">
           {% if user.is_authenticated %}
@@ -162,7 +168,8 @@
       </li>
       <li class="sidebar__item">
 
-        <img class="icon 5" src="{% static '/pictures/light_theme/pigs_light.png' %}"/>
+        <div id="pigs">
+        </div>
 
         <div class="item__text">
 

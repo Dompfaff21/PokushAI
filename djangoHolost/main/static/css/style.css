@@ -7,29 +7,29 @@ html,body{
         transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-header, .name, .advantages, main, .sidebarp ul, .us, textarea {
+header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer {
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 /* LIGHT THEME */
 
 .light-theme {
-        --header: #774655;
-        --background-color: #FBFFFE;
-        --border: #443435;
+        --header: #f5f5f5;
+        --background-color: #edeef0;
+        --border: #dedddd;
         --text-color: #1A1A1A;
-        --accent-color: #EC4E20;
-        --secondary-color: #FF9505;
+        --accent-color: #d98236;
+        --secondary-color: #f0b27a;
 }
     
 /* DARK THEME */
 
 .dark-theme {
-        --header: #393939;
-        --background-color: #1A1A1A;
-        --text-color: #FBFFFE;
-        --border: #1A1A1A;
-        --accent-color: #FF6B3A;
-        --secondary-color: #FFB347;
+        --header: #222222;
+        --background-color: #141414;
+        --text-color: #f5f5f5;
+        --border: #292929;
+        --accent-color: #d98236;
+        --secondary-color: #f0b27a;
 }
 
 .wrapper {
@@ -42,7 +42,7 @@ html::-webkit-scrollbar {
         width: 0.3vw;
         background-color: transparent;
         margin-top:90px;
-      }
+}
       
 html::-webkit-scrollbar-thumb {
         border-radius: 10px;
@@ -60,8 +60,6 @@ html::-webkit-scrollbar-track {
 header {
         text-align: center;
         height: 90px;
-        background-color: #774655;
-        border-bottom: 2px solid #443435;   
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -93,11 +91,10 @@ header {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 3px;
         position: absolute;
         left: 10px;
+        gap: 3px;
         text-decoration: none;
-        color: #FFFFFFFF;
         font-size: 16px;
 
         @media only screen and (max-width:700px) {
@@ -105,9 +102,25 @@ header {
         };
 }
 
-.button img {
+.light-theme .button {
+        color: var(--text-color);
+}
+
+.dark-theme .button {
+        color: var(--text-color);
+}
+
+#auth-icon {
         width:40px;
         height:40px;
+}
+
+.dark-theme #auth-icon path {
+        fill: #f5f5f5;
+}
+
+.light-theme #auth-icon path {
+        fill: #1A1A1A;
 }
 
 .button p {
@@ -151,9 +164,17 @@ header {
 
 .authors p {
         margin:0px;
-        color: #FFFFFFFF;
         font-size: 20px;
 }
+
+.light-theme .authors p {
+        color: var(--text-color);
+}
+
+.dark-theme .authors p {
+        color: var(--text-color);
+}
+
 .authors a {
         margin-top:5px;
 }
@@ -170,11 +191,29 @@ header {
         cursor: pointer;
 }
 
-.theme path {
-        fill: #fBFFFE;
+.dark-theme .theme path {
+        fill: #f5f5f5;
+}
+
+.light-theme .theme path {
+        fill: #1A1A1A;
 }
 
 /* SIDEBAR */
+
+#home, #programm, #recipe, #user, #pigs {
+        width: 40px;
+        height: 38px;
+}
+
+.dark-theme #home path, .dark-theme #programm path, .dark-theme #recipe path, .dark-theme #user path, .dark-theme #pigs path{
+        fill: #f5f5f5;
+}
+
+.light-theme #home path, .light-theme #programm path, .light-theme #recipe path, .light-theme #user path, .light-theme #pigs path{
+        fill: #1A1A1A;
+}
+
 
 .sidebar {
         box-sizing: border-box;
@@ -187,11 +226,11 @@ header {
 }
 
 .dark-theme .sidebar {
-        background-color: #1A1A1A;
+        background-color: var(--border);
 }
         
 .light-theme .sidebar{
-        background-color: #443435;
+        background-color: var(--border);
 }
 
 .sidebar.collapsed {
@@ -221,23 +260,41 @@ header {
 }
 
 .sidebar a {
-        color: #FFFFFFFF;
         text-decoration: none;
         font-size: 18px;
         font-weight: 600;
 }
 
+.dark-theme .sidebar a {
+        color: var(--text-color);
+}
+
+.light-theme .sidebar a {
+        color: var(--text-color);
+}
+
 .item__text p {
-        color: #FFFFFFFF;
         text-decoration: none;
         font-size: 18px;
         font-weight: 600;
         margin: 0px;
 }
 
-.sidebar a:active {
-        color: #FFFFFFFF;
-} 
+.dark-theme .item__text p {
+        color: var(--text-color);
+}
+
+.light-theme .item__text p {
+        color: var(--text-color);
+}
+
+.dark-theme .sidebar a:active {
+        color: var(--text-color);
+}
+
+.light-theme .sidebar a:active {
+        color: var(--text-color);
+}
 
 .sidebar:hover > .sidebar__item > .item__text {
         opacity: 1;
@@ -245,10 +302,17 @@ header {
 
 .shr {
         height: 0.01px;
-        color: white;
         margin: 15px 0;
         border: 0.8px solid;
         border-radius: 1px;
+}
+
+.dark-theme .shr {
+        color: var(--text-color);
+}
+
+.light-theme .shr {
+        color: var(--text-color);
 }
 
 .sidebar__item {
@@ -317,8 +381,6 @@ main {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        /* background-image: linear-gradient(270deg, #44343582, #fdd1b86d),
-                url("/static/pictures/index/background.jpg"); */
         background-repeat: no-repeat;
         background-size: cover;
         justify-content: center;
@@ -405,11 +467,11 @@ main {
 }
 
 .light-theme .advantages {
-        background-color: #f7f4ed;
+        background-color: var(--background-color);
 }
 
 .dark-theme .advantages {
-        background-color: #1f1f1f;
+        background-color: var(--background-color);
 }
 
 .advantages h2 {
@@ -426,11 +488,11 @@ main {
 }
 
 .light-theme .advantages h2{
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .advantages h2{
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .adv_row {
@@ -503,11 +565,11 @@ main {
 }
 
 .light-theme .adv_column p {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .adv_column p {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .adv_column h3 {
@@ -524,11 +586,11 @@ main {
 }
 
 .light-theme .adv_column h3 {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .adv_column h3 {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 /* ARROW */
@@ -548,8 +610,6 @@ main {
     .scroll-button .arrow {
         width: 20px;
         height: 20px;
-        border-left: 3px solid white;
-        border-bottom: 3px solid white;
         transform: rotate(-45deg);
         animation: moveArrow 2s infinite;
     }
@@ -606,11 +666,9 @@ main {
 /* FOOTER*/
 
 footer {
-        background-color: #7c4958;
         color: white;
         text-align: center;
-        padding: 10px;
-        border-top: 2px solid #443435;        
+        padding: 10px;      
         box-sizing: border-box;
         height: 76px;
         align-items: center;
@@ -621,11 +679,13 @@ footer {
 .dark-theme footer {
         background-color: var(--header);
         border-top: 2px solid var(--border);
+        color: var(--text-color)
 }
 
 .light-theme footer {
         background-color: var(--header);
         border-top: 2px solid var(--border);
+        color: var(--text-color)
 }
 
 
@@ -645,11 +705,11 @@ footer {
 }
 
 .light-theme .team h1 {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .team h1 {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .us {
@@ -662,11 +722,11 @@ footer {
 }
 
 .dark-theme .us {
-        background-color: #1f1f1f;
+        background-color: var(--background-color);
 }
 
 .light-theme .us {
-        background-color: #FBFFFE;
+        background-color: var(--background-color);
 }
 
 .us_row {
@@ -725,19 +785,19 @@ footer {
 }
 
 .light-theme .us_column p {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .us_column p {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .light-theme .us_column h1 {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .us_column h1 {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .us_column img {
@@ -759,7 +819,7 @@ footer {
 
 .ahr {
         height: 0.01px;
-        color: #7c4958;
+        color: var(--accent-color);
         margin: 5px 0 15px;
         border: 2px solid;
         border-radius: 3px;
@@ -808,19 +868,19 @@ footer {
 }
 
 .light-theme .us_column1 p {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .us_column1 p{
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 .light-theme .us_column1 h2 {
-        color: #1A1A1A;
+        color: var(--text-color);
 }
 
 .dark-theme .us_column1 h2 {
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 
@@ -867,9 +927,25 @@ footer {
         };
 }
 
-.logout img {
+.light-theme .logout{
+        color: var(--text-color);
+}
+
+.dark-theme .logout {
+        color: var(--text-color);
+}
+
+#logout-icon {
         width: 40px;
         height: 40px;
+}
+
+.dark-theme #logout-icon path {
+        fill: #f5f5f5;
+}
+
+.light-theme #logout-icon path {
+        fill: #1A1A1A;
 }
 
 .logout p {
@@ -1088,7 +1164,7 @@ footer {
     }
 
     .sidebarp ul li.active .svg-li path {
-        fill:#ec4e1f;
+        fill: var(--accent-color);
     }
     
     .content {
@@ -1146,12 +1222,12 @@ footer {
 }
 
 .dark-theme .new_post{
-        border: 1.75px solid #FBFFFE;
+        border: 1.75px solid var(--border);
         color: #FBFFFE;
 }
 
 .light-theme .new_post {
-        border: 1.75px solid #1A1A1A;
+        border: 1.75px solid var(--border);
         color: #1A1A1A;
 }
 
@@ -1164,11 +1240,11 @@ footer {
 }
 
 .light-theme label{
-        color: #1A1A1A;
+        color: var(--text-color);
 }
     
 .dark-theme label{
-        color: #FBFFFE;
+        color: var(--text-color);
 }
 
 textarea {
@@ -1262,11 +1338,11 @@ textarea::-webkit-scrollbar {
     }
 
     .light-theme .container2 {
-        background-color: #fff;
+        background-color: var(--background-color);
     }
     
     .dark-theme .container2 {
-        background-color: #1f1f1f;
+        background-color: var(--background-color);
     }
 
     .container2 form {
@@ -1279,11 +1355,11 @@ textarea::-webkit-scrollbar {
     }
 
     .light-theme .container2 form {
-        background-color: #FBFFFE;
+        background-color: var(--background-color);
     }
     
     .dark-theme .container2 form {
-        background-color: #1f1f1f;
+        background-color: var(--background-color);
     }
 
     .container2 input {
@@ -1313,7 +1389,7 @@ textarea::-webkit-scrollbar {
     }
 
     .container2 button {
-        background-color: #EC4E20;
+        background-color: var(--accent-color);
         color: #fff;
         font-size: 12px;
         border: 1px solid transparent;
