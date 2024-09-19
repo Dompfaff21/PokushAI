@@ -10,6 +10,9 @@ from django.db import transaction
 from .models import Profile
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from rest_framework import viewsets
+from .models import Profile
+from .serializers import MyModelSerializer
 
 def signup(request):
     if request.method == 'POST':
@@ -153,3 +156,7 @@ def update_post(request, id):
     post = get_object_or_404(Posts, pk=id)
     messages.success(request, 'Проверка')
     return redirect('profile')
+
+class MyModelViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()  # Все объекты модели
+    serializer_class = MyModelSerializer  # Сериализатор, который будет использоваться для обработки данных

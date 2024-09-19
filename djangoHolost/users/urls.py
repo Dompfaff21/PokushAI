@@ -1,6 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib.auth.views import LogoutView
+from rest_framework.routers import DefaultRouter
+from .views import MyModelViewSet
+
+
+router = DefaultRouter()
+router.register(r'profile', MyModelViewSet)
 
 urlpatterns = [
         path('login', views.signup, name='signup'),
@@ -11,5 +17,6 @@ urlpatterns = [
              name='password-reset-confirm'),
         path('profile', views.profile, name='profile'),
         path('delete_post/<int:id>', views.delete_post, name='delete_post'),
-        path('update_post/<int:id>', views.update_post, name='update_post')
+        path('update_post/<int:id>', views.update_post, name='update_post'),
+        path('api/', include(router.urls))
 ]
