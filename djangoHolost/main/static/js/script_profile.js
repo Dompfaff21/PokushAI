@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const target = item.getAttribute('data-target');
         document.getElementById(target).style.display = 'block';
 
-        // Сохранение активной вкладки в localStorage
         const activeIndex = Array.from(sidebarItems).indexOf(item);
         localStorage.setItem('activeTabIndex', activeIndex);
     }
@@ -60,16 +59,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const savedTabIndex = localStorage.getItem('activeTabIndex');
 
     if (isNavigatedFromAnotherPage) {
-        // Если переход с другой страницы, показываем первую вкладку
         setActiveTab(sidebarItems[0]);
     } else if (savedTabIndex !== null) {
-        // Если это обновление страницы, восстанавливаем активную вкладку
         const savedTab = sidebarItems[savedTabIndex];
         if (savedTab) {
             setActiveTab(savedTab);
         }
     } else {
-        // Если ничего не сохранено, показываем первую вкладку
         setActiveTab(sidebarItems[0]);
     }
 });

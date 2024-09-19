@@ -9,7 +9,7 @@
      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="avatar">
-          <img id="preview" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{% static '/pictures/camera.png' %}{% endif %}" alt="Ваше изображение">
+          <img id="preview" class="dish" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
           <input type="file" name="post_image" id="id_image">
         </div>
         <div class="form-group">
