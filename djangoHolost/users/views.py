@@ -149,7 +149,16 @@ def delete_post(request, id):
     messages.success(request, 'Рецепт успешно удален')
     return redirect('profile')
 
-def update_post(request, id):
+def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-    messages.success(request, 'Проверка')
+    return render(request, 'edit_post.html', {'post': post})
+
+def update_post(request, pk):
+    if request.method == 'POST':
+        data = Posts.objects.get(id=pk)
+        data.title = request.POST.get('title')
+        data.description = request.POST.get('description')
+        data.post_image = request.FILES.get('post_image')
+        data.save()
+        messages.success(request, 'Рецепт редактирован')
     return redirect('profile')

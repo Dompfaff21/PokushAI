@@ -119,7 +119,7 @@
                             {{ post.description }} <br>
                             {{ post.created_at }} <br>
                             {{ post.update_at }} <br>
-                            <a href="{% url 'update_post' post.id %}">Редактировать рецепт</a>
+                            <a href="{% url 'edit_post' post.id %}">Редактировать рецепт</a>
                             <a href="{% url 'delete_post' post.id %}">Удалить рецепт</a>
                         {% endfor %}
                     {% else %}

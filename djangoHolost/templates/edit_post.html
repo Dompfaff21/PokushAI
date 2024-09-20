@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Редактировать рецепт{% endblock %}
+
+{% block content %}
+    <script src="{% static '/js/script_post.js' %}" type="text/javascript" defer></script>
+    <div class="centerbox2">
+      <div class="container2">
+         <form action="/users/update_post/{{ post.pk }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="avatar">
+              <img id="preview" class="dish" src="{% if post.instance.image %}{{ post.instance.image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+              <input type="file" name="post_image" id="id_image" value="{{ post.post_image }}">
+            </div>
+            <div class="form-group">
+              <input name="title" type="text" placeholder="Заголовок" required value="{{ post.title }}">
+              <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
+             </div>
+            <div class="post_column">
+              <label for="description">Описание:</label>
+              <textarea name="description" placeholder="Ваш рецепт" required>{{ post.description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Редактировать рецепт</button>
+          </form>
+      </div>
+    </div>
+{% endblock %}
