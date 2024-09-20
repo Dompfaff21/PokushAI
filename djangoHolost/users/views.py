@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 import os
@@ -151,7 +152,10 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-    return render(request, 'edit_post.html', {'post': post})
+    if request.user == post.author:
+        return render(request, 'edit_post.html', {'post': post})
+    else:
+        raise PermissionDenied()
 
 def update_post(request, pk):
     if request.method == 'POST':
