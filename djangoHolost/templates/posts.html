@@ -12,13 +12,37 @@
 {% endblock %}
 {% block content %}
 <div class="centerbox2">
+    {% if messages %}
+    <div class="messages-popup">
+        <ul class="messages">
+          {% for message in messages %}
+            {% if "error" in message.tags %}
+            <p>Ошибка:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% elif "success" in message.tags %}
+            <p>Успех:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+          {% endfor %}
+          <span class="close-button">&times;</span>
+        </ul>
+    </div>
+    {% endif %}
         {% for post in form %}
         <div class="container2">
-            {{ post.author }} <br>
-            {{ post.title }} <br>
-            {{ post.description }} <br>
-            {{ post.created_at }} <br>
-            {{ post.update_at }} <br>
+            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
+            {% for profile in profiles %}
+                {% if profile.user == post.author %}
+                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+                {% endif %}
+            {% endfor %}
+            <p class="post_author">{{ post.author }}</p>
+            <p class="post_title">{{ post.title }}</p>
+            <p class="post_description">{{ post.description }}</p>
+            <p class="post_created_at">{{ post.created_at }}</p>
+            {% if post.update_at and post.update_at != post.created_at %}
+                <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
+            {% endif %}
         </div>
         {% endfor %}
     {% if user.is_authenticated %}
