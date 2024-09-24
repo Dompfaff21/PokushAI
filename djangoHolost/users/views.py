@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 import os
@@ -150,13 +151,44 @@ def profile(request):
 
 def delete_post(request, id):
     post = get_object_or_404(Posts, pk=id)
+    if post.post_image:
+        image_path = post.post_image.path
+        if os.path.exists(image_path):
+            os.remove(image_path)
     post.delete()
     messages.success(request, 'Рецепт успешно удален')
     return redirect('profile')
 
-def update_post(request, id):
+def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-    messages.success(request, 'Проверка')
+
+    if request.user == post.author:
+        return render(request, 'edit_post.html', {'post': post})
+    else:
+        raise PermissionDenied()
+
+def update_post(request, pk):
+    if request.method == 'POST':
+        data = get_object_or_404(Posts, id=pk)
+
+        old_image_path = None
+        if data.post_image:
+            old_image_path = data.post_image.path
+
+        data.title = request.POST.get('title')
+        data.description = request.POST.get('description')
+
+        new_image = request.FILES.get('post_image')
+        if new_image:
+            data.post_image = new_image
+
+        data.save()
+
+        if new_image and old_image_path and os.path.exists(old_image_path):
+            os.remove(old_image_path)
+
+        messages.success(request, 'Рецепт редактирован')
+    
     return redirect('profile')
 
 class RegisterView(APIView):
@@ -176,3 +208,4 @@ class LoginView(APIView):
                 return Response({"message": "Авторизация успешна"})
             return Response({"error": "Неверные учетные данные"}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

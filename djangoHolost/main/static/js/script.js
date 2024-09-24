@@ -37,7 +37,6 @@ async function setThemeIcons() {
     const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     let dark_theme_files = [
-        '/static/pictures/theme_dark.svg',
         '/static/pictures/sidebar/home.svg',
         '/static/pictures/sidebar/programm.svg',
         '/static/pictures/sidebar/recipe.svg',
@@ -48,8 +47,11 @@ async function setThemeIcons() {
     ];
     
     let light_theme_files = [
-        '/static/pictures/theme.svg',
+
     ];
+
+    let dark_theme = await loadSvg('/static/pictures/theme_dark.svg');
+    let light_theme = await loadSvg('/static/pictures/theme.svg');
 
     let dark_theme_svgs = await loadMultipleSvgs(dark_theme_files);
     let light_theme_svgs = await loadMultipleSvgs(light_theme_files);
@@ -66,11 +68,13 @@ async function setThemeIcons() {
             body.classList.remove('light-theme');
             body.classList.add('dark-theme');
             localStorage.setItem('theme', 'dark-theme');
+            themeIcon.innerHTML = dark_theme;
             updateMenuIcon(darkThemeIconPath);
         } else {
             body.classList.remove('dark-theme');
             body.classList.add('light-theme');
             localStorage.setItem('theme', 'light-theme');
+            themeIcon.innerHTML = light_theme;
             updateMenuIcon(lightThemeIconPath);
         }
     }
@@ -81,29 +85,29 @@ async function setThemeIcons() {
 
     if (localStorage.getItem('theme') === 'dark-theme') {
         document.body.classList.add('dark-theme');
-        document.getElementById('theme-toggle').innerHTML = dark_theme_svgs[0];
-        document.getElementById('home').innerHTML = dark_theme_svgs[1];
-        document.getElementById('programm').innerHTML = dark_theme_svgs[2];
-        document.getElementById('recipe').innerHTML = dark_theme_svgs[3];
-        document.getElementById('user').innerHTML = dark_theme_svgs[4];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[5];
+        document.getElementById('theme-toggle').innerHTML = dark_theme;
+        document.getElementById('home').innerHTML = dark_theme_svgs[0];
+        document.getElementById('programm').innerHTML = dark_theme_svgs[1];
+        document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
+        document.getElementById('user').innerHTML = dark_theme_svgs[3];
+        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[7] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
         }
     } else {
         document.body.classList.add('light-theme');
-        document.getElementById('theme-toggle').innerHTML = light_theme_svgs[0];
-        document.getElementById('home').innerHTML = dark_theme_svgs[1];
-        document.getElementById('programm').innerHTML = dark_theme_svgs[2];
-        document.getElementById('recipe').innerHTML = dark_theme_svgs[3];
-        document.getElementById('user').innerHTML = dark_theme_svgs[4];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[5];
+        document.getElementById('theme-toggle').innerHTML = light_theme;
+        document.getElementById('home').innerHTML = dark_theme_svgs[0];
+        document.getElementById('programm').innerHTML = dark_theme_svgs[1];
+        document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
+        document.getElementById('user').innerHTML = dark_theme_svgs[3];
+        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[7] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
         }
     }
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);

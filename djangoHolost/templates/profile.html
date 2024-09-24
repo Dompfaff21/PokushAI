@@ -24,7 +24,7 @@
     <aside class="sidebarp">
         <ul>
             <li class="active" data-target="personal-info">
-                <div class="svg-li">
+                <div class="svg-li1">
                     {% include 'svg/personal-info.svg' %}
                 </div>
                 Личные данные
@@ -37,7 +37,7 @@
             </li>
             <li data-target="posts-info">
                 <div class="svg-li">
-                    {% include 'svg/sub.svg' %}
+                    {% include 'svg/myrecipe.svg' %}
                 </div>
                 Мои рецепты
             </li>
@@ -114,16 +114,17 @@
                     {% csrf_token %}
                     {% if form3 %}
                         {% for post in form3 %}
-                            {{ post.author }} <br>
-                            {{ post.title }} <br>
-                            {{ post.description }} <br>
-                            {{ post.created_at }} <br>
-                            {{ post.update_at }} <br>
-                            <a href="{% url 'update_post' post.id %}">Редактировать рецепт</a>
-                            <a href="{% url 'delete_post' post.id %}">Удалить рецепт</a>
+                            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" style="width: 150px;">
+                            <p>{{ post.author }}</p>
+                            <p>{{ post.title }}</p>
+                            <p>{{ post.description }}</p>
+                            <p>{{ post.created_at }}</p>
+                            <p>{{ post.update_at }}</p>
+                            <button><a class="" href="{% url 'edit_post' post.id %}">Редактировать рецепт</a></button>
+                            <button><a href="{% url 'delete_post' post.id %}">Удалить рецепт</a></button>
                         {% endfor %}
                     {% else %}
-                        <h1>Вы еще не добавляли свои рецепты</h1>
+                        <p>Вы еще не добавляли свои рецепты</p>
                     {% endif %}
                 </form>
             </div>
