@@ -10,7 +10,6 @@ from recipe.models import Posts
 from django.db import transaction
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from rest_framework import viewsets
 from .models import Profile
 from rest_framework.response import Response
 from rest_framework.views import APIView

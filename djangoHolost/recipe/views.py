@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Posts
 from users.models import Profile
 from django.contrib import messages
 from PIL import Image
+
 
 def posts(request):
     post = Posts.objects.all()
@@ -13,6 +15,7 @@ def posts(request):
     }
     return render(request, 'posts.html', content)
 
+@login_required
 def new_post(request):
     if request.method == 'POST':
         data = request.POST
@@ -29,7 +32,7 @@ def new_post(request):
 
             if width > max_width or height > max_height:
                 messages.error(request, f'Размер изображения не должен превышать {max_width}x{max_height} пикселей.')
-                return redirect('posts')
+                return redirect('new_post')
 
         Posts.objects.create(
             author=request.user,
