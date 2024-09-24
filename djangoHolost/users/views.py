@@ -7,12 +7,14 @@ from django.urls import reverse_lazy
 import os
 from recipe.models import Posts
 from django.db import transaction
-from .models import Profile
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from rest_framework import viewsets
 from .models import Profile
-from .serializers import MyModelSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import RegisterSerializer, LoginSerializer
 
 def signup(request):
     if request.method == 'POST':
@@ -157,6 +159,20 @@ def update_post(request, id):
     messages.success(request, 'Проверка')
     return redirect('profile')
 
-class MyModelViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()  # Все объекты модели
-    serializer_class = MyModelSerializer  # Сериализатор, который будет использоваться для обработки данных
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
+            if user:
+                return Response({"message": "Авторизация успешна"})
+            return Response({"error": "Неверные учетные данные"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
