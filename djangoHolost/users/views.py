@@ -8,9 +8,14 @@ from django.urls import reverse_lazy
 import os
 from recipe.models import Posts
 from django.db import transaction
-from .models import Profile
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from rest_framework import viewsets
+from .models import Profile
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import RegisterSerializer, LoginSerializer
 
 def signup(request):
     if request.method == 'POST':
@@ -156,6 +161,7 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
+
     if request.user == post.author:
         return render(request, 'edit_post.html', {'post': post})
     else:
@@ -184,3 +190,22 @@ def update_post(request, pk):
         messages.success(request, 'Рецепт редактирован')
     
     return redirect('profile')
+
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
+            if user:
+                return Response({"message": "Авторизация успешна"})
+            return Response({"error": "Неверные учетные данные"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
