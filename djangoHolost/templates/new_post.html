@@ -5,6 +5,22 @@
 {% block content %}
 <script src="{% static '/js/script_post.js' %}" type="text/javascript" defer></script>
 <div class="centerbox2">
+        {% if messages %}
+    <div class="messages-popup">
+        <ul class="messages">
+          {% for message in messages %}
+            {% if "error" in message.tags %}
+            <p>Ошибка:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% elif "success" in message.tags %}
+            <p>Успех:</p>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+          {% endfor %}
+          <span class="close-button">&times;</span>
+        </ul>
+    </div>
+    {% endif %}
   <div class="container2">
      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

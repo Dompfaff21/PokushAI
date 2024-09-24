@@ -29,7 +29,7 @@ def new_post(request):
 
             if width > max_width or height > max_height:
                 messages.error(request, f'Размер изображения не должен превышать {max_width}x{max_height} пикселей.')
-                return redirect('posts')
+                return redirect('new_post')
 
         Posts.objects.create(
             author=request.user,
