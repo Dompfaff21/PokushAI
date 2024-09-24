@@ -7,7 +7,7 @@ html,body{
         transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer {
+header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer, .modal-content, .cropper-modal, .close {
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 /* LIGHT THEME */
@@ -1329,6 +1329,99 @@ footer {
         object-position: center;
         cursor: pointer;
         border-radius: 30px;
+    }
+
+   .light-theme .cropper-modal {
+        background-color: var(--header) !important;
+   }
+
+   .dark-theme .cropper-modal {
+        background-color: var(--header) !important;
+   }
+
+    .cropper-bg {
+        background-image: none !important; 
+    }
+
+    .cropper-view-box {
+        border: 2px solid #d98236 !important;
+        outline: 1px solid #d98236 !important;
+    }
+
+    .cropper-line {
+        background-color: #d98236 !important;
+    }
+
+    .cropper-point {
+        background-color: #d98236 !important;
+    }
+
+    .cropper-dashed {
+        border: 1px dashed #eee !important;
+    }
+
+    .cropper-container img {
+        height: auto !important;
+    }
+
+    .cropper-container {
+        max-width: 100%;
+        height: auto; 
+    }
+    
+    #imageToCrop {
+        max-width: 100%;
+        height: auto; 
+        display: block;
+    }
+
+    #cut {
+        position: fixed;
+        z-index: 1002;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-content {
+        padding: 20px;
+        z-index: 1002;
+        overflow: hidden;
+        border-radius: 30px;
+        text-align: center;
+    }
+
+    .light-theme .modal-content {
+        background-color: var(--header);
+    }
+
+    .dark-theme .modal-content {
+        background-color: var(--header);
+    }
+    
+    .close {
+        display: flex;
+        position: relative;
+        right: 10px;
+        top: 10px;
+        font-size: 50px;
+        margin: -30px 0;
+        cursor: pointer;
+        z-index: 1002;
+        flex-direction: row-reverse;
+    }
+
+    .light-theme .close {
+        color: var(--text-color);
+    }
+
+    .dark-theme .close {
+        color: var(--text-color);
     }
 
     .dish {

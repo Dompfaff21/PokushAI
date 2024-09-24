@@ -4,6 +4,7 @@
 
 {% block content %}
 <script src="{% static '/js/script_profile.js' %}" type="text/javascript" defer></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 <div class="centerbox1">
     {% if messages %}
     <div class="messages-popup">
@@ -59,6 +60,13 @@
                         <img id="preview" src="{% if form1.instance.image %}{{ form1.instance.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображение">
                         <input type="file" name="image" id="id_image">
                         <button type="submit" name="action" value="delete_avatar">Удалить аватар</button>
+                    </div>
+                    <div id="cut" style="display: none;">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <img id="imageToCrop">
+                            <button id="cropButton" type="button">Обрезать и сохранить</button>
+                        </div>
                     </div>
                     <div class="form-group">
                         {{ form.username }}
@@ -137,4 +145,5 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 {% endblock %}
