@@ -193,21 +193,33 @@ def update_post(request, pk):
 
 class RegisterView(APIView):
     def post(self, request):
-        if 'reg' in request.POST:
-            serializer = RegisterSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        # Нет необходимости в проверке 'reg' в request.data, если это ваш единственный путь регистрации
+        serializer = RegisterSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
+        
+        # Всегда возвращайте ответ, если данные невалидны
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+        
 class LoginView(APIView):
     def post(self, request):
-        if 'log' in request.POST:
-            serializer = LoginSerializer(data=request.data)
-            if serializer.is_valid():
-                user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
-                if user:
-                    return Response({"message": "Авторизация успешна"})
-                return Response({"error": "Неверные учетные данные"}, status=status.HTTP_401_UNAUTHORIZED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = LoginSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                # Аутентификация успешна
+                return Response({"message": "Вход выполнен успешно"}, status=status.HTTP_200_OK)
+            else:
+                # Неверные учетные данные
+                return Response({"error": "Неверное имя пользователя или пароль"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Если данные невалидны
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
