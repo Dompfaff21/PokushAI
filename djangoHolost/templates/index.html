@@ -21,22 +21,21 @@
           <p>3pigs.inc</p>
           <img alt="tg" src="{% static '/pictures/tg.png' %}">
         </div>
-      {% if not user.is_authenticated %}
-      <a class="button" href="{% url 'signup' %}">
-          <div id="auth-icon">
-          </div>
-          <p>Войти</p>
-      </a>
-      {% endif %}
       {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">
+        <form method="post" action="{% url 'profile' %}">
           {% csrf_token %}
           <button class="logout" type="submit">
-            <div id="logout-icon">
+            <div id="user">
             </div>
-            <p>Выйти</p>
+            <p>Аккаунт</p>
           </button>
         </form>
+        {% else %}
+          <a class="button" href="{% url 'signup' %}">
+            <div id="auth-icon">
+            </div>
+            <p>Войти</p>
+          </a>
       {% endif %}
       <div class="theme" id="theme-toggle">
       </div>
@@ -152,20 +151,7 @@
           <a href="{% url 'posts' %}">Подборки</a>
         </div>
       </li>
-      <li class="sidebar__item">
 
-        <div id="user">
-        </div>
-
-        <div class="item__text">
-          {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">Личный кабинет</a>
-          {% endif %}
-          {% if not user.is_authenticated %}
-            <a href="{% url 'signup' %}">Личный кабинет</a>
-          {% endif %}
-        </div>
-      </li>
       <li class="sidebar__item">
 
         <div id="pigs">

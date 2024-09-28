@@ -20,6 +20,26 @@ window.addEventListener("orientationchange", updateSidebarPosition);
 
 updateSidebarPosition();
 
+// UPDATE INPUT
+
+document.addEventListener("DOMContentLoaded", function() {
+    const inputContainers = document.querySelectorAll('input');
+
+    inputContainers.forEach(function(input) {
+        if (input.value !== '') {
+            input.classList.add('filled');
+        }
+
+        input.addEventListener('input', function() {
+            if (this.value !== '') {
+                this.classList.add('filled');
+            } else {
+                this.classList.remove('filled');
+            }
+        });
+    });
+});
+
 // THEME
 
 async function loadSvg(filePath) {
@@ -89,12 +109,13 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('user').innerHTML = dark_theme_svgs[3];
         document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
             document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
             document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+        } else if (document.getElementById('user')) {
+            document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
     } else {
         document.body.classList.add('light-theme');
@@ -102,12 +123,13 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('user').innerHTML = dark_theme_svgs[3];
         document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
             document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
             document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+        } else if (document.getElementById('user')) {
+            document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
     }
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);

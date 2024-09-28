@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 document.addEventListener("DOMContentLoaded", function() {
     const sidebarItems = document.querySelectorAll('.sidebarp ul li');
     const contentBoxes = document.querySelectorAll('.content-box');
+    const container1 = document.querySelector('.container1');
 
     function setActiveTab(item) {
         sidebarItems.forEach(i => i.classList.remove('active'));
@@ -43,7 +44,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         contentBoxes.forEach(box => box.style.display = 'none');
         const target = item.getAttribute('data-target');
-        document.getElementById(target).style.display = 'block';
+        const targetElement = document.getElementById(target);
+        targetElement.style.display = 'block';
+
+        if (target === 'posts-info') {
+            container1.style.background = 'none';
+            container1.style.border = 'none';
+        } else {
+            container1.style.background = '';
+            container1.style.border = '';
+        }
 
         const activeIndex = Array.from(sidebarItems).indexOf(item);
         localStorage.setItem('activeTabIndex', activeIndex);
@@ -136,8 +146,11 @@ inputElement.addEventListener('change', function () {
                     maxCropBoxHeight: 300,
                     cropBoxResizable: true,
                     zoomable: false,
+                    responsive: false,
+                    scalable: false,
                 });
-        };  };
+            };
+        };  
 
         reader.readAsDataURL(file);
     }

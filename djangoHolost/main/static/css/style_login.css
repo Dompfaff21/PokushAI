@@ -60,15 +60,12 @@
 }
 
 .light-theme .centerbox {
-    background-color: var(--background-color);
     @media only screen and (max-width:1300px) {
         background-color: var(--header);
     };
 }
 
 .dark-theme .centerbox {
-    background-color: var(--background-color);
-
     @media only screen and (max-width:1300px) {
         background-color: var(--header);
     };
@@ -186,14 +183,6 @@ main {
     height: 100%;
 }
 
-.light-theme .container form {
-    background-color: var(--header);
-}
-
-.dark-theme .container form {
-    background-color: var(--header);
-}
-
 .container input {
     margin: 8px 0 13px;
     padding: 10px 15px;
@@ -260,11 +249,10 @@ main {
 
 .form-label {
     position: absolute;
-    display: block;
     top: 17.5px;
     left: 15px;
     font-size: 14px;
-    transition: 0.3s ease;
+    transition: 0.3s ease all;
     pointer-events: none;
 
 }
@@ -529,14 +517,6 @@ main {
     };
 }
 
-.light-theme .centerbox1 {
-    background-color: var(--background-color);
-}
-
-.dark-theme .centerbox1 {
-    background-color: var(--background-color);
-}
-
 .container1 {
     display: flex;
     justify-content: center;
@@ -604,15 +584,12 @@ main {
 }
 
 .light-theme .centerbox1 {
-    background-color: var(--background-color);
     @media only screen and (max-width:1300px) {
         background-color: var(--header);
     };
 }
 
 .dark-theme .centerbox1 {
-    background-color: var(--background-color);
-
     @media only screen and (max-width:1300px) {
         background-color: var(--header);
     };
@@ -702,14 +679,6 @@ main {
     justify-content: center;
     flex-direction: column;
     height: 100%;
-}
-
-.light-theme .container1 form {
-    background-color: var(--header);
-}
-
-.dark-theme .container1 form {
-    background-color: var(--header);
 }
 
 .container1 input {

@@ -117,19 +117,28 @@
             </div>
 
             <div id="posts-info" class="content-box" style="display:none;">
-                <h1>Мои рецепты</h1>
+                <h1 class="recipe_title">Мои рецепты</h1>
                 <form method="post">
                     {% csrf_token %}
                     {% if form3 %}
                         {% for post in form3 %}
-                            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" style="width: 150px;">
-                            <p>{{ post.author }}</p>
-                            <p>{{ post.title }}</p>
-                            <p>{{ post.description }}</p>
-                            <p>{{ post.created_at }}</p>
-                            <p>{{ post.update_at }}</p>
-                            <button><a class="" href="{% url 'edit_post' post.id %}">Редактировать рецепт</a></button>
+                        <div class="container2">
+                            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
+                            {% for profile in profiles %}
+                                {% if profile.user == post.author %}
+                                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+                                {% endif %}
+                            {% endfor %}
+                            <p class="post_author">{{ post.author }}</p>
+                            <p class="post_title">{{ post.title }}</p>
+                            <p class="post_description">{{ post.description }}</p>
+                            <p class="post_created_at">{{ post.created_at }}</p>
+                            {% if post.update_at and post.update_at != post.created_at %}
+                                <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
+                            {% endif %}
+                            <button><a href="{% url 'edit_post' post.id %}">Редактировать рецепт</a></button>
                             <button><a href="{% url 'delete_post' post.id %}">Удалить рецепт</a></button>
+                        </div>
                         {% endfor %}
                     {% else %}
                         <p>Вы еще не добавляли свои рецепты</p>

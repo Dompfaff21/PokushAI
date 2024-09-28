@@ -13,9 +13,10 @@
               <input type="file" name="post_image" id="id_image">
             </div>
             <div class="form-group">
-              <input name="title" type="text" placeholder="Заголовок" required value="{{ post.title }}">
+              <!-- СДЕЛАЙ ФОРМОЙ -->
+              <input name="title" type="text" placeholder="Заголовок" value="{{ post.title }}" required>
               <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
-             </div>
+            </div>
             <div class="post_column">
               <label for="description">Описание:</label>
               <textarea name="description" placeholder="Ваш рецепт" required>{{ post.description }}</textarea>

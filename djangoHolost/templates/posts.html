@@ -1,15 +1,7 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block title %}Подборки{% endblock %}
-{% block button_login_content %}
-{% if not user.is_authenticated %}
-    <a class="button" href="{% url 'signup' %}">
-        <div id="auth-icon">
-        </div>
-        <p>Войти</p>
-    </a>
-{% endif %}
-{% endblock %}
+
 {% block content %}
 <div class="centerbox2">
     {% if messages %}

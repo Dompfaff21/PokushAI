@@ -140,11 +140,13 @@ def profile(request):
         form2 = CustomPasswordChangeForm(request.user)
         form3 = Posts.objects.filter(author=request.user)
 
+    profiles = Profile.objects.all()
     content = {
         'form': form,
         'form1': form1,
         'form2': form2,
-        'form3': form3
+        'form3': form3,
+        'profiles': profiles,
     }
     return render(request, 'profile.html', content)
 
