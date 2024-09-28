@@ -23,21 +23,50 @@
     {% endif %}
   <div class="container2">
      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="avatar">
-          <img id="preview" class="dish" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
-          <input type="file" name="post_image" id="id_image">
-        </div>
-        <div class="form-group">
-          <input name="title" type="text" placeholder="Заголовок" required>
-          <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
-         </div>
-        <div class="post_column">
-          <label for="description">Описание:</label>
-          <textarea name="description" placeholder="Ваш рецепт" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Добавить рецепт</button>
+        <form method="post">
+    {% csrf_token %}
+    {{ recipe_form.as_p }}
+
+    <h3>Шаги</h3>
+    <div id="formset-container">
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="step-form">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-step-btn">Добавить шаг</button>
+    <br><br>
+    <button type="submit">Создать рецепт</button>
+</form>
       </form>
   </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let formsetContainer = document.getElementById('formset-container');
+        let addStepBtn = document.getElementById('add-step-btn');
+
+        let totalForms = document.querySelector('#id_form-TOTAL_FORMS');
+        let formNum = formsetContainer.querySelectorAll('.step-form').length;
+
+        addStepBtn.addEventListener('click', function(e) {
+            // Создаем новый шаг формы на основе первого шага
+            let newForm = formsetContainer.querySelector('.step-form').cloneNode(true);
+
+            // Обновляем имена и id полей для нового шага
+            let formRegex = RegExp(form-(\\d){1}-, 'g');
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, form-${formNum}-);
+
+            // Очищаем значения полей
+            newForm.querySelector('textarea').value = '';
+
+            formsetContainer.appendChild(newForm);
+            formNum++;
+            totalForms.value = formNum;  // Обновляем значение totalForms
+        });
+    });
+</script>
 {% endblock %}

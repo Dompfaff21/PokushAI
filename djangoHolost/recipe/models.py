@@ -15,3 +15,8 @@ class Posts(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
+
+class Steps(models.Model):
+    recipe = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='steps')
+    step_des = models.TextField(max_length=1000)
+    step_image = models.ImageField(null=True, blank=True, upload_to='step_pics')
