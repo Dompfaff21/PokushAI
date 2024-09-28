@@ -1,7 +1,10 @@
 from django import forms
-from .models import Posts
+from .models import Posts, Steps
+from django.forms import inlineformset_factory
 
-class PostsForDisplay(forms.Form):
+class RecipeForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ('author', 'title', 'description', 'created_at', 'update_at')
+        fields = ['title', 'description', 'post_image']
+
+StepFormSet = inlineformset_factory(Posts, Steps, fields=['step_des', 'step_image'], extra=1, can_delete=True)

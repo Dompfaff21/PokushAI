@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Posts
 from users.models import Profile
 from django.contrib import messages
-from PIL import Image
+from .forms import RecipeForm, StepFormSet
 
 
 def posts(request):
@@ -18,28 +18,24 @@ def posts(request):
 @login_required
 def new_post(request):
     if request.method == 'POST':
-        data = request.POST
+        recipe_form = RecipeForm(request.POST)
+        formset = StepFormSet(request.POST)
 
-        post_image = request.FILES.get('post_image')
-        title = data.get('title')
-        description = data.get('description')
+        if recipe_form.is_valid() and formset.is_valid():
+            recipe = recipe_form.save(commit=False)
+            recipe.author = request.user  # Присваиваем автора
+            recipe.save()
 
-        if post_image:
-            image = Image.open(post_image)
-            width, height = image.size
-            max_width = 1920
-            max_height = 1080
+            steps = formset.save(commit=False)
+            for step in steps:
+                step.recipe = recipe  # Привязываем шаги к рецепту
+                step.save()
 
-            if width > max_width or height > max_height:
-                messages.error(request, f'Размер изображения не должен превышать {max_width}x{max_height} пикселей.')
-                return redirect('new_post')
+            messages.success(request, 'Рецепт успешно создан!')
+            return redirect('posts')  # Перенаправление на список рецептов
 
-        Posts.objects.create(
-            author=request.user,
-            post_image=post_image,
-            title=title,
-            description=description,
-        )
-        return redirect('posts')
+    else:
+        recipe_form = RecipeForm()
+        formset = StepFormSet()
 
-    return render(request, 'new_post.html')
+    return render(request, 'new_post.html', {'recipe_form': recipe_form, 'formset': formset})
