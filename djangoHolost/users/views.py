@@ -219,7 +219,6 @@ class LoginView(APIView):
             else:
                 # Неверные учетные данные
                 return Response({"error": "Неверное имя пользователя или пароль"}, status=status.HTTP_400_BAD_REQUEST)
-        
         # Если данные невалидны
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
