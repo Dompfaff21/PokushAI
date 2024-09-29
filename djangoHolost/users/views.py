@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 import os
 from recipe.models import Posts
 from django.db import transaction
-from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
+from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm, EditRecipe
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from .models import Profile
 from rest_framework.response import Response
@@ -162,35 +162,35 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-
-    if request.user == post.author:
-        return render(request, 'edit_post.html', {'post': post})
-    else:
-        raise PermissionDenied()
-
-def update_post(request, pk):
     if request.method == 'POST':
-        data = get_object_or_404(Posts, id=pk)
+        form = EditRecipe(request.POST, instance=post)
 
         old_image_path = None
-        if data.post_image:
-            old_image_path = data.post_image.path
-
-        data.title = request.POST.get('title')
-        data.description = request.POST.get('description')
+        if post.post_image:
+            old_image_path = post.post_image.path
 
         new_image = request.FILES.get('post_image')
         if new_image:
-            data.post_image = new_image
-
-        data.save()
+            post.post_image = new_image
 
         if new_image and old_image_path and os.path.exists(old_image_path):
             os.remove(old_image_path)
 
-        messages.success(request, 'Рецепт редактирован')
-    
-    return redirect('profile')
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Рецепт успешно редактирован')
+            return redirect('profile')
+        else:
+            for error in form.errors.values():
+                messages.error(request, error)
+            return redirect('edit_post')
+    else:
+        form = EditRecipe(instance=post)
+
+    if request.user == post.author:
+        return render(request, 'edit_post.html', {'post': form})
+    else:
+        raise PermissionDenied()
 
 class RegisterView(APIView):
     def post(self, request):
