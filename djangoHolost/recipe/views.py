@@ -23,16 +23,16 @@ def new_post(request):
 
         if recipe_form.is_valid() and formset.is_valid():
             recipe = recipe_form.save(commit=False)
-            recipe.author = request.user  # Присваиваем автора
+            recipe.author = request.user
             recipe.save()
 
             steps = formset.save(commit=False)
             for step in steps:
-                step.recipe = recipe  # Привязываем шаги к рецепту
+                step.recipe = recipe
                 step.save()
 
             messages.success(request, 'Рецепт успешно создан!')
-            return redirect('posts')  # Перенаправление на список рецептов
+            return redirect('posts')
 
     else:
         recipe_form = RecipeForm()
