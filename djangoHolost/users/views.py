@@ -193,32 +193,37 @@ def update_post(request, pk):
 
 class RegisterView(APIView):
     def post(self, request):
-        # Нет необходимости в проверке 'reg' в request.data, если это ваш единственный путь регистрации
         serializer = RegisterSerializer(data=request.data)
-        
+
         if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
-        
-        # Всегда возвращайте ответ, если данные невалидны
+            user = serializer.save()  # Сохраняем пользователя
+            return Response({
+                "message": "Пользователь успешно зарегистрирован",
+                "userId": user.id  # Возвращаем ID нового пользователя
+            }, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
         
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        
+
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
             user = authenticate(request, username=username, password=password)
-            
+
             if user is not None:
-                # Аутентификация успешна
-                return Response({"message": "Вход выполнен успешно"}, status=status.HTTP_200_OK)
+                # Успешная аутентификация, возвращаем сообщение и ID пользователя
+                return Response({
+                    "message": "Вход выполнен успешно",
+                    "userId": user.id  # Возвращаем ID пользователя
+                }, status=status.HTTP_200_OK)
             else:
-                # Неверные учетные данные
-                return Response({"error": "Неверное имя пользователя или пароль"}, status=status.HTTP_400_BAD_REQUEST)
-        # Если данные невалидны
+                return Response({
+                    "error": "Неверное имя пользователя или пароль"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
