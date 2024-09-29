@@ -16,6 +16,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+
 
 def signup(request):
     if request.method == 'POST':
@@ -84,6 +88,15 @@ class CustomPasswordResetConfirmViews(SuccessMessageMixin, PasswordResetConfirmV
 
 @login_required
 def profile(request):
+    user_id = request.user.id  # ID текущего пользователя
+    content = {
+        'user_id': user_id,  # Передаем ID пользователя в контекст
+        'form': UserUpdateForm(instance=request.user),
+        'form1': UserUpdateProfileForm(instance=request.user.profile),
+        'form2': CustomPasswordChangeForm(request.user),
+        'form3': Posts.objects.filter(author=request.user)
+    }
+    
     default_image_name = 'no_photo.png'
     old_image_path = None
     old_image_name = None
@@ -227,3 +240,13 @@ class LoginView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserProfileView(APIView):
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            return Response({
+                "username": user.username,
+                "userId": user.id,
+            }, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
