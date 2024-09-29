@@ -4,6 +4,7 @@
 
 {% block content %}
     <script src="{% static '/js/script_post.js' %}" type="text/javascript" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
     <div class="centerbox2">
       <div class="container2">
          <form method="post" enctype="multipart/form-data">
@@ -11,6 +12,13 @@
             <div class="avatar">
               <img id="preview" class="dish" src="{% if post.instance.post_image %}{{ post.instance.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
               <input type="file" name="post_image" id="id_image">
+            </div>
+            <div id="cut" style="display: none;">
+              <div class="modal-content">
+                  <span class="close" id="closeModal">&times;</span>
+                  <img id="imageToCrop">
+                  <button id="cropButton" type="button">Обрезать и сохранить</button>
+              </div>
             </div>
             <div class="form-group">
                 {{ post.title }}
@@ -24,4 +32,5 @@
           </form>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 {% endblock %}

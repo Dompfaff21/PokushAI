@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Posts
+from .models import Posts, Steps
 from users.models import Profile
 from django.contrib import messages
 from .forms import RecipeForm, StepFormSet
@@ -18,9 +18,8 @@ def posts(request):
 @login_required
 def new_post(request):
     if request.method == 'POST':
-        recipe_form = RecipeForm(request.POST)
-        formset = StepFormSet(request.POST)
-
+        recipe_form = RecipeForm(request.POST, request.FILES)
+        formset = StepFormSet(request.POST, request.FILES)
         if recipe_form.is_valid() and formset.is_valid():
             recipe = recipe_form.save(commit=False)
             recipe.author = request.user
