@@ -15,6 +15,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
+from recipe.forms import StepFormSet
+
+from recipe.models import Steps
+
 
 def signup(request):
     if request.method == 'POST':
@@ -162,8 +166,10 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
+    steps = post.steps.all()
     if request.method == 'POST':
-        form = EditRecipe(request.POST, instance=post)
+        form = EditRecipe(request.POST, request.FILES, instance=post)
+        formset = StepFormSet(request.POST, request.FILES, instance=post)
 
         old_image_path = None
         if post.post_image:
@@ -176,8 +182,14 @@ def edit_post(request, id):
         if new_image and old_image_path and os.path.exists(old_image_path):
             os.remove(old_image_path)
 
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and formset.is_valid():
+            recipe = form.save(commit=False)
+            recipe.save()
+            steps = formset.save(commit=False)
+            for step in steps:
+                step.recipe = recipe
+                step.save()
+
             messages.success(request, 'Рецепт успешно редактирован')
             return redirect('profile')
         else:
@@ -186,9 +198,10 @@ def edit_post(request, id):
             return redirect('edit_post')
     else:
         form = EditRecipe(instance=post)
+        formset = StepFormSet(instance=post)
 
     if request.user == post.author:
-        return render(request, 'edit_post.html', {'post': form})
+        return render(request, 'edit_post.html', {'post': form, 'formset': formset})
     else:
         raise PermissionDenied()
 
