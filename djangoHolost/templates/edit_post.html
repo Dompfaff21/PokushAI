@@ -4,9 +4,10 @@
 
 {% block content %}
     <script src="{% static '/js/script_post.js' %}" type="text/javascript" defer></script>
+<script src="{% static '/js/script_steps.js' %}" type="text/javascript" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
     <div class="centerbox2">
-      <div class="container2">
+      <div class="container2" id="steps_height">
          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="avatar">
@@ -28,6 +29,10 @@
               <label>Описание:</label>
               {{ post.description }}
             </div>
+             {{ formset.management_form }}
+             {% for a in formset %}
+                {{ a }}
+             {% endfor %}
             <button type="submit" class="btn btn-success">Редактировать рецепт</button>
           </form>
       </div>
