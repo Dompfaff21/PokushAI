@@ -244,7 +244,7 @@ class UserProfileView(APIView):
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
-            profile = Profile.objects.get(username=request.user)
+            profile = Profile.objects.get(instance=request.user.profile)
             return Response({
                 "username": user.username,
                 "userId": user.id,
