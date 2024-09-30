@@ -753,6 +753,13 @@ input:not(:placeholder-shown) ~ .form-label + .svg-icon path {
     padding: 0px 6px;
 }
 
+.form-group input:not(:placeholder-shown) + .form-label,
+.form-group input.filled + .form-label {
+    top: -7px;
+    font-size: 16px;
+    padding: 0px 6px;
+}
+
 input::placeholder {
     color: transparent;
     user-select: none;

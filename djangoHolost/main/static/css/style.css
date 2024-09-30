@@ -1368,6 +1368,11 @@ footer {
         height: auto !important;
     }
     
+    .cropper-point.point-se {
+        height: 5px !important;
+        width: 5px !important;
+    }
+
     #imageToCrop {
         width: 100%;
         height: auto; 

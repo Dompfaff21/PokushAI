@@ -118,3 +118,21 @@ window.addEventListener('mouseup', function (event) {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach(function(input) {
+        if (input.value.trim() !== '') {
+            input.classList.add('filled');
+        }
+
+        input.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.add('filled');
+            } else {
+                this.classList.remove('filled');
+            }
+        });
+    });
+});

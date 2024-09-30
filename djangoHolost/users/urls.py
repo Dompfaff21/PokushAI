@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
 from .views import RegisterView, LoginView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
         path('login', views.signup, name='signup'),
@@ -15,5 +17,4 @@ urlpatterns = [
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
         path('register/', RegisterView.as_view(), name='register'),
         path('login/', LoginView.as_view(), name='login'),
-
-]
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

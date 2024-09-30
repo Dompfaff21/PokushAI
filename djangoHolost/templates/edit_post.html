@@ -10,7 +10,7 @@
          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="avatar">
-              <img id="preview" class="dish" src="{% if post.instance.post_image %}{{ post.instance.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+              <img id="preview" class="dish" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
               <input type="file" name="post_image" id="id_image">
             </div>
             <div id="cut" style="display: none;">
@@ -21,11 +21,11 @@
               </div>
             </div>
             <div class="form-group">
-                {{ post.title }}
+              {{ post.title }}
               <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
             </div>
             <div class="post_column">
-              <label for="description">Описание:</label>
+              <label>Описание:</label>
               {{ post.description }}
             </div>
             <button type="submit" class="btn btn-success">Редактировать рецепт</button>

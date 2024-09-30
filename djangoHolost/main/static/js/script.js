@@ -20,26 +20,6 @@ window.addEventListener("orientationchange", updateSidebarPosition);
 
 updateSidebarPosition();
 
-// UPDATE INPUT
-
-document.addEventListener("DOMContentLoaded", function() {
-    const inputContainers = document.querySelectorAll('input');
-
-    inputContainers.forEach(function(input) {
-        if (input.value !== '') {
-            input.classList.add('filled');
-        }
-
-        input.addEventListener('input', function() {
-            if (this.value !== '') {
-                this.classList.add('filled');
-            } else {
-                this.classList.remove('filled');
-            }
-        });
-    });
-});
-
 // THEME
 
 async function loadSvg(filePath) {

@@ -139,5 +139,6 @@ class EditRecipe(forms.ModelForm):
         fields = ('post_image', 'title', 'description')
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': 'Заголовок'})
+                'placeholder': 'Заголовок',
+                'class': 'filled'})
         }
