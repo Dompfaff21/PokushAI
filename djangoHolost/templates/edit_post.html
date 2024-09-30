@@ -22,12 +22,12 @@
               </div>
             </div>
             <div class="form-group">
-              {{ post.title }}
+              {{ form.title }}
               <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
             </div>
             <div class="post_column">
               <label>Описание:</label>
-              {{ post.description }}
+              {{ form.description }}
             </div>
              {{ formset.management_form }}
              {% for a in formset %}

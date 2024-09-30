@@ -166,7 +166,6 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-    steps = post.steps.all()
     if request.method == 'POST':
         form = EditRecipe(request.POST, request.FILES, instance=post)
         formset = StepFormSet(request.POST, request.FILES, instance=post)
@@ -201,7 +200,7 @@ def edit_post(request, id):
         formset = StepFormSet(instance=post)
 
     if request.user == post.author:
-        return render(request, 'edit_post.html', {'post': form, 'formset': formset})
+        return render(request, 'edit_post.html', {'form': form, 'formset': formset, 'post': post})
     else:
         raise PermissionDenied()
 
