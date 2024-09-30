@@ -244,11 +244,18 @@ class UserProfileView(APIView):
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
-            profile = Profile.objects.get(instance=request.user.profile)
-            return Response({
-                "username": user.username,
-                "userId": user.id,
-                "userImage": profile.image
-            }, status=status.HTTP_200_OK)
+            profile = Profile.objects.get(user=user.id)
+            if profile.image:
+                image_url = request.build_absolute_uri(profile.image.url)
+                return Response({
+                    "username": user.username,
+                    "userId": user.id,
+                    "userImage": image_url
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    "username": user.username,
+                    "userId": user.id,
+                }, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
