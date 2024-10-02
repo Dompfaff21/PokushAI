@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
-from .views import RegisterView, LoginView
 from .views import UserProfileView, ProfileImageUploadView
 
 urlpatterns = [
@@ -16,6 +15,6 @@ urlpatterns = [
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
         path('update_post/<pk>', views.update_post),
         path('profiles/<int:id>/', UserProfileView.as_view(), name='user-profile'),
-        path('api/profile/image/upload/', ProfileImageUploadView.as_view(), name='upload_profile_image'),
+        path('media/profile_pics', ProfileImageUploadView.as_view(), name='upload_profile_image'),
 
 ]
