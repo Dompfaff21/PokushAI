@@ -260,25 +260,21 @@ class UserProfileView(APIView):
                 }, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
-   
-logger = logging.getLogger(__name__)     
-
-class ProfileImageUploadView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         logger.info("Получен запрос на загрузку изображения.")
-        
+
         user_profile = get_object_or_404(Profile, user=request.user)
-        
+
         if 'image' in request.FILES:
             image = request.FILES['image']
             logger.info(f"Загружается изображение: {image.name}")
-            
-            user_profile.image.save(image.name, image)
+
             user_profile.save()
             logger.info("Изображение профиля успешно загружено.")
             return Response({"message": "Изображение профиля успешно загружено"}, status=status.HTTP_200_OK)
 
         logger.error("Файл не найден в запросе.")
         return Response({"error": "Файл не найден"}, status=status.HTTP_400_BAD_REQUEST)
+   
+logger = logging.getLogger(__name__)
