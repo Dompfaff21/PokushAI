@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 import os
 from recipe.models import Posts
@@ -17,7 +17,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 import logging
 
@@ -88,16 +87,6 @@ class CustomPasswordResetConfirmViews(SuccessMessageMixin, PasswordResetConfirmV
 
 @login_required
 def profile(request):
-    logger.info(f"Пользователь {request.user.username} вошел в профиль.")
-    user_id = request.user.id  # ID текущего пользователя
-    content = {
-        'user_id': user_id,  # Передаем ID пользователя в контекст
-        'form': UserUpdateForm(instance=request.user),
-        'form1': UserUpdateProfileForm(instance=request.user.profile),
-        'form2': CustomPasswordChangeForm(request.user),
-        'form3': Posts.objects.filter(author=request.user)
-    }
-    
     default_image_name = 'no_photo.png'
     old_image_path = None
     old_image_name = None
@@ -264,14 +253,13 @@ class UserProfileView(APIView):
 logger = logging.getLogger(__name__)
 
 class UserProfileUpdateView(APIView):
-    def post(self, request, id):
-        user = User.objects.get(id=id)
-        user_profile = get_object_or_404(Profile, id=user.id)
-        if 'image' in request.FILES:
-            user_profile.image = request.FILES['image']
-            user_profile.save()
-            logger.info("Изображение профиля успешно загружено.")
-            return Response({"message": "Изображение профиля успешно загружено"}, status=status.HTTP_200_OK)
+    def post(self, request):
+        user = request.user
 
-        logger.error("Файл не найден в запросе.")
-        return Response({"error": "Файл не найден"}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = RegisterSerializer(data=request.data, instance=user)
+        if serializer.is_valid():
+            user = serializer.update()
+            return Response({"message": "Данные успешно обновлены", "userID": user.id}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Ошибка сохранения"}, status=status.HTTP_400_BAD_REQUEST)
+

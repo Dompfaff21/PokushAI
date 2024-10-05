@@ -29,7 +29,14 @@ class RegisterSerializer(serializers.ModelSerializer):
             phone=validated_data['phone']
         )
         return user
-    
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data('username', instance.username)
+        instance.email = validated_data('email', instance.email)
+        instance.phone = validated_data('phone', instance.phone)
+        instance.save()
+        return instance
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
