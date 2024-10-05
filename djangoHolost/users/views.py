@@ -261,25 +261,14 @@ class UserProfileView(APIView):
         except User.DoesNotExist:
             return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
 
-    def post(self, request):
+    def post(self, request, id):
 
-        default_image_name = 'no_photo.png'
-        old_image_path = None
-        old_image_name = None
-
-        if request.method == 'POST':
-            user_profile = get_object_or_404(Profile, user=request.user)
-            with transaction.atomic():
-                user_profile.image = request.FILES['image']
-                user_profile.save()
-                new_image = request.user.profile.image
-                new_image_path = new_image.path if new_image else None
-                if old_image_path and old_image_path != new_image_path:
-                    if old_image_name != default_image_name:
-                        if old_image_path and os.path.exists(old_image_path):
-                            os.remove(old_image_path)
-                logger.info("Изображение профиля успешно загружено.")
-                return Response({"message": "Изображение профиля успешно загружено"}, status=status.HTTP_200_OK)
+        user = User.objects.get(id=id)
+        user_profile = Profile.objects.get(user=user.id)
+        user_profile.image = request.FILES['image']
+        user_profile.save()
+        logger.info("Изображение профиля успешно загружено.")
+        return Response({"message": "Изображение профиля успешно загружено"}, status=status.HTTP_200_OK)
 
         logger.error("Файл не найден в запросе.")
         return Response({"error": "Файл не найден"}, status=status.HTTP_400_BAD_REQUEST)
