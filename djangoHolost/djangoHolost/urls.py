@@ -10,7 +10,7 @@ urlpatterns = [
     path('recipe/', include('recipe.urls')),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
-    path('media', UserProfileView.as_view())
+    path('profiles/<id>', UserProfileView.as_view())
 ]
 
 handler404 = 'main.views.error_404_view'
