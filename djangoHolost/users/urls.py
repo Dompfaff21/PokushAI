@@ -15,6 +15,6 @@ urlpatterns = [
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
         path('update_post/<pk>', views.update_post),
         path('profiles/<int:id>/', UserProfileView.as_view(), name='user-profile'),
-        path('media/profile_pics', ProfileImageUploadView.as_view(), name='upload_profile_image'),
+        path('media', ProfileImageUploadView.as_view(), name='upload_profile_image'),
 
 ]
