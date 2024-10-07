@@ -46,6 +46,7 @@
             <textarea name="description" placeholder="Ваш рецепт" required></textarea>
         </div>
         {{ formset.management_form }}
+        <input type="hidden" name="steps-TOTAL_FORMS" id="id_steps-TOTAL_FORMS" value="1">
             <h3>Шаги</h3>
             <div class="post_column" id="formset-container">
                 <div class="step-form">
@@ -54,7 +55,7 @@
                         <input type="file" name="steps-0-step_image" id="id_steps-0-step_image" class="step-image" style="display: none;">
                     </div>
                     <label for="id_steps-0-step_des">Шаг 1:</label>
-                    <input type="hidden" name="steps-TOTAL_FORMS" id="id_steps-TOTAL_FORMS" value="1">
+
                     <textarea name="steps-0-step_des" id="id_steps-0-step_des" placeholder="Ваш рецепт" required></textarea>
                 </div>
             </div>
