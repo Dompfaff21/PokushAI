@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // STEPS
 
 document.addEventListener('DOMContentLoaded', function() {
+    let deleteStepBtn = document.getElementById('delete-step-btn');
     let formsetContainer = document.getElementById('formset-container');
-    let addStepBtn = document.getElementById('add-step-btn');
-    let stepsContainer = document.getElementById('steps_height');
-
     let totalForms = document.querySelector('#id_steps-TOTAL_FORMS');
     let formNum = formsetContainer.querySelectorAll('.step-form').length;
+    let addStepBtn = document.getElementById('add-step-btn');
+    toggleDeleteStepButton();
 
     addStepBtn.addEventListener('click', function(e) {
         let newForm = formsetContainer.querySelector('.step-form').cloneNode(true);
@@ -82,14 +82,47 @@ document.addEventListener('DOMContentLoaded', function() {
         formNum++;
         totalForms.value = formNum;
 
+        toggleDeleteStepButton();
         increaseContainerMaxHeight();
     });
 
+    deleteStepBtn.addEventListener('click', function(e) {
+        let stepForms = formsetContainer.querySelectorAll('.step-form');
+
+        if (stepForms.length > 1) {
+            let lastStepForm = stepForms[stepForms.length - 1];
+            formsetContainer.removeChild(lastStepForm);
+
+            formNum--;
+            totalForms.value = formNum;
+
+            toggleDeleteStepButton();
+            decreaseContainerMaxHeight();
+        }
+    });
+
+    function toggleDeleteStepButton() {
+        if (formNum > 1) {
+            deleteStepBtn.style.display = 'block';
+        } else {
+            deleteStepBtn.style.display = 'none';
+        }
+    }
+
     function increaseContainerMaxHeight() {
+        let stepsContainer = document.getElementById('steps_height');
         let currentMaxHeight = parseInt(window.getComputedStyle(stepsContainer).maxHeight);
         if (isNaN(currentMaxHeight)) {
             currentMaxHeight = 0;
         }
-        stepsContainer.style.maxHeight = `${currentMaxHeight + 400}px`;
+        stepsContainer.style.maxHeight = `${currentMaxHeight + 800}px`;
+    }
+
+    function decreaseContainerMaxHeight() {
+        let stepsContainer = document.getElementById('steps_height');
+        let currentMaxHeight = parseInt(window.getComputedStyle(stepsContainer).maxHeight);
+        if (!isNaN(currentMaxHeight)) {
+            stepsContainer.style.maxHeight = `${currentMaxHeight - 800}px`;
+        }
     }
 });

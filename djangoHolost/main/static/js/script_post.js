@@ -60,15 +60,27 @@ inputElement.addEventListener('change', function () {
                     viewMode: 1,
                     minCropBoxWidth: 100,
                     minCropBoxHeight: 100,
-                    maxCropBoxWidth: 300,
-                    maxCropBoxHeight: 300,
                     cropBoxResizable: true,
                     zoomable: false,
                     responsive: false,
                     scalable: false,
+                    ready: function() {
+                        const imageData = cropper.getImageData();
+                        
+                        const cropBoxSize = Math.min(imageData.width, imageData.height);
+                        const left = (imageData.width - cropBoxSize) / 2;
+                        const top = (imageData.height - cropBoxSize) / 2;
+                
+                        cropper.setCropBoxData({
+                            left: imageData.left + left,
+                            top: imageData.top + top,
+                            width: cropBoxSize,
+                            height: cropBoxSize
+                        });
+                    }
                 });
             };
-        };  
+        };
 
         reader.readAsDataURL(file);
     }
@@ -76,9 +88,10 @@ inputElement.addEventListener('change', function () {
 
 
 cropButton.addEventListener('click', function () {
-    const canvas = cropper.getCroppedCanvas({
-        width: 300,
-        height: 300,
+    if (cropper) {
+        const canvas = cropper.getCroppedCanvas({
+            width: 300,
+            height: 300,
     });
 
     canvas.toBlob(function (blob) {
@@ -92,6 +105,7 @@ cropButton.addEventListener('click', function () {
         dataTransfer.items.add(file);
         inputElement.files = dataTransfer.files;
     });
+}
 });
 
 closeModal.addEventListener('click', function () {

@@ -477,14 +477,8 @@ main {
         gap: 20px;
         padding: 20px 0px 73px;
         flex: 1;
+        min-height: calc(100vh - 169px);
 
-        @media only screen and (max-width:1800px) {
-                block-size: fit-content;
-        };
-
-        @media only screen and (min-width:1801px) {
-                height: calc(100vh - 76px);
-        };
 }
 
 .light-theme .advantages {
@@ -1514,11 +1508,30 @@ footer {
 
 /* NEW_POST */
 
+.step-form {
+        margin: 10px 0;
+}
+
+#steps_height h3{
+        margin-top: 5px;
+        font-size: 30px;
+}
+
 .post_column {
         display: flex;
         flex-direction: column;
         width: 300px;
 }
+
+.post_row {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        max-width: 300px;
+        white-space: nowrap;
+}
+
 
 .light-theme label{
         color: var(--text-color);
