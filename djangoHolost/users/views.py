@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 import os
@@ -15,7 +16,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
-from recipe.forms import StepFormSet
 
 from recipe.models import Steps
 
@@ -166,9 +166,10 @@ def delete_post(request, id):
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
+    get_num_forms(post)
     if request.method == 'POST':
         form = EditRecipe(request.POST, request.FILES, instance=post)
-        formset = StepFormSet(request.POST, request.FILES, instance=post)
+        formset = Steps.objects.filter(recipe=post.id)
 
         old_image_path = None
         if post.post_image:
@@ -181,13 +182,22 @@ def edit_post(request, id):
         if new_image and old_image_path and os.path.exists(old_image_path):
             os.remove(old_image_path)
 
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid():
+            formset.delete()
             recipe = form.save(commit=False)
             recipe.save()
-            steps = formset.save(commit=False)
-            for step in steps:
-                step.recipe = recipe
-                step.save()
+            total_forms = int(request.POST.get('steps-TOTAL_FORMS'))
+
+            for i in range(total_forms):
+                step_description = request.POST.get(f'steps-{i}-step_des')
+                step_image = request.FILES.get(f'steps-{i}-step_image')
+
+                if step_description:
+                    Steps.objects.create(
+                        recipe=recipe,
+                        step_des=step_description,
+                        step_image=step_image,
+                    )
 
             messages.success(request, 'Рецепт успешно редактирован')
             return redirect('profile')
@@ -197,12 +207,16 @@ def edit_post(request, id):
             return redirect('edit_post')
     else:
         form = EditRecipe(instance=post)
-        formset = StepFormSet(instance=post)
+        formset = Steps.objects.filter(recipe=post.id)
 
     if request.user == post.author:
         return render(request, 'edit_post.html', {'form': form, 'formset': formset, 'post': post})
     else:
         raise PermissionDenied()
+
+def get_num_forms(post):
+    count = Steps.objects.filter(recipe=post.id).count() + 1
+    return JsonResponse({'numForms': count})
 
 class RegisterView(APIView):
     def post(self, request):
