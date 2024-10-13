@@ -23,30 +23,10 @@ inputElement.addEventListener('click', function () {
 inputElement.addEventListener('change', function () {
     if (inputElement.files && inputElement.files[0]) {
         const file = inputElement.files[0];
-        const MAX_SIZE = 2 * 1024 * 1024;
-        if (file.size > MAX_SIZE) {
-            alert("Ошибка: размер файла превышает 2 МБ.");
-            inputElement.value = '';
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const img = new Image();
-            img.src = e.target.result;
-
-            img.onload = function () {
-                const width = img.width;
-                const height = img.height;
-
-                const MAX_WIDTH = 1280;
-                const MAX_HEIGHT = 1024;
-                if (width > MAX_WIDTH || height > MAX_HEIGHT) {
-                    alert("Ошибка: изображение превышает максимальные размеры 1280x1024 пикселей.");
-                    inputElement.value = '';
-                    return;
-                }
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                
                 imageToCrop.src = e.target.result;
                 cropModal.style.display = 'flex';
 
@@ -55,34 +35,34 @@ inputElement.addEventListener('change', function () {
                     cropper = null;
                 }
 
-                cropper = new Cropper(imageToCrop, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    minCropBoxWidth: 100,
-                    minCropBoxHeight: 100,
-                    cropBoxResizable: true,
-                    zoomable: false,
-                    responsive: false,
-                    scalable: false,
-                    ready: function() {
-                        const imageData = cropper.getImageData();
-                        
-                        const cropBoxSize = Math.min(imageData.width, imageData.height);
-                        const left = (imageData.width - cropBoxSize) / 2;
-                        const top = (imageData.height - cropBoxSize) / 2;
-                
-                        cropper.setCropBoxData({
-                            left: imageData.left + left,
-                            top: imageData.top + top,
-                            width: cropBoxSize,
-                            height: cropBoxSize
-                        });
-                    }
-                });
+                    cropper = new Cropper(imageToCrop, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        minCropBoxWidth: 100,
+                        minCropBoxHeight: 100,
+                        cropBoxResizable: true,
+                        zoomable: false,
+                        responsive: false,
+                        scalable: false,
+                        ready: function() {
+                            const imageData = cropper.getImageData();
+                            
+                            const cropBoxSize = Math.min(imageData.width, imageData.height);
+                            const left = (imageData.width - cropBoxSize) / 2;
+                            const top = (imageData.height - cropBoxSize) / 2;
+                    
+                            cropper.setCropBoxData({
+                                left: imageData.left + left,
+                                top: imageData.top + top,
+                                width: cropBoxSize,
+                                height: cropBoxSize
+                            });
+                        }
+                    });
             };
-        };
 
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        }
     }
 });
 

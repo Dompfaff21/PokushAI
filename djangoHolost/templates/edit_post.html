@@ -39,6 +39,13 @@
                       <img id="preview1" class="dish" src="{% if step.step_image %}{{ step.step_image.url }}{% else %}{% static 'pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
                       <input type="file" name="steps-{{ forloop.counter0 }}-step_image" id="id_steps-{{ forloop.counter0 }}-step_image" class="step-image" style="display: none;">
                   </div>
+                  <div id="cutStep" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" id="closeModalStep">&times;</span>
+                        <img id="imageToCropStep">
+                        <button id="cropButtonStep" type="button">Обрезать и сохранить</button>
+                    </div>
+                  </div>
                   <label for="id_steps-{{ forloop.counter0 }}-step_des">Шаг {{ forloop.counter }}:</label>
                   <textarea name="steps-{{ forloop.counter0 }}-step_des" id="id_steps-{{ forloop.counter0 }}-step_des" placeholder="Ваш рецепт">{{ step.step_des }}</textarea>
               </div>

@@ -1,10 +1,28 @@
+// PREVIEW
+
 document.addEventListener('DOMContentLoaded', function() {
     const formsetContainer = document.getElementById('formset-container');
+    const cutStepModal = document.getElementById('cutStep');
+    const imageToCropStep = document.getElementById('imageToCropStep');
+    const cropButtonStep = document.getElementById('cropButtonStep');
+    const closeModalStep = document.getElementById('closeModalStep');
+
+    let cropperStep;
+    let currentInput;
+    let isMousePressedInsideStep = false;
+    let originalPreviewSrc;
 
     formsetContainer.addEventListener('click', function(event) {
-        if (event.target.matches('#preview1')) {
-            const inputFile = event.target.nextElementSibling;
-            inputFile.click();
+        if (event.target.matches('.dish')) {
+            currentInput = event.target.nextElementSibling;
+            originalPreviewSrc = event.target.src;
+            currentInput.click();
+        }
+    });
+
+    formsetContainer.addEventListener('click', function(event) {
+        if (event.target.matches('.step-image')) {
+            event.target.value = '';
         }
     });
 
@@ -13,17 +31,111 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                const previewImage = event.target.previousElementSibling;
-
                 reader.onload = function(e) {
-                    previewImage.src = e.target.result;
+
+                    imageToCropStep.src = e.target.result;
+                    cutStepModal.style.display = 'flex';
+
+                        if (cropperStep) {
+                            cropperStep.destroy();
+                        }
+
+                        cropperStep = new Cropper(imageToCropStep, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            minCropBoxWidth: 100,
+                            minCropBoxHeight: 100,
+                            cropBoxResizable: true,
+                            zoomable: false,
+                            responsive: false,
+                            scalable: false,
+                            ready: function() {
+                                const imageData = cropperStep.getImageData();
+                                const cropBoxSize = Math.min(imageData.width, imageData.height);
+                                const left = (imageData.width - cropBoxSize) / 2;
+                                const top = (imageData.height - cropBoxSize) / 2;
+
+                                cropperStep.setCropBoxData({
+                                    left: imageData.left + left,
+                                    top: imageData.top + top,
+                                    width: cropBoxSize,
+                                    height: cropBoxSize
+                                });
+                            }
+                        });
                 };
+
                 reader.readAsDataURL(file);
             }
         }
     });
-});
 
+    cropButtonStep.addEventListener('click', function() {
+        if (cropperStep) {
+            const canvas = cropperStep.getCroppedCanvas({
+                width: 300,
+                height: 300,
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const stepPreviewImage = currentInput.previousElementSibling;
+                stepPreviewImage.src = url;
+
+                cutStepModal.style.display = 'none';
+
+                const file = new File([blob], currentInput.files[0].name, { type: 'image/jpeg' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                currentInput.files = dataTransfer.files;
+            });
+        }
+    });
+
+    closeModalStep.addEventListener('click', function() {
+        cutStepModal.style.display = 'none';
+
+        if (cropperStep) {
+            cropperStep.destroy();
+        }
+
+        const stepPreviewImage = currentInput.previousElementSibling;
+        stepPreviewImage.src = originalPreviewSrc;
+    });
+
+    modalContent.addEventListener('mousedown', function() {
+        isMousePressedInsideStep = true;
+    });
+
+    window.addEventListener('mouseup', function(event) {
+        if (isMousePressedInsideStep) {
+            isMousePressedInsideStep = false;
+        } else if (event.target === cutStepModal) {
+            cutStepModal.style.display = 'none';
+            if (cropperStep) {
+                cropperStep.destroy();
+            }
+
+            const stepPreviewImage = currentInput.previousElementSibling;
+            stepPreviewImage.src = originalPreviewSrc;
+        }
+    });
+
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(function(input) {
+        if (input.value.trim() !== '') {
+            input.classList.add('filled');
+        }
+
+        input.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.add('filled');
+            } else {
+                this.classList.remove('filled');
+            }
+        });
+    });
+});
 
 // STEPS
 
