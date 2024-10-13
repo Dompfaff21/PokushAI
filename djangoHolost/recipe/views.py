@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Posts, Steps
 from users.models import Profile
 from django.contrib import messages
@@ -44,3 +44,12 @@ def new_post(request):
         recipe_form = RecipeForm()
 
     return render(request, 'new_post.html', {'recipe_form': recipe_form})
+
+def PostView(request, id):
+    post = get_object_or_404(Posts, pk=id)
+    steps = Steps.objects.filter(recipe=post.id)
+    content = {
+        'post': post,
+        'formset': steps
+    }
+    return render(request, 'post_view.html', content)
