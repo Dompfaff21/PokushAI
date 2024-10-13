@@ -10,7 +10,6 @@ from recipe.models import Posts
 from django.db import transaction
 from .forms import SignUpForm, LoginForm, CustomSetPasswordForm, CustomPasswordResetForm, UserUpdateForm, UserUpdateProfileForm, CustomPasswordChangeForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from rest_framework import viewsets
 from .models import Profile
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -255,11 +254,10 @@ logger = logging.getLogger(__name__)
 class UserProfileUpdateView(APIView):
     def post(self, request):
         user = request.user
-
-        serializer = RegisterSerializer(data=request.data, instance=user)
-        if serializer.is_valid():
-            user = serializer.update()
-            return Response({"message": "Данные успешно обновлены", "userID": user.id}, status=status.HTTP_200_OK)
+        profile = Profile.objects.get(user=user.id)
+        if request.POST:
+            profile.image = request.POST
+            profile.save()
+            return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Ошибка сохранения"}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({"error": "Ошибка данных"}, status=status.HTTP_400_BAD_REQUEST)
