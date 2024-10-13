@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Рецепт{% endblock %}
+
+{% block content %}
+    <div class="centerbox2">
+      <div class="container2" id="steps_height">
+            <div class="avatar">
+              <img id="preview" class="dish" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+            </div>
+            <div class="form-group">
+              {{ post.title }}
+              <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
+            </div>
+            <div class="post_column">
+              <label>Описание:</label>
+              {{ post.description }}
+            </div>
+             {{ formset.management_form }}
+            <h3>Шаги</h3>
+            <div class="post_column" id="formset-container">
+              {% for step in formset %}
+              <div class="step-form">
+                  <div class="avatar">
+                      <img id="preview1" class="dish" src="{% if step.step_image %}{{ step.step_image.url }}{% else %}{% static 'pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+                  </div>
+                  <label for="id_steps-{{ forloop.counter0 }}-step_des">Шаг {{ forloop.counter }}:</label>
+                  <textarea name="steps-{{ forloop.counter0 }}-step_des" id="id_steps-{{ forloop.counter0 }}-step_des" readonly>{{ step.step_des }}</textarea>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+    </div>
+{% endblock %}
