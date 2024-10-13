@@ -156,22 +156,36 @@ def profile(request):
 
 def delete_post(request, id):
     post = get_object_or_404(Posts, pk=id)
+
+    # Удаление изображения поста, если оно существует
     if post.post_image:
         image_path = post.post_image.path
         if os.path.exists(image_path):
             os.remove(image_path)
+
+    # Удаление всех шагов и их изображений
+    steps = Steps.objects.filter(recipe=post.id)
+    for step in steps:
+        if step.step_image:
+            step_image_path = step.step_image.path
+            if os.path.exists(step_image_path):
+                os.remove(step_image_path)
+        step.delete()  # Удаление самого шага
+
+    # Удаление поста
     post.delete()
     messages.success(request, 'Рецепт успешно удален')
     return redirect('profile')
 
 def edit_post(request, id):
     post = get_object_or_404(Posts, pk=id)
-    get_num_forms(post)
+    steps = Steps.objects.filter(recipe=post.id)
+    total_steps = steps.count()
+
     if request.method == 'POST':
         form = EditRecipe(request.POST, request.FILES, instance=post)
-        formset = Steps.objects.filter(recipe=post.id)
-
         old_image_path = None
+
         if post.post_image:
             old_image_path = post.post_image.path
 
@@ -183,40 +197,72 @@ def edit_post(request, id):
             os.remove(old_image_path)
 
         if form.is_valid():
-            formset.delete()
             recipe = form.save(commit=False)
             recipe.save()
+
             total_forms = int(request.POST.get('steps-TOTAL_FORMS'))
 
             for i in range(total_forms):
                 step_description = request.POST.get(f'steps-{i}-step_des')
                 step_image = request.FILES.get(f'steps-{i}-step_image')
 
-                if step_description:
-                    Steps.objects.create(
-                        recipe=recipe,
-                        step_des=step_description,
-                        step_image=step_image,
-                    )
+                if i < len(steps):
+                    step = steps[i]
+                    step.step_des = step_description
+
+                     # Проверка на наличие нового изображения
+                    if step_image:
+                        # Удаление старого изображения шага, если есть новое
+                        if step.step_image:
+                            old_step_image_path = step.step_image.path
+                            if os.path.exists(old_step_image_path):
+                                os.remove(old_step_image_path)
+                        step.step_image = step_image
+                    
+                    step.save()
+                else:
+                    # Создание новых шагов
+                    if step_description:
+                        Steps.objects.create(
+                            recipe=recipe,
+                            step_des=step_description,
+                            step_image=step_image,  # Новое изображение (может быть None)
+                        )
+
+            # Удаление лишних шагов, если количество уменьшилось
+            if len(steps) > total_forms:
+                steps_to_delete = steps[total_forms:]
+                for step in steps_to_delete:
+                    if step.step_image:
+                        # Удаление изображения шага перед его удалением
+                        old_step_image_path = step.step_image.path
+                        if os.path.exists(old_step_image_path):
+                            os.remove(old_step_image_path)
+                    step.delete()
 
             messages.success(request, 'Рецепт успешно редактирован')
             return redirect('profile')
         else:
             for error in form.errors.values():
                 messages.error(request, error)
-            return redirect('edit_post')
+            return redirect('edit_post', id=id)
     else:
         form = EditRecipe(instance=post)
-        formset = Steps.objects.filter(recipe=post.id)
 
     if request.user == post.author:
-        return render(request, 'edit_post.html', {'form': form, 'formset': formset, 'post': post})
+        return render(request, 'edit_post.html', {
+            'form': form,
+            'post': post,
+            'steps': steps,
+            'total_steps': total_steps,
+        })
     else:
         raise PermissionDenied()
 
 def get_num_forms(post):
-    count = Steps.objects.filter(recipe=post.id).count() + 1
-    return JsonResponse({'numForms': count})
+    steps = Steps.objects.filter(recipe=post.id).values('step_des', 'step_image')
+    step_list = list(steps)
+    return JsonResponse({'numForms': len(step_list), 'steps': step_list})
 
 class RegisterView(APIView):
     def post(self, request):

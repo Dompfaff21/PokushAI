@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let totalForms = document.querySelector('#id_steps-TOTAL_FORMS');
     let formNum = formsetContainer.querySelectorAll('.step-form').length;
     let addStepBtn = document.getElementById('add-step-btn');
+    setInitialContainerHeight();
     toggleDeleteStepButton();
 
     addStepBtn.addEventListener('click', function(e) {
@@ -124,5 +125,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isNaN(currentMaxHeight)) {
             stepsContainer.style.maxHeight = `${currentMaxHeight - 800}px`;
         }
+    }
+
+    function setInitialContainerHeight() {
+        let stepsContainer = document.getElementById('steps_height');
+        let stepForms = formsetContainer.querySelectorAll('.step-form');
+        let currentMaxHeight = parseInt(window.getComputedStyle(stepsContainer).maxHeight);
+        let stepCount = stepForms.length;
+        stepsContainer.style.maxHeight = `${currentMaxHeight + (800 * stepCount)}px`;
     }
 });

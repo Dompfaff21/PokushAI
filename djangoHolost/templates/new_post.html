@@ -54,11 +54,11 @@
                         <img id="preview1" class="dish" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
                         <input type="file" name="steps-0-step_image" id="id_steps-0-step_image" class="step-image" style="display: none;">
                     </div>
-                    <div id="cut" style="display: none;">
+                    <div id="cutStep" style="display: none;">
                         <div class="modal-content">
-                            <span class="close" id="closeModal">&times;</span>
-                            <img id="imageToCrop">
-                            <button id="cropButton" type="button">Обрезать и сохранить</button>
+                            <span class="close" id="closeModalStep">&times;</span>
+                            <img id="imageToCropStep">
+                            <button id="cropButtonStep" type="button">Обрезать и сохранить</button>
                         </div>
                     </div>
                     <label for="id_steps-0-step_des">Шаг 1:</label>

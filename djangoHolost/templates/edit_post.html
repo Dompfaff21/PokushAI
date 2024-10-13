@@ -30,19 +30,24 @@
               {{ form.description }}
             </div>
              {{ formset.management_form }}
-        <input type="hidden" name="steps-TOTAL_FORMS" id="id_steps-TOTAL_FORMS" value="1">
+        <input type="hidden" name="steps-TOTAL_FORMS" id="id_steps-TOTAL_FORMS" value="{{ total_steps }}">
             <h3>Шаги</h3>
             <div class="post_column" id="formset-container">
-                <div class="step-form">
-                    <div class="avatar">
-                        <img id="preview1" class="dish" src="{% if form.instance.step_image %}{{ form.instance.step_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
-                        <input type="file" name="steps-0-step_image" id="id_steps-0-step_image" class="step-image" style="display: none;">
-                    </div>
-                    <label for="id_steps-0-step_des">Шаг 1:</label>
-                    <textarea name="steps-0-step_des" id="id_steps-0-step_des" placeholder="Ваш рецепт" required></textarea>
-                </div>
-            </div>
-        <button type="button" id="add-step-btn">Добавить шаг</button>
+              {% for step in steps %}
+              <div class="step-form">
+                  <div class="avatar">
+                      <img id="preview1" class="dish" src="{% if step.step_image %}{{ step.step_image.url }}{% else %}{% static 'pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+                      <input type="file" name="steps-{{ forloop.counter0 }}-step_image" id="id_steps-{{ forloop.counter0 }}-step_image" class="step-image" style="display: none;">
+                  </div>
+                  <label for="id_steps-{{ forloop.counter0 }}-step_des">Шаг {{ forloop.counter }}:</label>
+                  <textarea name="steps-{{ forloop.counter0 }}-step_des" id="id_steps-{{ forloop.counter0 }}-step_des" placeholder="Ваш рецепт">{{ step.step_des }}</textarea>
+              </div>
+              {% endfor %}
+          </div>
+          <div class="post_row">
+            <button type="button" id="add-step-btn">Добавить шаг</button>
+            <button type="button" id="delete-step-btn">Удалить шаг</button>
+          </div>
             <button type="submit" class="btn btn-success">Редактировать рецепт</button>
           </form>
       </div>

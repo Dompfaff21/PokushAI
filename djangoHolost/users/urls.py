@@ -15,7 +15,7 @@ urlpatterns = [
         path('profile', views.profile, name='profile'),
         path('delete_post/<int:id>', views.delete_post, name='delete_post'),
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
-        path('api/get_num_forms/', get_num_forms),
+        path('api/get_num_forms/<int:post_id>/', get_num_forms),
         path('register/', RegisterView.as_view(), name='register'),
         path('login/', LoginView.as_view(), name='login'),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
