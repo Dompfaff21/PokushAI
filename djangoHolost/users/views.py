@@ -255,8 +255,8 @@ class UserProfileUpdateView(APIView):
     def post(self, request):
         user = request.user
         profile = Profile.objects.get(user=user.id)
-        if request.POST:
-            profile.image = request.POST
+        if request.FILES:
+            profile.image = request.FILES
             profile.save()
             return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
         else:
