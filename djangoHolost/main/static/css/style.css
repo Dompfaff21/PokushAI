@@ -1569,6 +1569,7 @@ textarea {
         padding: 5px 10px 5px 10px;
         border-radius: 8px;
         max-height: 500px; 
+        min-height: 32px;
 }
 
 .light-theme textarea {
@@ -1584,6 +1585,11 @@ textarea {
 }
 
     textarea:focus {
+        border-color: var(--accent-color);
+        outline: none;
+    }
+
+    textarea:not(:placeholder-shown) {
         border-color: var(--accent-color);
         outline: none;
     }
@@ -1790,4 +1796,9 @@ textarea::-webkit-scrollbar {
         top: 40px;
         right: 10px;
         font-size: 12px;
+}
+
+#view img {
+        user-select: none;
+        cursor: auto;
 }

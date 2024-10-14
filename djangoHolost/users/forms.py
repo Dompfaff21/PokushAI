@@ -140,5 +140,7 @@ class EditRecipe(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'placeholder': 'Заголовок',
-                'class': 'filled'})
+                'class': 'filled'}),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'Описание рецепта'})
         }

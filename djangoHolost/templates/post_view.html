@@ -3,18 +3,20 @@
 {% block title %}Рецепт{% endblock %}
 
 {% block content %}
-    <div class="centerbox2">
+<script src="{% static '/js/script_view.js' %}" type="text/javascript" defer></script>
+    <div class="centerbox2" id="view">
       <div class="container2" id="steps_height">
+        <form>
             <div class="avatar">
               <img id="preview" class="dish" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
             </div>
             <div class="form-group">
-              {{ post.title }}
-              <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
+              <input type="text" value="{{ post.title }}" readonly>
+              <label class="form-label">Заголовок</label>
             </div>
             <div class="post_column">
               <label>Описание:</label>
-              {{ post.description }}
+              <textarea readonly>{{ post.description }}</textarea>
             </div>
              {{ formset.management_form }}
             <h3>Шаги</h3>
@@ -29,6 +31,7 @@
               </div>
               {% endfor %}
           </div>
+        </form>
       </div>
     </div>
 {% endblock %}

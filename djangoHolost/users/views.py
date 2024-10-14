@@ -157,22 +157,19 @@ def profile(request):
 def delete_post(request, id):
     post = get_object_or_404(Posts, pk=id)
 
-    # Удаление изображения поста, если оно существует
     if post.post_image:
         image_path = post.post_image.path
         if os.path.exists(image_path):
             os.remove(image_path)
 
-    # Удаление всех шагов и их изображений
     steps = Steps.objects.filter(recipe=post.id)
     for step in steps:
         if step.step_image:
             step_image_path = step.step_image.path
             if os.path.exists(step_image_path):
                 os.remove(step_image_path)
-        step.delete()  # Удаление самого шага
+        step.delete()
 
-    # Удаление поста
     post.delete()
     messages.success(request, 'Рецепт успешно удален')
     return redirect('profile')
@@ -210,9 +207,7 @@ def edit_post(request, id):
                     step = steps[i]
                     step.step_des = step_description
 
-                     # Проверка на наличие нового изображения
                     if step_image:
-                        # Удаление старого изображения шага, если есть новое
                         if step.step_image:
                             old_step_image_path = step.step_image.path
                             if os.path.exists(old_step_image_path):
@@ -221,20 +216,17 @@ def edit_post(request, id):
                     
                     step.save()
                 else:
-                    # Создание новых шагов
                     if step_description:
                         Steps.objects.create(
                             recipe=recipe,
                             step_des=step_description,
-                            step_image=step_image,  # Новое изображение (может быть None)
+                            step_image=step_image,
                         )
 
-            # Удаление лишних шагов, если количество уменьшилось
             if len(steps) > total_forms:
                 steps_to_delete = steps[total_forms:]
                 for step in steps_to_delete:
                     if step.step_image:
-                        # Удаление изображения шага перед его удалением
                         old_step_image_path = step.step_image.path
                         if os.path.exists(old_step_image_path):
                             os.remove(old_step_image_path)
