@@ -48,8 +48,10 @@ def new_post(request):
 def PostView(request, id):
     post = get_object_or_404(Posts, pk=id)
     steps = Steps.objects.filter(recipe=post.id)
+    profiles = Profile.objects.all()
     content = {
         'post': post,
-        'formset': steps
+        'formset': steps,
+        'profiles': profiles,
     }
     return render(request, 'post_view.html', content)

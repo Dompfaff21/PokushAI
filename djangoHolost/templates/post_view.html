@@ -6,7 +6,17 @@
 <script src="{% static '/js/script_view.js' %}" type="text/javascript" defer></script>
     <div class="centerbox2" id="view">
       <div class="container2" id="steps_height">
-        <form>
+        {% for profile in profiles %}
+          {% if profile.user == post.author %}
+            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+          {% endif %}
+        {% endfor %}
+        <p class="post_author">{{ post.author }}</p>
+        <p class="post_created_at">{{ post.created_at }}</p>
+        {% if post.update_at != post.created_at %}
+          <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
+        {% endif %}
+        <form style="padding-top: 50px;">
             <div class="avatar">
               <img id="preview" class="dish" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
             </div>
