@@ -1,7 +1,17 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% block title %}{% endblock %}
+{% block title %}Рецепты автора{% endblock %}
 
 {% block content %}
-
+    {{ form.user }}
+    {{ post.management_form }}
+    {{ step.management_form }}
+        {% for recipe in post %}
+            {{ recipe.title }}
+                {% for one_step in step %}
+                    {% if one_step.recipe == recipe %}
+                        {{ one_step.step_des }}
+                    {% endif %}
+                {% endfor %}
+        {% endfor %}
 {% endblock %}

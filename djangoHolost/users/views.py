@@ -256,6 +256,14 @@ def get_num_forms(post):
     step_list = list(steps)
     return JsonResponse({'numForms': len(step_list), 'steps': step_list})
 
+def profile_view(request, id):
+    profile = get_object_or_404(Profile, pk=id)
+    all_recipe = Posts.objects.filter(author=profile.user)
+    all_steps = []
+    for recipe in all_recipe:
+        all_steps += (Steps.objects.filter(recipe=recipe.id))
+    return render(request, 'recipe_author.html', {'form': profile, 'post': all_recipe, 'step': all_steps})
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)

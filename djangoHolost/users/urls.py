@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
-from .views import RegisterView, LoginView, get_num_forms
+from .views import get_num_forms
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,6 +16,5 @@ urlpatterns = [
         path('delete_post/<int:id>', views.delete_post, name='delete_post'),
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
         path('api/get_num_forms/<int:post_id>/', get_num_forms),
-        path('register/', RegisterView.as_view(), name='register'),
-        path('login/', LoginView.as_view(), name='login'),
+        path('profile_view/<int:id>', views.profile_view, name='profile_view')
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

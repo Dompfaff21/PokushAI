@@ -8,7 +8,7 @@
       <div class="container2" id="steps_height">
         {% for profile in profiles %}
           {% if profile.user == post.author %}
-            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+          <a href="{% url 'profile_view' profile.id %}"><img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe"></a>
           {% endif %}
         {% endfor %}
         <p class="post_author">{{ post.author }}</p>
