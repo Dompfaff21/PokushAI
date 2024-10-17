@@ -1,17 +1,37 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% block title %}Рецепты автора{% endblock %}
+{% block title %}{{ username }}{% endblock %}
 
 {% block content %}
-    {{ form.user }}
-    {{ post.management_form }}
-    {{ step.management_form }}
-        {% for recipe in post %}
-            {{ recipe.title }}
-                {% for one_step in step %}
-                    {% if one_step.recipe == recipe %}
-                        {{ one_step.step_des }}
+<div class="centerbox2" id="view">
+    <div class="container1" style="background-color: transparent; border: transparent;">
+        <h1 class="recipe_title">Рецепты {{ username }}</h1>
+            {% if post %}
+                {% for recipe in post %}
+                <div class="container2">
+                    {% for profile in profiles %}
+                        {% if profile.user == recipe.author %}
+                            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Изображение пользователя">
+                        {% endif %}
+                    {% endfor %}
+                    <p class="post_author">{{ recipe.author }}</p>
+                    <p class="post_created_at">{{ recipe.created_at }}</p>
+                    {% if recipe.update_at != recipe.created_at %}
+                        <p class="post_updated_at">Изменено: {{ recipe.update_at }}</p>
                     {% endif %}
+                <form style="padding-top: 50px;">
+                    <div class="avatar">
+                        <img id="preview" class="dish" src="{% if recipe.post_image %}{{ recipe.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
+                    </div>
+                    <p class="post_title">{{ recipe.title }}</p>
+                    <p class="post_description">{{ recipe.description }}</p>
+                    <a class="buttona" href="{% url 'post_view' recipe.id %}">Смотреть рецепт</a>
+                    </div>
+                </form>
                 {% endfor %}
-        {% endfor %}
+            {% else %}
+                <p>У {{ username }} еще нет рецептов</p>
+            {% endif %}
+    </div>
+</div>
 {% endblock %}

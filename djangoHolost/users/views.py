@@ -259,10 +259,11 @@ def get_num_forms(post):
 def profile_view(request, id):
     profile = get_object_or_404(Profile, pk=id)
     all_recipe = Posts.objects.filter(author=profile.user)
-    all_steps = []
-    for recipe in all_recipe:
-        all_steps += (Steps.objects.filter(recipe=recipe.id))
-    return render(request, 'recipe_author.html', {'form': profile, 'post': all_recipe, 'step': all_steps})
+    all_profiles = Profile.objects.all()
+    return render(request, 'recipe_author.html', {'form': profile, 
+                                                  'post': all_recipe,
+                                                  'username': profile.user.username,
+                                                  'profiles': all_profiles})
 
 class RegisterView(APIView):
     def post(self, request):
