@@ -11,15 +11,15 @@
                 <div class="container2">
                     {% for profile in profiles %}
                         {% if profile.user == recipe.author %}
-                            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Изображение пользователя">
+                            <a href="{% url 'profile_view' profile.id %}"><img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Изображение пользователя"></a>
+                            <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);"><p class="post_author">{{ recipe.author }}</p></a>
                         {% endif %}
                     {% endfor %}
-                    <p class="post_author">{{ recipe.author }}</p>
                     <p class="post_created_at">{{ recipe.created_at }}</p>
                     {% if recipe.update_at != recipe.created_at %}
                         <p class="post_updated_at">Изменено: {{ recipe.update_at }}</p>
                     {% endif %}
-                <form style="padding-top: 50px;">
+                <form>
                     <div class="avatar">
                         <img id="preview" class="dish" src="{% if recipe.post_image %}{{ recipe.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
                     </div>

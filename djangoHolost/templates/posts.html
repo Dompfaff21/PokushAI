@@ -25,10 +25,10 @@
             <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
             {% for profile in profiles %}
                 {% if profile.user == post.author %}
-                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+                    <a href="{% url 'profile_view' profile.id %}"><img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe"></a>
+                    <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);"><p class="post_author">{{ post.author }}</p></a>
                 {% endif %}
             {% endfor %}
-            <p class="post_author">{{ post.author }}</p>
             <p class="post_title">{{ post.title }}</p>
             <p class="post_description">{{ post.description }}</p>
             <p class="post_created_at">{{ post.created_at }}</p>

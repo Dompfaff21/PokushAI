@@ -9,9 +9,10 @@
         {% for profile in profiles %}
           {% if profile.user == post.author %}
           <a href="{% url 'profile_view' profile.id %}"><img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe"></a>
+          <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);"><p class="post_author">{{ post.author }}</p></a>
           {% endif %}
         {% endfor %}
-        <p class="post_author">{{ post.author }}</p>
+        
         <p class="post_created_at">{{ post.created_at }}</p>
         {% if post.update_at != post.created_at %}
           <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
