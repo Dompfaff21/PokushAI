@@ -14,7 +14,11 @@
   </head>
   <body>
   <div class="wrapper">
-    <header id="name-section">
+    {% if request.path == "/" %}
+      <header id="name-section" class="header_index">
+    {% else %}
+      <header id="name-section">
+    {% endif %}
         <div class="logo">
           <img alt="логотип" src="{% static '/pictures/pig.png' %}">
         </div>

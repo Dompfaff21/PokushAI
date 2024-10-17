@@ -1,46 +1,8 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-  {% load static %}
-  <head>
-    <meta charset="UTF-8">
-    <title>ПокушAI</title>
-    <meta name="description" content="Описание страницы" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-    <link rel="icon" href="{% static '/pictures/logotitle.ico' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-    <script src="{% static '/js/script.js' %}" type="text/javascript" defer></script>
-  </head>
-  <body>
-  <div class="wrapper">
-    <header id="name-section" class="header_index">
-        <div class="logo">
-          <img alt="логотип" src="{% static '/pictures/pig.png' %}">
-        </div>
-        <div class="authors" id="tg">
-          <p>3pigs.inc</p>
-          <img alt="tg" src="{% static '/pictures/tg.png' %}">
-        </div>
-      {% if user.is_authenticated %}
-        <form method="post" action="{% url 'profile' %}">
-          {% csrf_token %}
-          <button class="logout" type="submit">
-            <div id="user">
-            </div>
-            <p>Аккаунт</p>
-          </button>
-        </form>
-        {% else %}
-          <a class="button" href="{% url 'signup' %}">
-            <div id="auth-icon">
-            </div>
-            <p>Войти</p>
-          </a>
-      {% endif %}
-      <div class="theme" id="theme-toggle">
-      </div>
-    </header>
-    <main>
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}ПокушAI{% endblock %}
+
+{% block content %}
       {% if messages %}
       <div class="messages-popup" style="width: calc(100vw - 14px);">
           <ul class="messages">
@@ -107,65 +69,4 @@
             <div class="arrow_up"></div>
           </a>
       </div>
-    </main>
-    <div class="sidebar collapsed">
-      <li class="sidebar__item">
-
-        <img class="icon_hover" src=""/>
-
-        <div class="item__text">
-
-          <p>Навигация</p>
-          
-        </div>
-        <span class="close-btn">&times;</span>
-      </li>
-      <hr class="shr">
-      <li class="sidebar__item">
-
-        <div id="home">
-        </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'home' %}">Главная</a>
-        </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="programm">
-        </div>
-
-        <div class="item__text">
-
-          <a href="">Приложение</a>
-        </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="recipe">
-        </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'posts' %}">Подборки</a>
-        </div>
-      </li>
-
-      <li class="sidebar__item">
-
-        <div id="pigs">
-        </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'about' %}">О нас</a>
-        </div>
-      </li>
-</div>
-    <footer>
-      <p>2024</p>
-    </footer>
-  </div>
-  </body>
-</html>
+{% endblock %}
