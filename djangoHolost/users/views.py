@@ -253,10 +253,10 @@ logger = logging.getLogger(__name__)
 
 class UserProfileUpdateView(APIView):
     def post(self, request):
-        user = request.user
+        user = User.objects.get(id=request.POST.get('userId'))
         profile = Profile.objects.get(user=user.id)
         if request.FILES:
-            profile.image = request.FILES
+            profile.image = request.FILES.get('image')
             profile.save()
             return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
         else:

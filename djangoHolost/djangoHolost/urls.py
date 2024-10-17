@@ -11,7 +11,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
     path('profiles/<int:id>', UserProfileView.as_view()),
-    path('update_profile', UserProfileUpdateView.as_view())
+    path('update_profile/', UserProfileUpdateView.as_view())
 ]
 
 handler404 = 'main.views.error_404_view'
