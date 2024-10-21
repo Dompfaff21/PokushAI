@@ -256,8 +256,28 @@ class UserProfileUpdateView(APIView):
         user = User.objects.get(id=request.POST.get('userId'))
         profile = Profile.objects.get(user=user.id)
         if request.FILES:
-            profile.image = request.FILES.get('image')
+            old_image_path = None
+            if profile.image:
+                old_image_path = profile.image.path
+            new_image = request.FILES.get('image')
+            if new_image:
+                profile.image = new_image
             profile.save()
+            if new_image and old_image_path and os.path.exists(old_image_path):
+                os.remove(old_image_path)
             return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Ошибка данных"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserProfileDeleteImageView(APIView):
+    def delete(self, request, id):      #request не удалять, без него метод не работает, потому что Кирилл его добавил у себя в мобилке, зачем то
+        user = User.objects.get(id=id)
+        profile = Profile.objects.get(user=user)
+        if profile.image:
+            image_path = profile.image.path
+            if os.path.exists(image_path):
+                os.remove(image_path)
+        profile.image.delete()
+        profile.image = None
+        profile.save()
+        return Response(status=status.HTTP_200_OK)
