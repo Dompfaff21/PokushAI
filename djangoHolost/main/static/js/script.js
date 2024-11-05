@@ -259,3 +259,39 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+const likeImage = "/static/pictures/like.svg";
+const likeHoverImage = "/static/pictures/like-hover.svg";
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const postId = this.getAttribute('data-post-id');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(`/recipe/like/${postId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = this.nextElementSibling;
+                likeCountElement.textContent = data.like_count;
+
+                const imgElement = this.querySelector('img');
+
+                if (data.liked) {
+                    imgElement.src = likeHoverImage;
+                } else {
+                    imgElement.src = likeImage;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});

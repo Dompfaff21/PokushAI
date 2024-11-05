@@ -1,19 +1,26 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Posts, Steps
+from .models import Posts, Steps, Like
 from users.models import Profile
 from django.contrib import messages
 from .forms import RecipeForm
-
+from django.http import JsonResponse
 
 def posts(request):
     post = Posts.objects.all()
     profiles = Profile.objects.all()
+
+    liked_posts = []
+    if request.user.is_authenticated:
+        liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
+
     content = {
         'form': post,
-        'profiles': profiles
+        'profiles': profiles,
+        'liked_posts': liked_posts
     }
     return render(request, 'posts.html', content)
+
 
 @login_required
 def new_post(request):
@@ -49,9 +56,32 @@ def PostView(request, id):
     post = get_object_or_404(Posts, pk=id)
     steps = Steps.objects.filter(recipe=post.id)
     profiles = Profile.objects.all()
+
+    liked_posts = []
+    if request.user.is_authenticated:
+        liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
+
     content = {
         'post': post,
         'formset': steps,
         'profiles': profiles,
+        'liked_posts': liked_posts
     }
     return render(request, 'post_view.html', content)
+
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Posts, id=post_id)
+    
+    like_exists = Like.objects.filter(user=request.user, post=post).exists()
+    
+    if like_exists:
+        Like.objects.filter(user=request.user, post=post).delete()
+        liked = False
+    else:
+        Like.objects.create(user=request.user, post=post)
+        liked = True
+
+    like_count = post.likes.count()
+
+    return JsonResponse({'like_count': like_count, 'liked': liked})

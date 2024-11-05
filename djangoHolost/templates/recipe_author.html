@@ -19,6 +19,17 @@
                     {% if recipe.update_at != recipe.created_at %}
                         <p class="post_updated_at">Изменено: {{ recipe.update_at }}</p>
                     {% endif %}
+                    <div class="like">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <a class="like-button" data-post-id="{{ recipe.id }}">
+                            {% if recipe.id in liked_posts %}
+                                <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                            {% else %}
+                                <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                            {% endif %}
+                        </a>
+                        <span class="like-count">{{ recipe.likes.count }}</span>
+                    </div>
                 <form>
                     <div class="avatar">
                         <img id="preview" class="dish" src="{% if recipe.post_image %}{{ recipe.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">

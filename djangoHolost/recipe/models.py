@@ -20,3 +20,10 @@ class Steps(models.Model):
     recipe = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='steps')
     step_des = models.TextField(max_length=1000)
     step_image = models.ImageField(null=True, blank=True, upload_to='step_pics')
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='likes')
+
+    class Meta:
+        unique_together = ('user', 'post')

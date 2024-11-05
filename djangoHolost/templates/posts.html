@@ -36,6 +36,17 @@
                 <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
             {% endif %}
             <a class="buttona" href="{% url 'post_view' post.id %}">Смотреть рецепт</a>
+            <div class="like">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <a class="like-button" data-post-id="{{ post.id }}">
+                    {% if post.id in liked_posts %}
+                        <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                    {% else %}
+                        <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                    {% endif %}
+                </a>
+                <span class="like-count">{{ post.likes.count }}</span>
+            </div>
         </div>
         {% endfor %}
     {% if user.is_authenticated %}

@@ -1806,3 +1806,26 @@ textarea::-webkit-scrollbar {
         user-select: none;
         cursor: auto;
 }
+
+/* LIKE */
+
+.like {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        height: 24px;
+        width: 40px;
+}
+
+.like .like-button {
+        width: 40px;
+        margin: 0px;
+}
+
+.like img:hover {
+        cursor: pointer;
+        content: url('../pictures/like-hover.svg');
+}

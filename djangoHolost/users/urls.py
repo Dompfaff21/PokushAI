@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib.auth.views import LogoutView
 from .views import get_num_forms
@@ -16,5 +16,6 @@ urlpatterns = [
         path('delete_post/<int:id>', views.delete_post, name='delete_post'),
         path('edit_post/<int:id>', views.edit_post, name='edit_post'),
         path('api/get_num_forms/<int:post_id>/', get_num_forms),
-        path('profile_view/<int:id>', views.profile_view, name='profile_view')
+        path('profile_view/<int:id>', views.profile_view, name='profile_view'),
+        path('like/', include('recipe.urls')),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
 
-from recipe.models import Steps
+from recipe.models import Steps, Like
 
 
 def signup(request):
@@ -145,12 +145,14 @@ def profile(request):
         form3 = Posts.objects.filter(author=request.user)
 
     profiles = Profile.objects.all()
+    liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
     content = {
         'form': form,
         'form1': form1,
         'form2': form2,
         'form3': form3,
         'profiles': profiles,
+        'liked_posts': liked_posts,
     }
     return render(request, 'profile.html', content)
 
@@ -260,10 +262,12 @@ def profile_view(request, id):
     profile = get_object_or_404(Profile, pk=id)
     all_recipe = Posts.objects.filter(author=profile.user)
     all_profiles = Profile.objects.all()
+    liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
     return render(request, 'recipe_author.html', {'form': profile, 
                                                   'post': all_recipe,
                                                   'username': profile.user.username,
-                                                  'profiles': all_profiles})
+                                                  'profiles': all_profiles,
+                                                  'liked_posts': liked_posts})
 
 class RegisterView(APIView):
     def post(self, request):
