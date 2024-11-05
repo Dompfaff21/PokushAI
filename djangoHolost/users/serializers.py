@@ -23,7 +23,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password1'],
             email=validated_data['email']
         )
-        # Создаем профиль для нового пользователя
         Profile.objects.create(
             user=user,
             phone=validated_data['phone']

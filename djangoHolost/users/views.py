@@ -198,10 +198,10 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
 
         if serializer.is_valid():
-            user = serializer.save()  # Сохраняем пользователя
+            user = serializer.save()
             return Response({
                 "message": "Пользователь успешно зарегистрирован",
-                "userId": user.id  # Возвращаем ID нового пользователя
+                "userId": user.id
             }, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -217,10 +217,9 @@ class LoginView(APIView):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
-                # Успешная аутентификация, возвращаем сообщение и ID пользователя
                 return Response({
                     "message": "Вход выполнен успешно",
-                    "userId": user.id  # Возвращаем ID пользователя
+                    "userId": user.id
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({
@@ -281,3 +280,21 @@ class UserProfileDeleteImageView(APIView):
         profile.image = None
         profile.save()
         return Response(status=status.HTTP_200_OK)
+
+class UserProfileUpdateView(APIView):
+    def post(self, request):
+        user = get_object_or_404(id=request.POST.get('userId'))
+        profile = Profile.objects.get(user=user)
+        if profile:
+            user.username = request.POST.get('username')
+            user.email = request.POST.get('email')
+            profile.phone = request.POST.get('phone')
+            user.save()
+            profile.save()
+            return Response(
+                {"username": user.username,
+                 "phone": profile.phone,
+                 "email": user.email},
+                status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)

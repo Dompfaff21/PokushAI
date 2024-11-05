@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
-from users.views import LoginView, RegisterView, UserProfileView, UserProfileUpdateView, UserProfileDeleteImageView
-
+from users.views import LoginView, RegisterView, UserProfileView, UserProfileUpdateView, UserProfileDeleteImageView,\
+    UserProfileUpdateGetView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,7 +12,8 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profiles/<int:id>', UserProfileView.as_view()),
     path('update_profile/', UserProfileUpdateView.as_view()),
-    path('delete_image/<int:id>/', UserProfileDeleteImageView.as_view())
+    path('delete_image/<int:id>/', UserProfileDeleteImageView.as_view()),
+    path('update_profile/<int:id>', UserProfileUpdateGetView())
 ]
 
 handler404 = 'main.views.error_404_view'
