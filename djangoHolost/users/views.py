@@ -250,7 +250,7 @@ class UserProfileView(APIView):
    
 logger = logging.getLogger(__name__)
 
-class UserProfileUpdateView(APIView):
+class UserProfileUpdatePicsView(APIView):
     def post(self, request):
         user = User.objects.get(id=request.POST.get('userId'))
         profile = Profile.objects.get(user=user.id)
@@ -283,7 +283,7 @@ class UserProfileDeleteImageView(APIView):
 
 class UserProfileUpdateView(APIView):
     def post(self, request):
-        user = get_object_or_404(id=request.POST.get('userId'))
+        user = User.objects.get(id=request.POST.get('userId'))
         profile = Profile.objects.get(user=user)
         if profile:
             user.username = request.POST.get('username')
