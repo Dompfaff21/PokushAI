@@ -283,18 +283,16 @@ class UserProfileDeleteImageView(APIView):
 
 class UserProfileUpdateView(APIView):
     def post(self, request):
-        user = User.objects.get(id=request.POST.get('userId'))
+        user = User.objects.get(id=request.data.get('userId'))
         profile = Profile.objects.get(user=user)
         if profile:
-            user.username = request.POST.get('username')
-            user.email = request.POST.get('email')
-            profile.phone = request.POST.get('phone')
+            user.username = request.data.get('username')
+            user.email = request.data.get('email')
+            profile.phone = request.data.get('phone')
             user.save()
             profile.save()
             return Response(
-                {"username": user.username,
-                 "phone": profile.phone,
-                 "email": user.email},
+                {"message": "Смена данных успешна"},
                 status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Ошибка"}, status=status.HTTP_404_NOT_FOUND)
