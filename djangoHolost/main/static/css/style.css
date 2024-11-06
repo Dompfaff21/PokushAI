@@ -8,7 +8,7 @@ html,body{
 }
 
 header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer, 
-.modal-content, .cropper-modal, .close, .recipe_title {
+.modal-content, .cropper-modal, .close, .recipe_title, .like {
         transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 /* LIGHT THEME */
@@ -1816,16 +1816,45 @@ textarea::-webkit-scrollbar {
         display: flex;
         flex-direction: row;
         gap: 10px;
+        height: 30px;
+        padding: 10px 15px 10px 10px;
+        align-items: center;
+        border-radius: 30px;
+        background-color: var(--border-radius);
+        font-weight: 400;
+        font-size: 16px;
+}
+
+.like img {
         height: 24px;
-        width: 40px;
 }
 
 .like .like-button {
-        width: 40px;
         margin: 0px;
+        height: 24px;
+        width: 24px !important;
 }
 
 .like img:hover {
         cursor: pointer;
         content: url('../pictures/like-hover.svg');
+}
+
+/* VIEWS */
+
+.views {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: row;
+        height: 24px;
+        font-weight: 400;
+        font-size: 16px;
+}
+
+.views .svg-icon {
+        position: absolute;
+        right: 25px;
+        top: 1px;
 }

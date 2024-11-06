@@ -5,6 +5,7 @@ from users.models import Profile
 from django.contrib import messages
 from .forms import RecipeForm
 from django.http import JsonResponse
+from django.db.models import F
 
 def posts(request):
     post = Posts.objects.all()
@@ -29,7 +30,9 @@ def new_post(request):
         if recipe_form.is_valid():
             recipe = recipe_form.save(commit=False)
             recipe.author = request.user
+            recipe.views = 1
             recipe.save()
+            recipe.viewed_users.add(request.user)
 
             total_forms = int(request.POST.get('steps-TOTAL_FORMS'))
 
@@ -85,3 +88,23 @@ def like_post(request, post_id):
     like_count = post.likes.count()
 
     return JsonResponse({'like_count': like_count, 'liked': liked})
+
+def PostViewIncrement(request, id):
+    post = get_object_or_404(Posts, pk=id)
+
+    if request.user.is_authenticated:
+        if request.user not in post.viewed_users.all():
+            post.viewed_users.add(request.user)
+            Posts.objects.filter(pk=id).update(views=F('views') + 1)
+    
+    else:
+        viewed_posts = request.session.get('viewed_posts', [])
+        
+        if id not in viewed_posts:
+            Posts.objects.filter(pk=id).update(views=F('views') + 1)
+            
+            viewed_posts.append(id)
+            request.session['viewed_posts'] = viewed_posts
+
+    post.refresh_from_db()
+    return JsonResponse({'views': post.views})

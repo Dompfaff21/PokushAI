@@ -295,3 +295,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+// VIEWS
+
+document.addEventListener("DOMContentLoaded", function() {
+    const viewCountElement = document.querySelector('.view-count');
+
+    if (viewCountElement) {
+        const postId = viewCountElement.getAttribute('data-post-id');
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/recipe/post_view_increment/${postId}/`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});

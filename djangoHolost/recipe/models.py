@@ -8,6 +8,8 @@ class Posts(models.Model):
     post_image = models.ImageField('Фото к рецепту', null=True, blank=True, upload_to='recipe_pics')
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
     update_at = models.DateTimeField('Дата последнего обновления', auto_now=True)
+    views = models.PositiveIntegerField(default=0)
+    viewed_users = models.ManyToManyField(User, related_name="viewed_posts", blank=True)
 
     def __str__(self):
         return self.title

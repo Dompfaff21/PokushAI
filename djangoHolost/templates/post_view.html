@@ -54,6 +54,13 @@
           </a>
           <span class="like-count">{{ post.likes.count }}</span>
         </div>
+        <div class="views">
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+          <div class="svg-icon">
+            {% include 'svg/eye_dark.svg' %}
+          </div>
+          <span class="view-count" data-post-id="{{ post.id }}">{{ post.views }}</span>
+        </div>
       </div>
     </div>
 {% endblock %}

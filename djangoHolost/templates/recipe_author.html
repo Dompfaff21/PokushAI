@@ -30,6 +30,12 @@
                         </a>
                         <span class="like-count">{{ recipe.likes.count }}</span>
                     </div>
+                    <div class="views">
+                        <div class="svg-icon">
+                            {% include 'svg/eye_dark.svg' %}
+                        </div>
+                        <span>{{ recipe.views }}</span>
+                    </div>
                 <form>
                     <div class="avatar">
                         <img id="preview" class="dish" src="{% if recipe.post_image %}{{ recipe.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" alt="Ваше изображение">
