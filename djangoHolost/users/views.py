@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
@@ -296,3 +297,13 @@ class UserProfileUpdateView(APIView):
                 status=status.HTTP_200_OK)
         else:
             return Response({"message": "Ошибка"}, status=status.HTTP_404_NOT_FOUND)
+        
+class UserUpdatePasswordView(APIView):
+    def post(self, request):
+        user =  User.objects.get(id=request.data.get('userId'))
+        if user.check_password(request.data.get('oldPassword')):
+            user.set_password(request.data.get('password'))
+            user.save()
+            return Response({"message": "Успешная смена пароля"}, status=status.HTTP_200_OK)
+        else:
+             return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST) 
