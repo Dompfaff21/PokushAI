@@ -8,7 +8,7 @@ html,body{
 }
 
 header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer, 
-.modal-content, .cropper-modal, .close, .recipe_title, .like {
+.modal-content, .cropper-modal, .close, .recipe_title, .like, .top-list {
         transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 /* LIGHT THEME */
@@ -252,7 +252,7 @@ header {
 
 .sidebar:hover {
         @media (orientation: landscape) {
-                height: 332px;
+                height: 275px;
                 width: 220px;
                 border-radius: 0 0 60px 0;
         };
@@ -477,8 +477,6 @@ main {
         gap: 20px;
         padding: 20px 0px 73px;
         flex: 1;
-        min-height: calc(100vh - 169px);
-
 }
 
 .light-theme .advantages {
@@ -520,7 +518,7 @@ main {
 
         @media only screen and (min-width:1141px) {
                 flex-direction: row;
-                gap: 20px;
+                gap: 42px;
         };
 }
 
@@ -544,7 +542,7 @@ main {
         };
 
         @media only screen and (min-width: 701px) {
-                width: 500px;
+                width: 550px;
         };
 }
 
@@ -571,6 +569,9 @@ main {
 .adv_column p {
         text-align: justify;
         text-align-last: center;
+        hyphens: auto;
+        word-break: break-word;
+        margin-top: 5px;
 
         @media only screen and (max-width:1140px) {
                 font-size: 16px;
@@ -635,35 +636,6 @@ main {
         border-bottom: 3px solid white;
     }
 
-    .scroll_up {
-        position: absolute;
-        bottom: -45px;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    
-    .scroll_up .arrow_up {
-        width: 20px;
-        height: 20px;
-        transform: rotate(45deg);
-        animation: moveArrowUp 2s infinite;
-    }
-    
-    .dark-theme .arrow_up {
-        border-left: 3px solid white;
-        border-bottom: 3px solid white;
-    }
-
-    .light-theme .arrow_up {
-        border-left: 3px solid black;
-        border-bottom: 3px solid black;
-    }
-
     /* АNIMATION ARROW */
 
     @keyframes moveArrow {
@@ -674,15 +646,6 @@ main {
             transform: rotate(-45deg) translateY(-5px) translateX(5px);
         }
     }  
-
-    @keyframes moveArrowUp {
-        0%, 100% {
-            transform: rotate(135deg) translateY(0);
-        }
-        50% {
-            transform: rotate(135deg) translateY(-5px) translateX(5px);
-        }
-    }
 
 /* FOOTER*/
 
@@ -1857,4 +1820,38 @@ textarea::-webkit-scrollbar {
         position: absolute;
         right: 25px;
         top: 1px;
+}
+
+.top-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+.light-theme .top-list {
+        background-color: var(--background-color);
+}
+
+.dark-theme .top-list {
+        background-color: var(--background-color);
+}
+
+.top {
+        display: flex;
+        gap: 20px;
+        width: 1142px;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+}
+
+.top::-webkit-scrollbar {
+        display: none;
+    }
+
+#scroll {
+        box-sizing: border-box;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        user-select: none;
 }

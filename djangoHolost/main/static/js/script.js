@@ -89,11 +89,10 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
         } else if (document.getElementById('user')) {
             document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
@@ -103,11 +102,10 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
         } else if (document.getElementById('user')) {
             document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
@@ -320,4 +318,38 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error('Error:', error));
     }
+});
+
+document.querySelector('.top').addEventListener('wheel', function(event) {
+    if (event.deltaY !== 0) {
+        event.preventDefault();
+        this.scrollLeft += event.deltaY;
+    }
+});
+
+const topContainer = document.querySelector('.top');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+topContainer.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - topContainer.offsetLeft;
+    scrollLeft = topContainer.scrollLeft;
+});
+
+topContainer.addEventListener('mouseleave', () => {
+    isDown = false;
+});
+
+topContainer.addEventListener('mouseup', () => {
+    isDown = false;
+});
+
+topContainer.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - topContainer.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    topContainer.scrollLeft = scrollLeft - walk;
 });

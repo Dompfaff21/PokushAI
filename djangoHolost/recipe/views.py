@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.db.models import F
 
 def posts(request):
-    post = Posts.objects.all()
+    post = Posts.objects.all().order_by('-created_at')
     profiles = Profile.objects.all()
 
     liked_posts = []
