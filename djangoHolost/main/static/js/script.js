@@ -41,7 +41,6 @@ async function setThemeIcons() {
         '/static/pictures/sidebar/programm.svg',
         '/static/pictures/sidebar/recipe.svg',
         '/static/pictures/sidebar/user.svg',
-        '/static/pictures/sidebar/pigs.svg',
         '/static/pictures/face.svg',
         '/static/pictures/logout.svg',
     ];
