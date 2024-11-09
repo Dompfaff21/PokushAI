@@ -67,6 +67,7 @@
           </div>
       </div>
       <div class="top-list">
+        <h2>Популярные рецепты</h2>
       <div class="top" id="carousel">
       {% if top_posts %}
         {% for post in top_posts %}
@@ -114,11 +115,11 @@
                 </div>
             </div>
         {% endfor %}
-    {% else %}
-        <p>Нет постов для отображения.</p>
-    {% endif %}
-  </div>
-</div>
+        {% else %}
+            <p>Нет постов для отображения.</p>
+        {% endif %}
+        </div>
+    </div>
       <div class="us">
         <div class="us_row">
             <div class="us_column">

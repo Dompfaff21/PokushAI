@@ -475,7 +475,7 @@ main {
         align-items: center;
         justify-content: center;
         gap: 20px;
-        padding: 20px 0px 73px;
+        padding: 20px 0px 40px;
         flex: 1;
 }
 
@@ -1826,6 +1826,14 @@ textarea::-webkit-scrollbar {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
+        gap: 40px;
+        user-select: none;
+}
+
+.top-list h2 {
+        font-size: 40px;
+        color: var(--text-color)
 }
 
 .light-theme .top-list {
@@ -1854,4 +1862,5 @@ textarea::-webkit-scrollbar {
         flex-shrink: 0;
         transition: transform 0.3s ease;
         user-select: none;
+        margin: 0px;
 }

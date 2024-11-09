@@ -330,25 +330,96 @@ const topContainer = document.querySelector('.top');
 let isDown = false;
 let startX;
 let scrollLeft;
+let autoScroll;
+let isInteracting = false;
+let isAutoScrolling = false;
+
+topContainer.innerHTML = topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML;
+
+const originalWidth = topContainer.scrollWidth / 5;
+
+topContainer.scrollLeft = originalWidth;
+
+function checkScroll() {
+    if (topContainer.scrollLeft >= originalWidth * 4.5) {
+
+        topContainer.scrollLeft -= originalWidth;
+    } else if (topContainer.scrollLeft <= originalWidth * 0.5) {
+
+        topContainer.scrollLeft += originalWidth;
+    }
+}
+
+function startAutoScroll() {
+    if (!isAutoScrolling && !isInteracting) {
+        isAutoScrolling = true;
+        autoScroll = setInterval(() => {
+            topContainer.scrollLeft += 1.5;
+            checkScroll();
+        }, 20);
+    }
+}
+
+function stopAutoScroll() {
+    if (isAutoScrolling) {
+        clearInterval(autoScroll);
+        isAutoScrolling = false;
+    }
+}
+
+startAutoScroll();
 
 topContainer.addEventListener('mousedown', (e) => {
     isDown = true;
+    isInteracting = true;
     startX = e.pageX - topContainer.offsetLeft;
     scrollLeft = topContainer.scrollLeft;
+    stopAutoScroll();
 });
 
 topContainer.addEventListener('mouseleave', () => {
     isDown = false;
+    setTimeout(() => {
+        isInteracting = false;
+        startAutoScroll();
+    }, 3000);
 });
 
 topContainer.addEventListener('mouseup', () => {
     isDown = false;
+    isInteracting = false;
+    checkScroll();
+    stopAutoScroll();
+    setTimeout(startAutoScroll, 3000);
 });
 
 topContainer.addEventListener('mousemove', (e) => {
     if (!isDown) return;
     e.preventDefault();
+    stopAutoScroll();
     const x = e.pageX - topContainer.offsetLeft;
-    const walk = (x - startX) * 1.5;
+    const walk = (x - startX) * 1;
     topContainer.scrollLeft = scrollLeft - walk;
+    checkScroll();
+});
+
+topContainer.addEventListener('wheel', () => {
+    isInteracting = true;
+    stopAutoScroll();
+    checkScroll();
+    setTimeout(() => {
+        isInteracting = false;
+        startAutoScroll();
+    }, 3000);
+});
+
+topContainer.addEventListener('touchstart', () => {
+    isInteracting = true;
+    stopAutoScroll();
+});
+
+topContainer.addEventListener('touchend', () => {
+    isInteracting = false;
+    checkScroll();
+    setTimeout(startAutoScroll, 3000);
 });
