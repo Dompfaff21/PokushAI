@@ -319,107 +319,125 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-document.querySelector('.top').addEventListener('wheel', function(event) {
-    if (event.deltaY !== 0) {
-        event.preventDefault();
-        this.scrollLeft += event.deltaY;
+document.addEventListener("DOMContentLoaded", function() {
+    const topElement = document.querySelector('.top');
+    if (topElement) {
+        topElement.addEventListener('wheel', function(event) {
+            if (event.deltaY !== 0) {
+                event.preventDefault();
+                this.scrollLeft += event.deltaY;
+            }
+        });
     }
 });
 
-const topContainer = document.querySelector('.top');
-let isDown = false;
-let startX;
-let scrollLeft;
-let autoScroll;
-let isInteracting = false;
-let isAutoScrolling = false;
+document.addEventListener("DOMContentLoaded", function() {
+    const topContainer = document.querySelector('.top');
+    
+    if (!topContainer) return;
 
-topContainer.innerHTML = topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML + topContainer.innerHTML;
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let autoScroll;
+    let isInteracting = false;
+    let isAutoScrolling = false;
 
-const originalWidth = topContainer.scrollWidth / 5;
+    topContainer.innerHTML = topContainer.innerHTML.repeat(5);
+    const originalWidth = topContainer.scrollWidth / 5;
+    topContainer.scrollLeft = originalWidth;
 
-topContainer.scrollLeft = originalWidth;
-
-function checkScroll() {
-    if (topContainer.scrollLeft >= originalWidth * 4.5) {
-
-        topContainer.scrollLeft -= originalWidth;
-    } else if (topContainer.scrollLeft <= originalWidth * 0.5) {
-
-        topContainer.scrollLeft += originalWidth;
+    function checkScroll() {
+        if (topContainer.scrollLeft >= originalWidth * 4.5) {
+            topContainer.scrollLeft -= originalWidth;
+        } else if (topContainer.scrollLeft <= originalWidth * 0.5) {
+            topContainer.scrollLeft += originalWidth;
+        }
     }
-}
 
-function startAutoScroll() {
-    if (!isAutoScrolling && !isInteracting) {
-        isAutoScrolling = true;
-        autoScroll = setInterval(() => {
-            topContainer.scrollLeft += 1.5;
-            checkScroll();
-        }, 20);
+    function startAutoScroll() {
+        if (!isAutoScrolling && !isInteracting) {
+            isAutoScrolling = true;
+            autoScroll = setInterval(() => {
+                topContainer.scrollLeft += 1.5;
+                checkScroll();
+            }, 20);
+        }
     }
-}
 
-function stopAutoScroll() {
-    if (isAutoScrolling) {
-        clearInterval(autoScroll);
-        isAutoScrolling = false;
+    function stopAutoScroll() {
+        if (isAutoScrolling) {
+            clearInterval(autoScroll);
+            isAutoScrolling = false;
+        }
     }
-}
 
-startAutoScroll();
+    startAutoScroll();
 
-topContainer.addEventListener('mousedown', (e) => {
-    isDown = true;
-    isInteracting = true;
-    startX = e.pageX - topContainer.offsetLeft;
-    scrollLeft = topContainer.scrollLeft;
-    stopAutoScroll();
-});
+    topContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        isInteracting = true;
+        startX = e.pageX - topContainer.offsetLeft;
+        scrollLeft = topContainer.scrollLeft;
+        stopAutoScroll();
+    });
 
-topContainer.addEventListener('mouseleave', () => {
-    isDown = false;
-    setTimeout(() => {
+    topContainer.addEventListener('mouseleave', () => {
+        isDown = false;
+        setTimeout(() => {
+            isInteracting = false;
+            startAutoScroll();
+        }, 3000);
+    });
+
+    topContainer.addEventListener('mouseup', () => {
+        isDown = false;
         isInteracting = false;
-        startAutoScroll();
-    }, 3000);
-});
+        checkScroll();
+        stopAutoScroll();
+        setTimeout(startAutoScroll, 4000);
+    });
 
-topContainer.addEventListener('mouseup', () => {
-    isDown = false;
-    isInteracting = false;
-    checkScroll();
-    stopAutoScroll();
-    setTimeout(startAutoScroll, 3000);
-});
+    topContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        stopAutoScroll();
+        const x = e.pageX - topContainer.offsetLeft;
+        const walk = (x - startX) * 1;
+        topContainer.scrollLeft = scrollLeft - walk;
+        checkScroll();
+    });
 
-topContainer.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    stopAutoScroll();
-    const x = e.pageX - topContainer.offsetLeft;
-    const walk = (x - startX) * 1;
-    topContainer.scrollLeft = scrollLeft - walk;
-    checkScroll();
-});
+    topContainer.addEventListener('wheel', () => {
+        isInteracting = true;
+        stopAutoScroll();
+        checkScroll();
+        setTimeout(() => {
+            isInteracting = false;
+            startAutoScroll();
+        }, 3000);
+    });
 
-topContainer.addEventListener('wheel', () => {
-    isInteracting = true;
-    stopAutoScroll();
-    checkScroll();
-    setTimeout(() => {
+    topContainer.addEventListener('touchstart', () => {
+        isInteracting = true;
+        stopAutoScroll();
+    });
+
+    topContainer.addEventListener('touchend', () => {
         isInteracting = false;
-        startAutoScroll();
-    }, 3000);
+        checkScroll();
+        setTimeout(startAutoScroll, 4000);
+    });
 });
 
-topContainer.addEventListener('touchstart', () => {
-    isInteracting = true;
-    stopAutoScroll();
-});
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(function(img) {
+      img.setAttribute("draggable", "false");
+    });
+  });
 
-topContainer.addEventListener('touchend', () => {
-    isInteracting = false;
-    checkScroll();
-    setTimeout(startAutoScroll, 3000);
-});
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("a").forEach(function(img) {
+      img.setAttribute("draggable", "false");
+    });
+  });

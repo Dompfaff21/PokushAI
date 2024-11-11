@@ -142,7 +142,7 @@ def profile(request):
         form = UserUpdateForm(instance=request.user)
         form1 = UserUpdateProfileForm(instance=request.user.profile)
         form2 = CustomPasswordChangeForm(request.user)
-        form3 = Posts.objects.filter(author=request.user)
+        form3 = Posts.objects.filter(author=request.user).order_by('-created_at')
 
     profiles = Profile.objects.all()
     liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
@@ -260,7 +260,7 @@ def get_num_forms(post):
 
 def profile_view(request, id):
     profile = get_object_or_404(Profile, pk=id)
-    all_recipe = Posts.objects.filter(author=profile.user)
+    all_recipe = Posts.objects.filter(author=profile.user).order_by('-created_at')
     all_profiles = Profile.objects.all()
     liked_posts = Like.objects.filter(user=request.user).values_list('post_id', flat=True)
     return render(request, 'recipe_author.html', {'form': profile, 
