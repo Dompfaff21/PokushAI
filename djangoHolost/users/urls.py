@@ -5,6 +5,7 @@ from .views import get_num_forms
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
         path('login', views.signup, name='signup'),
         path('logout', LogoutView.as_view(), name='logout'),
@@ -18,4 +19,5 @@ urlpatterns = [
         path('api/get_num_forms/<int:post_id>/', get_num_forms),
         path('profile_view/<int:id>', views.profile_view, name='profile_view'),
         path('like/', include('recipe.urls')),
+        path('update_post/<pk>', views.update_post),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+
 from django.urls import reverse_lazy
 import os
 from recipe.models import Posts
@@ -16,6 +18,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+import logging
 
 from recipe.models import Steps, Like
 
@@ -272,18 +277,113 @@ def profile_view(request, id):
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Пользователь успешно зарегистрирован"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                "message": "Пользователь успешно зарегистрирован",
+                "userId": user.id
+            }, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+        
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
+
         if serializer.is_valid():
-            user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
-            if user:
-                return Response({"message": "Авторизация успешна"})
-            return Response({"error": "Неверные учетные данные"}, status=status.HTTP_401_UNAUTHORIZED)
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                return Response({
+                    "message": "Вход выполнен успешно",
+                    "userId": user.id
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    "error": "Неверное имя пользователя или пароль"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserProfileView(APIView):
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            profile = Profile.objects.get(user=user.id)
+            if profile.image:
+                image_url = request.build_absolute_uri(profile.image.url)
+                return Response({
+                    "username": user.username,
+                    "userId": user.id,
+                    "userImage": image_url
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    "username": user.username,
+                    "userId": user.id,
+                }, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
+   
+logger = logging.getLogger(__name__)
+
+class UserProfileUpdatePicsView(APIView):
+    def post(self, request):
+        user = User.objects.get(id=request.POST.get('userId'))
+        profile = Profile.objects.get(user=user.id)
+        if request.FILES:
+            old_image_path = None
+            if profile.image:
+                old_image_path = profile.image.path
+            new_image = request.FILES.get('image')
+            if new_image:
+                profile.image = new_image
+            profile.save()
+            if new_image and old_image_path and os.path.exists(old_image_path):
+                os.remove(old_image_path)
+            return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Ошибка данных"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserProfileDeleteImageView(APIView):
+    def delete(self, request, id):      #request не удалять, без него метод не работает, потому что Кирилл его добавил у себя в мобилке, зачем то
+        user = User.objects.get(id=id)
+        profile = Profile.objects.get(user=user)
+        if profile.image:
+            image_path = profile.image.path
+            if os.path.exists(image_path):
+                os.remove(image_path)
+        profile.image.delete()
+        profile.image = None
+        profile.save()
+        return Response(status=status.HTTP_200_OK)
+
+class UserProfileUpdateView(APIView):
+    def post(self, request):
+        user = User.objects.get(id=request.data.get('userId'))
+        profile = Profile.objects.get(user=user)
+        if profile:
+            user.username = request.data.get('username')
+            user.email = request.data.get('email')
+            profile.phone = request.data.get('phone')
+            user.save()
+            profile.save()
+            return Response(
+                {"message": "Смена данных успешна"},
+                status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Ошибка"}, status=status.HTTP_404_NOT_FOUND)
+        
+class UserUpdatePasswordView(APIView):
+    def post(self, request):
+        user =  User.objects.get(id=request.data.get('userId'))
+        if user.check_password(request.data.get('oldPassword')):
+            user.set_password(request.data.get('password'))
+            user.save()
+            return Response({"message": "Успешная смена пароля"}, status=status.HTTP_200_OK)
+        else:
+             return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST) 
