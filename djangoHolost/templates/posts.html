@@ -1,15 +1,7 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block title %}Подборки{% endblock %}
-{% block button_login_content %}
-{% if not user.is_authenticated %}
-    <a class="button" href="{% url 'signup' %}">
-        <div id="auth-icon">
-        </div>
-        <p>Войти</p>
-    </a>
-{% endif %}
-{% endblock %}
+
 {% block content %}
 <div class="centerbox2">
     {% if messages %}
@@ -33,16 +25,34 @@
             <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
             {% for profile in profiles %}
                 {% if profile.user == post.author %}
-                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+                    <a href="{% url 'profile_view' profile.id %}"><img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe"></a>
+                    <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);"><p class="post_author">{{ post.author }}</p></a>
                 {% endif %}
             {% endfor %}
-            <p class="post_author">{{ post.author }}</p>
             <p class="post_title">{{ post.title }}</p>
             <p class="post_description">{{ post.description }}</p>
             <p class="post_created_at">{{ post.created_at }}</p>
-            {% if post.update_at and post.update_at != post.created_at %}
+            {% if post.update_at != post.created_at %}
                 <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
             {% endif %}
+            <a class="buttona" href="{% url 'post_view' post.id %}">Смотреть рецепт</a>
+            <div class="like">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <a class="like-button" data-post-id="{{ post.id }}">
+                    {% if post.id in liked_posts %}
+                        <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                    {% else %}
+                        <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                    {% endif %}
+                </a>
+                <span class="like-count">{{ post.likes.count }}</span>
+            </div>
+            <div class="views">
+                <div class="svg-icon">
+                    {% include 'svg/eye_dark.svg' %}
+                </div>
+                <span>{{ post.views }}</span>
+            </div>
         </div>
         {% endfor %}
     {% if user.is_authenticated %}

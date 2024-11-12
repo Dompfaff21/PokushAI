@@ -41,7 +41,6 @@ async function setThemeIcons() {
         '/static/pictures/sidebar/programm.svg',
         '/static/pictures/sidebar/recipe.svg',
         '/static/pictures/sidebar/user.svg',
-        '/static/pictures/sidebar/pigs.svg',
         '/static/pictures/face.svg',
         '/static/pictures/logout.svg',
     ];
@@ -89,12 +88,12 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('user').innerHTML = dark_theme_svgs[3];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
+        } else if (document.getElementById('user')) {
+            document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
     } else {
         document.body.classList.add('light-theme');
@@ -102,12 +101,12 @@ async function setThemeIcons() {
         document.getElementById('home').innerHTML = dark_theme_svgs[0];
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
-        document.getElementById('user').innerHTML = dark_theme_svgs[3];
-        document.getElementById('pigs').innerHTML = dark_theme_svgs[4];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[6] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
+        } else if (document.getElementById('user')) {
+            document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
     }
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
@@ -257,3 +256,188 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+const likeImage = "/static/pictures/like.svg";
+const likeHoverImage = "/static/pictures/like-hover.svg";
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const postId = this.getAttribute('data-post-id');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(`/recipe/like/${postId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = this.nextElementSibling;
+                likeCountElement.textContent = data.like_count;
+
+                const imgElement = this.querySelector('img');
+
+                if (data.liked) {
+                    imgElement.src = likeHoverImage;
+                } else {
+                    imgElement.src = likeImage;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+
+// VIEWS
+
+document.addEventListener("DOMContentLoaded", function() {
+    const viewCountElement = document.querySelector('.view-count');
+
+    if (viewCountElement) {
+        const postId = viewCountElement.getAttribute('data-post-id');
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/recipe/post_view_increment/${postId}/`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (viewCountElement) {
+                viewCountElement.textContent = data.views;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const topElement = document.querySelector('.top');
+    if (topElement) {
+        topElement.addEventListener('wheel', function(event) {
+            if (event.deltaY !== 0) {
+                event.preventDefault();
+                this.scrollLeft += event.deltaY;
+            }
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const topContainer = document.querySelector('.top');
+    
+    if (!topContainer) return;
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let autoScroll;
+    let isInteracting = false;
+    let isAutoScrolling = false;
+
+    topContainer.innerHTML = topContainer.innerHTML.repeat(5);
+    const originalWidth = topContainer.scrollWidth / 5;
+    topContainer.scrollLeft = originalWidth;
+
+    function checkScroll() {
+        if (topContainer.scrollLeft >= originalWidth * 4.5) {
+            topContainer.scrollLeft -= originalWidth;
+        } else if (topContainer.scrollLeft <= originalWidth * 0.5) {
+            topContainer.scrollLeft += originalWidth;
+        }
+    }
+
+    function startAutoScroll() {
+        if (!isAutoScrolling && !isInteracting) {
+            isAutoScrolling = true;
+            autoScroll = setInterval(() => {
+                topContainer.scrollLeft += 1.5;
+                checkScroll();
+            }, 20);
+        }
+    }
+
+    function stopAutoScroll() {
+        if (isAutoScrolling) {
+            clearInterval(autoScroll);
+            isAutoScrolling = false;
+        }
+    }
+
+    startAutoScroll();
+
+    topContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        isInteracting = true;
+        startX = e.pageX - topContainer.offsetLeft;
+        scrollLeft = topContainer.scrollLeft;
+        stopAutoScroll();
+    });
+
+    topContainer.addEventListener('mouseleave', () => {
+        isDown = false;
+        setTimeout(() => {
+            isInteracting = false;
+            startAutoScroll();
+        }, 3000);
+    });
+
+    topContainer.addEventListener('mouseup', () => {
+        isDown = false;
+        isInteracting = false;
+        checkScroll();
+        stopAutoScroll();
+        setTimeout(startAutoScroll, 4000);
+    });
+
+    topContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        stopAutoScroll();
+        const x = e.pageX - topContainer.offsetLeft;
+        const walk = (x - startX) * 1;
+        topContainer.scrollLeft = scrollLeft - walk;
+        checkScroll();
+    });
+
+    topContainer.addEventListener('wheel', () => {
+        isInteracting = true;
+        stopAutoScroll();
+        checkScroll();
+        setTimeout(() => {
+            isInteracting = false;
+            startAutoScroll();
+        }, 3000);
+    });
+
+    topContainer.addEventListener('touchstart', () => {
+        isInteracting = true;
+        stopAutoScroll();
+    });
+
+    topContainer.addEventListener('touchend', () => {
+        isInteracting = false;
+        checkScroll();
+        setTimeout(startAutoScroll, 4000);
+    });
+});
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(function(img) {
+      img.setAttribute("draggable", "false");
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("a").forEach(function(img) {
+      img.setAttribute("draggable", "false");
+    });
+  });

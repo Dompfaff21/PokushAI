@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 document.addEventListener("DOMContentLoaded", function() {
     const sidebarItems = document.querySelectorAll('.sidebarp ul li');
     const contentBoxes = document.querySelectorAll('.content-box');
+    const container1 = document.querySelector('.container1');
 
     function setActiveTab(item) {
         sidebarItems.forEach(i => i.classList.remove('active'));
@@ -43,7 +44,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         contentBoxes.forEach(box => box.style.display = 'none');
         const target = item.getAttribute('data-target');
-        document.getElementById(target).style.display = 'block';
+        const targetElement = document.getElementById(target);
+        targetElement.style.display = 'block';
+
+        if (target === 'posts-info') {
+            container1.style.background = 'none';
+            container1.style.border = 'none';
+        } else {
+            container1.style.background = '';
+            container1.style.border = '';
+        }
 
         const activeIndex = Array.from(sidebarItems).indexOf(item);
         localStorage.setItem('activeTabIndex', activeIndex);
@@ -67,26 +77,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     } else {
         setActiveTab(sidebarItems[0]);
-    }
-});
-
-// PREVIEW
-
-const inputElement = document.getElementById('id_image');
-const previewElement = document.getElementById('preview');
-
-previewElement.addEventListener('click', function() {
-    inputElement.click();
-});
-
-inputElement.addEventListener('change', function() {
-    if (inputElement.files && inputElement.files[0]) {
-        const file = inputElement.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            previewElement.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
     }
 });

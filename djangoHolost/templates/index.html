@@ -1,47 +1,8 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-  {% load static %}
-  <head>
-    <meta charset="UTF-8">
-    <title>ПокушAI</title>
-    <meta name="description" content="Описание страницы" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-    <link rel="icon" href="{% static '/pictures/logotitle.ico' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-    <script src="{% static '/js/script.js' %}" type="text/javascript" defer></script>
-  </head>
-  <body>
-  <div class="wrapper">
-    <header id="name-section" class="header_index">
-        <div class="logo">
-          <img alt="логотип" src="{% static '/pictures/pig.png' %}">
-        </div>
-        <div class="authors" id="tg">
-          <p>3pigs.inc</p>
-          <img alt="tg" src="{% static '/pictures/tg.png' %}">
-        </div>
-      {% if not user.is_authenticated %}
-      <a class="button" href="{% url 'signup' %}">
-          <div id="auth-icon">
-          </div>
-          <p>Войти</p>
-      </a>
-      {% endif %}
-      {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button class="logout" type="submit">
-            <div id="logout-icon">
-            </div>
-            <p>Выйти</p>
-          </button>
-        </form>
-      {% endif %}
-      <div class="theme" id="theme-toggle">
-      </div>
-    </header>
-    <main>
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}ПокушAI{% endblock %}
+
+{% block content %}
       {% if messages %}
       <div class="messages-popup" style="width: calc(100vw - 14px);">
           <ul class="messages">
@@ -104,82 +65,106 @@
               </p>
             </div>
           </div>
-          <a href="#name-section" class="scroll_up">
-            <div class="arrow_up"></div>
-          </a>
       </div>
-    </main>
-    <div class="sidebar collapsed">
-      <li class="sidebar__item">
-
-        <img class="icon_hover" src=""/>
-
-        <div class="item__text">
-
-          <p>Навигация</p>
-          
+      <div class="top-list">
+        <h2>Популярные рецепты</h2>
+      <div class="top" id="carousel">
+      {% if top_posts %}
+        {% for post in top_posts %}
+            <div class="container2" id="scroll">
+                <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
+                
+                {% for profile in profiles %}
+                    {% if profile.user == post.author %}
+                        <a href="{% url 'profile_view' profile.id %}">
+                            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображение">
+                        </a>
+                        <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);">
+                            <p class="post_author">{{ post.author }}</p>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                
+                <p class="post_title">{{ post.title }}</p>
+                <p class="post_description">{{ post.description }}</p>
+                <p class="post_created_at">{{ post.created_at }}</p>
+                
+                {% if post.update_at != post.created_at %}
+                    <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
+                {% endif %}
+                
+                <a class="buttona" href="{% url 'post_view' post.id %}">Смотреть рецепт</a>
+                
+                <div class="like">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <a class="like-button" data-post-id="{{ post.id }}">
+                        {% if post.id in liked_posts %}
+                            <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                        {% else %}
+                            <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                        {% endif %}
+                    </a>
+                    <span class="like-count">{{ post.likes.count }}</span>
+                </div>
+                
+                <div class="views">
+                    <div class="svg-icon">
+                        {% include 'svg/eye_dark.svg' %}
+                    </div>
+                    <span>{{ post.views }}</span>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>Нет постов для отображения.</p>
+        {% endif %}
         </div>
-        <span class="close-btn">&times;</span>
-      </li>
-      <hr class="shr">
-      <li class="sidebar__item">
-
-        <div id="home">
+    </div>
+      <div class="us">
+        <div class="us_row">
+            <div class="us_column">
+                <img src="{% static '/pictures/pig-work.gif' %}">
+            </div>
+            <div class="us_column">
+                <h1>О нашей команде</h1>
+                <hr class="ahr">
+                <p>
+                    <span style="color: var(--accent-color)">3pigs.inc</span> — это независимая команда разработчиков, 
+                    создающая уникальные и увлекательные проекты. 
+                    Наша миссия — воплощать в жизнь захватывающие идеи и создавать проекты, 
+                    которые будут вас вдохновлять и увлекать.
+                </p>
+            </div>
         </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'home' %}">Главная</a>
+        <div class="us_row">
+            <div class="us_column2">
+                <div class="team">
+                    <h1>Команда</h1>
+                </div>
+                <div class="us_row1">
+                    <div class="us_column1">
+                        <span class="circle-image">
+                            <img src="{% static '/pictures/about_us/ilya.jpg' %}">
+                        </span>
+                        <h2>Илья Карпов</h2>
+                        <p>Занимался Frontend-разработкой сайта и созданием ПК-приложения.</p>
+                    </div>
+                    <div class="us_column1">
+                        <span class="circle-image">
+                            <img src="{% static '/pictures/about_us/artemiy.jpg' %}">
+                        </span>
+                        <h2>Артемий Куцев</h2>
+                        <p>Отвечал за Backend-разработку сайта и разработку нейросети.</p>
+                    </div>
+                    <div class="us_column1">
+                        <span class="circle-image">
+                            <img src="{% static '/pictures/about_us/kirill.jpg' %}">
+                        </span>
+                        <h2>Кирилл Колодинов</h2>
+                        <p>Разрабатывал мобильное приложение и создавал дизайн.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="programm">
-        </div>
-
-        <div class="item__text">
-
-          <a href="">Приложение</a>
-        </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="recipe">
-        </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'posts' %}">Подборки</a>
-        </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="user">
-        </div>
-
-        <div class="item__text">
-          {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">Личный кабинет</a>
-          {% endif %}
-          {% if not user.is_authenticated %}
-            <a href="{% url 'signup' %}">Личный кабинет</a>
-          {% endif %}
-        </div>
-      </li>
-      <li class="sidebar__item">
-
-        <div id="pigs">
-        </div>
-
-        <div class="item__text">
-
-          <a href="{% url 'about' %}">О нас</a>
-        </div>
-      </li>
-</div>
-    <footer>
-      <p>2024</p>
-    </footer>
-  </div>
-  </body>
-</html>
+    </div>
+{% endblock %}

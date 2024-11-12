@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 from .models import Profile
+from recipe.models import Posts
+
 
 class SignUpForm(UserCreationForm):
     phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
@@ -12,9 +14,9 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'phone', 'email', 'password1', 'password2')
         widgets = {
             'username': forms.TextInput(attrs={
-                    'placeholder': 'Логин'}),
+                'placeholder': 'Логин'}),
             'email': forms.EmailInput(attrs={
-                    'placeholder': 'E-mail'}),
+                'placeholder': 'E-mail'}),
         }
 
     def clean_username(self):
@@ -47,15 +49,17 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].required = True
         self.fields['email'].required = True
 
+
 class LoginForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={
-            'placeholder': 'Логин'}))
+        'placeholder': 'Логин'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-            'placeholder': 'Пароль'}))
+        'placeholder': 'Пароль'}))
 
     class Meta:
         model = User
         fields = ('name', 'password',)
+
 
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
@@ -70,21 +74,22 @@ class CustomPasswordResetForm(PasswordResetForm):
             raise forms.ValidationError("Эта почта не зарегистрирована")
         return email
 
+
 class CustomSetPasswordForm(SetPasswordForm):
-    error_messages ={
+    error_messages = {
         'password_mismatch': "Пароли не совпадают."
     }
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Новый пароль'
-        }),
-    strip=False
+        }), strip=False
     )
     new_password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Повторите пароль'
         })
     )
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -97,9 +102,11 @@ class UserUpdateForm(forms.ModelForm):
                 'placeholder': 'E-mail'}),
         }
 
+
 class UserUpdateProfileForm(forms.ModelForm):
     phone = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Номер телефона', 'data-mask': "+7 (000)-000-00-00"}))
+
     class Meta:
         model = Profile
         fields = ['phone', 'image']
@@ -110,11 +117,13 @@ class UserUpdateProfileForm(forms.ModelForm):
             raise forms.ValidationError("Номер телефона введён неверно.")
         return phone
 
+
 class CustomPasswordChangeForm(PasswordChangeForm):
-    error_messages ={
+    error_messages = {
         'password_mismatch': "Новые пароли не совпадают.",
         'password_incorrect': "Неверный пароль. Повторите ввод."
     }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['old_password'].widget.attrs.update({'placeholder': 'Старый пароль'})
@@ -122,3 +131,16 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['new_password2'].widget.attrs.update({'placeholder': 'Повторите пароль'})
         self.fields['new_password1'].required = True
         self.fields['new_password2'].required = True
+
+
+class EditRecipe(forms.ModelForm):
+    class Meta:
+        model = Posts
+        fields = ('post_image', 'title', 'description')
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Заголовок',
+                'class': 'filled'}),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'Описание рецепта'})
+        }

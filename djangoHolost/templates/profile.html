@@ -4,6 +4,8 @@
 
 {% block content %}
 <script src="{% static '/js/script_profile.js' %}" type="text/javascript" defer></script>
+<script src="{% static '/js/script_post.js' %}" type="text/javascript" defer></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 <div class="centerbox1">
     {% if messages %}
     <div class="messages-popup">
@@ -60,6 +62,13 @@
                         <input type="file" name="image" id="id_image">
                         <button type="submit" name="action" value="delete_avatar">Удалить аватар</button>
                     </div>
+                    <div id="cut" style="display: none;">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <img id="imageToCrop">
+                            <button id="cropButton" type="button">Обрезать и сохранить</button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         {{ form.username }}
                         <label for="{{ form.username.id_for_label }}" class="form-label">Логин</label>
@@ -109,19 +118,45 @@
             </div>
 
             <div id="posts-info" class="content-box" style="display:none;">
-                <h1>Мои рецепты</h1>
+                <h1 class="recipe_title">Мои рецепты</h1>
                 <form method="post">
                     {% csrf_token %}
                     {% if form3 %}
                         {% for post in form3 %}
-                            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}" style="width: 150px;">
-                            <p>{{ post.author }}</p>
-                            <p>{{ post.title }}</p>
-                            <p>{{ post.description }}</p>
-                            <p>{{ post.created_at }}</p>
-                            <p>{{ post.update_at }}</p>
-                            <button><a class="" href="{% url 'edit_post' post.id %}">Редактировать рецепт</a></button>
-                            <button><a href="{% url 'delete_post' post.id %}">Удалить рецепт</a></button>
+                        <div class="container2">
+                            <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
+                            {% for profile in profiles %}
+                                {% if profile.user == post.author %}
+                                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображениеe">
+                                {% endif %}
+                            {% endfor %}
+                            <p class="post_author">{{ post.author }}</p>
+                            <p class="post_title">{{ post.title }}</p>
+                            <p class="post_description">{{ post.description }}</p>
+                            <p class="post_created_at">{{ post.created_at }}</p>
+                            {% if post.update_at != post.created_at %}
+                                <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
+                            {% endif %}
+                            <a class="buttona" href="{% url 'edit_post' post.id %}">Редактировать рецепт</a>
+                            <a class="buttona" href="{% url 'delete_post' post.id %}">Удалить рецепт</a>
+                            <div class="like">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <a class="like-button" data-post-id="{{ post.id }}">
+                                    {% if post.id in liked_posts %}
+                                        <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                                    {% else %}
+                                        <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                                    {% endif %}
+                                </a>
+                                <span class="like-count">{{ post.likes.count }}</span>
+                            </div>
+                            <div class="views">
+                                <div class="svg-icon">
+                                    {% include 'svg/eye_dark.svg' %}
+                                </div>
+                                <span>{{ post.views }}</span>
+                            </div>
+                        </div>
                         {% endfor %}
                     {% else %}
                         <p>Вы еще не добавляли свои рецепты</p>
@@ -137,4 +172,5 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 {% endblock %}
