@@ -387,3 +387,30 @@ class UserUpdatePasswordView(APIView):
             return Response({"message": "Успешная смена пароля"}, status=status.HTTP_200_OK)
         else:
              return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST) 
+
+class UsersPostsGetView(APIView):
+    def get(self, request):
+        user = User.objects.get(id=request.data.get('userId'))
+        post = Posts.objects.all().order_by('-created_at')
+        profiles = Profile.objects.all()
+        if profiles.image():
+            user_image_uri = request.build_absolute_uri(profile.image.url)
+
+        if post.post_image:
+            image_uri = request.build_absolute_uri(post.post_image.url)
+
+        liked_posts = []
+        if user.is_authenticated:
+            liked_posts = Like.objects.filter(user=user).values_list('post_id', flat=True)
+        return Response({
+            "author": post.author,
+            "title": post.title,
+            "desc": post.description,
+            "post_image": image_uri,
+            "created_at": post.created_at,
+            "update_at": post.update_at,
+            "views": post.views,
+            "likes": liked_posts,
+            "users": profiles.id,
+            "userImage": user_image_uri,
+        }, status=status.HTTP_200_OK)
