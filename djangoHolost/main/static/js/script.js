@@ -331,15 +331,21 @@ document.addEventListener("DOMContentLoaded", function() {
 // CAROUSEL
 
 document.addEventListener('DOMContentLoaded', function() {
+    let swiperContainer = document.querySelector('.swiper-container');
+    let slides = swiperContainer.querySelectorAll('.swiper-slide');
+
+    let loopEnabled = slides.length >= 4;
+    let autoplayEnabled = slides.length >= 4;
+    
     let swiper = new Swiper('.swiper-container', {
         slidesPerView: 'auto',
         spaceBetween: 10,
-        initialSlide: 0,
-        loop: true,
-        autoplay: {
+        initialSlide: 1,
+        loop: loopEnabled,
+        autoplay: autoplayEnabled ? {
             delay: 3000,
             disableOnInteraction: false,
-        },
+        } : false,
         speed: 500,
         mousewheel: true,
         centeredSlides: true,

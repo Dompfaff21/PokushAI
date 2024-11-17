@@ -1863,7 +1863,6 @@ textarea::-webkit-scrollbar {
         gap: 20px;
         justify-content: center;
         margin-bottom: 30px;
-        width: 1000px;
         width: 1142px;
 
         @media only screen and (max-width:700px) {
@@ -1881,7 +1880,7 @@ textarea::-webkit-scrollbar {
 
 #scroll {
         user-select: none;
-        margin-left:20px;
+        margin-left: 20px;
         @media only screen and (max-width:400px) {
                 width: 350px;
         };
@@ -1902,7 +1901,8 @@ textarea::-webkit-scrollbar {
 .swiper-container {
         overflow: hidden;
         scroll-behavior: smooth;
-        scroll-snap-type: mandatory;
+        scroll-snap-type: x mandatory;
+        width: 1142px;
 }
     
 .swiper-wrapper {
