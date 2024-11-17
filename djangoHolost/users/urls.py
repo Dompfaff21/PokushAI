@@ -5,6 +5,7 @@ from .views import get_num_forms
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
         path('login', views.signup, name='signup'),
         path('logout', LogoutView.as_view(), name='logout'),

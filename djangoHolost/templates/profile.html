@@ -123,7 +123,7 @@
                     {% csrf_token %}
                     {% if form3 %}
                         {% for post in form3 %}
-                        <div class="container2">
+                        <div class="container2" id="recipes_author">
                             <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
                             {% for profile in profiles %}
                                 {% if profile.user == post.author %}
@@ -134,11 +134,11 @@
                             <p class="post_title">{{ post.title }}</p>
                             <p class="post_description">{{ post.description }}</p>
                             <p class="post_created_at">{{ post.created_at }}</p>
-                            {% if post.update_at != post.created_at %}
+                            {% if post.is_updated %}
                                 <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
                             {% endif %}
-                            <a class="buttona" href="{% url 'edit_post' post.id %}">Редактировать рецепт</a>
-                            <a class="buttona" href="{% url 'delete_post' post.id %}">Удалить рецепт</a>
+                            <a class="buttona" href="{% url 'edit_post' post.id %}" id="view_recipe">Редактировать рецепт</a>
+                            <a class="buttona" href="{% url 'delete_post' post.id %}" id="view_recipe">Удалить рецепт</a>
                             <div class="like">
                                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                 <a class="like-button" data-post-id="{{ post.id }}">

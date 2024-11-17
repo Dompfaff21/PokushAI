@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% block title %}ПокушAI{% endblock %}
+{% block title %}Рецептор{% endblock %}
 
 {% block content %}
       {% if messages %}
@@ -20,7 +20,7 @@
       </div>
       {% endif %}
       <div class="name">
-        <h1>ПокушAI</h1>
+        <h1>Рецептор</h1>
         <p>Кулинарное приложение с мобильной версией.
         Отличные блюда из подручных продуктов.</p>
         <a href="#next-section" class="scroll-button">
@@ -66,61 +66,63 @@
             </div>
           </div>
       </div>
-      <div class="top-list">
-        <h2>Популярные рецепты</h2>
-      <div class="top" id="carousel">
-      {% if top_posts %}
-        {% for post in top_posts %}
-            <div class="container2" id="scroll">
-                <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
-                
-                {% for profile in profiles %}
-                    {% if profile.user == post.author %}
-                        <a href="{% url 'profile_view' profile.id %}">
-                            <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображение">
-                        </a>
-                        <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);">
-                            <p class="post_author">{{ post.author }}</p>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-                
-                <p class="post_title">{{ post.title }}</p>
-                <p class="post_description">{{ post.description }}</p>
-                <p class="post_created_at">{{ post.created_at }}</p>
-                
-                {% if post.update_at != post.created_at %}
-                    <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
-                {% endif %}
-                
-                <a class="buttona" href="{% url 'post_view' post.id %}">Смотреть рецепт</a>
-                
-                <div class="like">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                    <a class="like-button" data-post-id="{{ post.id }}">
-                        {% if post.id in liked_posts %}
-                            <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
-                        {% else %}
-                            <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+    {% if top_posts %}
+        <div class="top-list">
+            <h2>Популярные рецепты</h2>
+            <div class="swiper-container top">
+                <div class="swiper-wrapper">
+                {% for post in top_posts %}
+                    <div class="swiper-slide container2" id="scroll">
+                        <img class="post_img" src="{% if post.post_image %}{{ post.post_image.url }}{% else %}{% static '/pictures/nophoto.svg' %}{% endif %}">
+                        
+                        {% for profile in profiles %}
+                            {% if profile.user == post.author %}
+                                <a href="{% url 'profile_view' profile.id %}">
+                                    <img class="user_avatar" src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static '/pictures/no_photo.png' %}{% endif %}" alt="Ваше изображение">
+                                </a>
+                                <a href="{% url 'profile_view' profile.id %}" style="text-decoration: none; color: var(--text-color);">
+                                    <p class="post_author">{{ post.author }}</p>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <p class="post_title">{{ post.title }}</p>
+                        <p class="post_description">{{ post.description }}</p>
+                        <p class="post_created_at">{{ post.created_at }}</p>
+                        
+                        {% if post.is_updated %}
+                            <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
                         {% endif %}
-                    </a>
-                    <span class="like-count">{{ post.likes.count }}</span>
-                </div>
-                
-                <div class="views">
-                    <div class="svg-icon">
-                        {% include 'svg/eye_dark.svg' %}
+                        
+                        <a class="buttona" id="view_recipe" href="{% url 'post_view' post.id %}">Смотреть рецепт</a>
+                        
+                        <div class="like">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <a class="like-button" data-post-id="{{ post.id }}">
+                                {% if post.id in liked_posts %}
+                                    <img src="{% static '/pictures/like-hover.svg' %}" style="cursor: pointer;">
+                                {% else %}
+                                    <img src="{% static '/pictures/like.svg' %}" style="cursor: pointer;">
+                                {% endif %}
+                            </a>
+                            <span class="like-count">{{ post.likes.count }}</span>
+                        </div>
+                        
+                        <div class="views">
+                            <div class="svg-icon">
+                                {% include 'svg/eye_dark.svg' %}
+                            </div>
+                            <span>{{ post.views }}</span>
+                        </div>
                     </div>
-                    <span>{{ post.views }}</span>
+                {% endfor %}
                 </div>
             </div>
-        {% endfor %}
-        {% else %}
-            <p>Нет постов для отображения.</p>
-        {% endif %}
         </div>
-    </div>
-      <div class="us">
+    {% else %}
+                
+    {% endif %}
+    <!-- <div class="us">
         <div class="us_row">
             <div class="us_column">
                 <img src="{% static '/pictures/pig-work.gif' %}">
@@ -166,5 +168,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 {% endblock %}

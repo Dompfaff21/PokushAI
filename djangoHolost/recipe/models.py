@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta
 
 class Posts(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -10,6 +11,10 @@ class Posts(models.Model):
     update_at = models.DateTimeField('Дата последнего обновления', auto_now=True)
     views = models.PositiveIntegerField(default=0)
     viewed_users = models.ManyToManyField(User, related_name="viewed_posts", blank=True)
+
+    @property
+    def is_updated(self):
+        return (self.update_at - self.created_at) > timedelta(seconds=1)
 
     def __str__(self):
         return self.title

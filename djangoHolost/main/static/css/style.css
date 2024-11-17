@@ -475,7 +475,7 @@ main {
         align-items: center;
         justify-content: center;
         gap: 20px;
-        padding: 20px 0px 40px;
+        padding: 20px 0px 30px;
         flex: 1;
 }
 
@@ -576,6 +576,7 @@ main {
         @media only screen and (max-width:1140px) {
                 font-size: 16px;
                 font-weight: 300;
+                letter-spacing: -0.02em;
         };
 
         @media only screen and (min-width:1141px) {
@@ -724,7 +725,7 @@ footer {
         @media only screen and (max-width:400px) {
                 flex-direction: column;
                 gap: 20px;
-                width: 310px;
+                width: 330px;
                 align-items: center;
         };
 
@@ -1435,7 +1436,7 @@ footer {
                 top: 160px;
         };
 
-        @media only screen and (min-width:700px) {
+        @media only screen and (min-width:701px) {
                 top: 100px;
         };
 }
@@ -1453,9 +1454,19 @@ footer {
 }
 
 .recipe_title {
-        width: 500px;
+        max-width: 100%;
         height: 50px;
         border-radius: 30px;
+
+        @media only screen and (max-width:700px) {
+                width: auto !important;
+                border: none !important;
+                border-radius: 0px;
+        };
+
+        @media only screen and (min-width:701px) {
+                width: auto !important;
+        };
 }
 
 .dark-theme .recipe_title {
@@ -1471,7 +1482,6 @@ footer {
 #posts-info a {
         color: #f5f5f5;
         font-size: 12px;
-        width: 160px;
         display: flex;
         margin: 0px;
         justify-content: center;
@@ -1586,7 +1596,6 @@ textarea::-webkit-scrollbar {
     
         @media only screen and (max-width:700px) {
             block-size: fit-content;
-            max-height: 1000px;
         };
     
         @media only screen and (min-width:701px) and (max-width:1300px) {
@@ -1608,6 +1617,8 @@ textarea::-webkit-scrollbar {
         max-height: 1500px;
         border-radius: 30px;
         padding: 20px;
+        position: relative;
+        padding-bottom: 50px;
         
         @media only screen and (min-width:701px) and (max-width:1300px) {
             position: relative;
@@ -1676,7 +1687,8 @@ textarea::-webkit-scrollbar {
         text-transform: uppercase;
         margin-top: 10px;
         cursor: pointer;
-        padding: 10px 45px;
+        padding: 10px 10px;
+        white-space: nowrap;
     }
 
     .container2 .buttona {
@@ -1685,13 +1697,14 @@ textarea::-webkit-scrollbar {
         border-radius: 8px;
         font-weight: 600;
         text-align: center;
-        width: 255px !important;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         margin-top: 10px !important;
         cursor: pointer;
         color: #f5f5f5;
-        padding: 10px 45px;
+        padding: 10px 10px;
+        font-size: 14px;
+        white-space: nowrap;
         text-decoration: none;
     }
 
@@ -1745,7 +1758,7 @@ textarea::-webkit-scrollbar {
 
 .post_description {
         word-break: break-all;
-        width: 400px;
+        width: 350px;
         text-align: center;
         text-align-last: center;
 }
@@ -1778,7 +1791,7 @@ textarea::-webkit-scrollbar {
         left: 20px;
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        gap: 5px;
         height: 30px;
         padding: 10px 15px 10px 10px;
         align-items: center;
@@ -1827,13 +1840,18 @@ textarea::-webkit-scrollbar {
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 40px;
+        gap: 30px;
         user-select: none;
 }
 
 .top-list h2 {
         font-size: 40px;
-        color: var(--text-color)
+        color: var(--text-color);
+        text-align: center;
+
+        @media only screen and (max-width:400px) {
+                font-size: 30px;
+        };
 }
 
 .light-theme .top-list {
@@ -1847,10 +1865,17 @@ textarea::-webkit-scrollbar {
 .top {
         display: flex;
         gap: 20px;
+        justify-content: center;
+        margin-bottom: 30px;
         width: 1142px;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
+
+        @media only screen and (max-width:700px) {
+                width: 99%;
+        };
+
+        @media only screen and ((max-width:1141px) and (min-width:701px) ) {
+                width: 550px;
+        };
 }
 
 .top::-webkit-scrollbar {
@@ -1858,9 +1883,41 @@ textarea::-webkit-scrollbar {
     }
 
 #scroll {
-        box-sizing: border-box;
-        flex-shrink: 0;
-        transition: transform 0.3s ease;
         user-select: none;
-        margin: 0px;
+        margin-left: 20px;
+        @media only screen and (max-width:400px) {
+                width: 350px;
+        };
+}
+
+#recipes_author {
+        @media only screen and (max-width:400px) {
+                width: 350px;
+        };
+}
+
+#posts {
+        @media only screen and (max-width:700px) {
+                margin-top: 46px;
+        };
+}
+
+.swiper-container {
+        overflow: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+}
+    
+.swiper-wrapper {
+        display: flex;
+        transition: transform 0.3s ease-out;
+}
+    
+.swiper-slide {
+        flex-shrink: 0;
+        width: 500px !important;
+        display: flex !important;
+        @media only screen and (max-width:1300px) {
+                width: 340px !important;
+        };
 }
