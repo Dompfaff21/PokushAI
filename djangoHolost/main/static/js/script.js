@@ -332,6 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let swiperContainer = document.querySelector('.swiper-container');
+    if (!swiperContainer) return;
     let slides = swiperContainer.querySelectorAll('.swiper-slide');
 
     let loopEnabled = slides.length >= 4;

@@ -90,7 +90,7 @@
                         <p class="post_description">{{ post.description }}</p>
                         <p class="post_created_at">{{ post.created_at }}</p>
                         
-                        {% if post.update_at != post.created_at %}
+                        {% if post.is_updated %}
                             <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
                         {% endif %}
                         

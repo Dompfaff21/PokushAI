@@ -11,6 +11,10 @@ class Posts(models.Model):
     views = models.PositiveIntegerField(default=0)
     viewed_users = models.ManyToManyField(User, related_name="viewed_posts", blank=True)
 
+    @property
+    def is_updated(self):
+        return self.update_at != self.created_at
+
     def __str__(self):
         return self.title
 

@@ -16,8 +16,8 @@
                         {% endif %}
                     {% endfor %}
                     <p class="post_created_at">{{ recipe.created_at }}</p>
-                    {% if recipe.update_at != recipe.created_at %}
-                        <p class="post_updated_at">Изменено: {{ recipe.update_at }}</p>
+                    {% if post.is_updated %}
+                        <p class="post_updated_at">Изменено: {{ post.update_at }}</p>
                     {% endif %}
                     <div class="like">
                         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
