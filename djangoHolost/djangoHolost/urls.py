@@ -16,6 +16,7 @@ urlpatterns = [
     path('update_profile/', UserProfileUpdateView.as_view()),
     path('update_password/', UserUpdatePasswordView.as_view()),
     path('users_posts/', UsersPostsGetView.as_view()),
+    path('app/', include('app.urls')),
 ]
 
 handler404 = 'main.views.error_404_view'

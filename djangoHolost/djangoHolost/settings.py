@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'recipe',
+    'app',
     'rest_framework',
 ]
 
