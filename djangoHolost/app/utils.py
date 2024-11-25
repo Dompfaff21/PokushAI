@@ -12,9 +12,6 @@ interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-print("Входные данные:", input_details)
-print("Выходные данные:", output_details)
-
 csv_path = os.path.join(BASE_DIR, 'main', 'static', 'app', 'recipes2.csv')
 recipes = pd.read_csv(csv_path)
 
@@ -44,7 +41,7 @@ def preprocess_input(switch_result, all_ingredients):
 
 def predict_recipe(switch_result, all_ingredients):
     """Генерация предсказания на основе входных данных для TFLite."""
-
+    
     input_data = preprocess_input(switch_result, all_ingredients)
     print(f"Входные данные для модели: {input_data}")
 
@@ -52,20 +49,19 @@ def predict_recipe(switch_result, all_ingredients):
         print("Ошибка: Нет выбранных ингредиентов")
         return None
     
-
     interpreter.set_tensor(input_details[0]['index'], input_data)
     interpreter.invoke()
-
 
     output_data = interpreter.get_tensor(output_details[0]['index'])
     print(f"Выходные данные: {output_data}")
 
-
-    predicted_index = np.argmax(output_data)
-    print(f"Предсказанный индекс: {predicted_index}")
+    top_indices = np.argsort(output_data[0])[-3:][::-1]
+    print(f"Топ-3 предсказанных индекса: {top_indices}")
     
-
-    return unique_recipes[predicted_index]
+    top_recipes = [unique_recipes[i] for i in top_indices]
+    print(f"Топ-3 рецепта: {top_recipes}")
+    
+    return top_recipes
 
 def get_recipe_details(dish_name):
     """Получение подробной информации о рецепте."""

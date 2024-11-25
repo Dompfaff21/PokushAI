@@ -19,10 +19,52 @@
     }
     .ingredient-list {
         margin-bottom: 20px;
+        position: relative;
+        width: 100%;
     }
-    .ingredient-list label {
+    .scrollable-list {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .scrollable-list label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .scrollable-list label.selected {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .ingredient-list input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 10;
+        display: none;
+    }
+    .autocomplete-suggestions div {
+        padding: 8px;
+        cursor: pointer;
+    }
+    .autocomplete-suggestions div:hover {
+        background-color: #f1f1f1;
     }
     .btn {
         background-color: #4CAF50;
@@ -47,30 +89,95 @@
     .error {
         color: red;
     }
+
+    input::placeholder {
+    color: #888;
+}
 </style>
+
 <div class="container6">
     <h1>Выберите ингредиенты</h1>
 
     <form method="POST">
         {% csrf_token %}
         <div class="ingredient-list">
-            {% for ingredient in ingredients %}
-                <label>
-                    <input type="checkbox" name="ingredients" value="{{ ingredient }}">{{ ingredient }}
-                </label>
-            {% endfor %}
+            <input type="text" id="ingredientSearch" placeholder="Начните вводить ингредиент..." onkeyup="filterIngredients()">
+            <div id="suggestionsList" class="autocomplete-suggestions"></div>
+        </div>
+        <div id="selectedIngredients" class="ingredient-list">
+            <div class="scrollable-list">
+                {% for ingredient in ingredients %}
+                    <label onclick="toggleIngredientSelection(this)">
+                        <input type="checkbox" name="ingredients" value="{{ ingredient }}" style="display:none;">{{ ingredient }}
+                    </label>
+                {% endfor %}
+            </div>
         </div>
         <button type="submit" class="btn">Найти рецепт</button>
     </form>
 
     <div id="recipeResult" class="result">
-        {% if recipe %}
-            <h3>Рецепт: {{ recipe.dish }}</h3>
-            <p>{{ recipe.details }}</p>
-        {% elif error_message %}
+        {% if error_message %}
             <p class="error">{{ error_message }}</p>
         {% endif %}
     </div>
 </div>
+
+<script >
+    const ingredients = [
+        {% for ingredient in ingredients %}
+            "{{ ingredient }}",
+        {% endfor %}
+    ];
+
+    function filterIngredients() {
+        const query = document.getElementById("ingredientSearch").value.toLowerCase();
+        const suggestions = document.getElementById("suggestionsList");
+        suggestions.innerHTML = '';
+
+        if (query.length > 0) {
+            const filtered = ingredients.filter(ingredient => ingredient.toLowerCase().includes(query));
+            if (filtered.length > 0) {
+                suggestions.style.display = 'block';
+                filtered.forEach(ingredient => {
+                    const suggestionDiv = document.createElement("div");
+                    suggestionDiv.textContent = ingredient;
+                    suggestionDiv.onclick = () => addIngredient(ingredient);
+                    suggestions.appendChild(suggestionDiv);
+                });
+            } else {
+                suggestions.style.display = 'none';
+            }
+        } else {
+            suggestions.style.display = 'none';
+        }
+    }
+
+    function addIngredient(ingredient) {
+        const checkboxList = document.getElementsByName('ingredients');
+        checkboxList.forEach((checkbox) => {
+            if (checkbox.value === ingredient) {
+                checkbox.checked = true;
+                const label = checkbox.closest('label');
+                label.classList.add('selected');
+            }
+        });
+
+        document.getElementById("ingredientSearch").value = '';
+        document.getElementById("suggestionsList").innerHTML = '';
+        document.getElementById("suggestionsList").style.display = 'none';
+    }
+
+    function toggleIngredientSelection(label) {
+        const checkbox = label.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+
+        if (checkbox.checked) {
+            label.classList.add('selected');
+        } else {
+            label.classList.remove('selected');
+        }
+    }
+</script>
 
 {% endblock %}
