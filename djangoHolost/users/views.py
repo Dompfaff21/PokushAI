@@ -390,27 +390,34 @@ class UserUpdatePasswordView(APIView):
 
 class UsersPostsGetView(APIView):
     def get(self, request):
-        user = User.objects.get(id=request.data.get('userId'))
+        data = []
+        user_data = []
+
         post = Posts.objects.all().order_by('-created_at')
+
+        for item in post:
+            post_data = {
+                    "author": item.author.username,
+                    "title": item.title,
+                    "des": item.description,
+                    "created_at": item.created_at,
+                    "update_at": item.update_at,
+                    "views": item.views,
+                }
+            if item.post_image:
+                post_data["image"] = request.build_absolute_uri(item.post_image.url)
+            data.append(post_data)
         profiles = Profile.objects.all()
-        if profiles.image():
-            user_image_uri = request.build_absolute_uri(profile.image.url)
 
-        if post.post_image:
-            image_uri = request.build_absolute_uri(post.post_image.url)
+        for item in profiles:
+            if item.image:
+                user_data.append(
+                    {
+                        "user_image": request.build_absolute_uri(item.image)
+                    }
+                )
 
-        liked_posts = []
-        if user.is_authenticated:
-            liked_posts = Like.objects.filter(user=user).values_list('post_id', flat=True)
         return Response({
-            "author": post.author,
-            "title": post.title,
-            "desc": post.description,
-            "post_image": image_uri,
-            "created_at": post.created_at,
-            "update_at": post.update_at,
-            "views": post.views,
-            "likes": liked_posts,
-            "users": profiles.id,
-            "userImage": user_image_uri,
+            "data": data,
+            "user_data": user_data
         }, status=status.HTTP_200_OK)
