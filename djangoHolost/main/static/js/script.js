@@ -355,3 +355,54 @@ document.addEventListener('DOMContentLoaded', function() {
         touchMoveStopPropagation: false
     });
 });
+
+// APP
+
+function filterIngredients() {
+    const query = document.getElementById("ingredientSearch").value.toLowerCase();
+    const suggestions = document.getElementById("suggestionsList");
+    suggestions.innerHTML = '';
+
+    if (query.length > 0) {
+        const filtered = ingredients.filter(ingredient => ingredient.toLowerCase().includes(query));
+        if (filtered.length > 0) {
+            suggestions.style.display = 'block';
+            filtered.forEach(ingredient => {
+                const suggestionDiv = document.createElement("div");
+                suggestionDiv.textContent = ingredient;
+                suggestionDiv.onclick = () => addIngredient(ingredient);
+                suggestions.appendChild(suggestionDiv);
+            });
+        } else {
+            suggestions.style.display = 'none';
+        }
+    } else {
+        suggestions.style.display = 'none';
+    }
+}
+
+function addIngredient(ingredient) {
+    const checkboxList = document.getElementsByName('ingredients');
+    checkboxList.forEach((checkbox) => {
+        if (checkbox.value === ingredient) {
+            checkbox.checked = true;
+            const label = checkbox.closest('label');
+            label.classList.add('selected');
+        }
+    });
+
+    document.getElementById("ingredientSearch").value = '';
+    document.getElementById("suggestionsList").innerHTML = '';
+    document.getElementById("suggestionsList").style.display = 'none';
+}
+
+function toggleIngredientSelection(label) {
+    const checkbox = label.querySelector('input[type="checkbox"]');
+    checkbox.checked = !checkbox.checked;
+
+    if (checkbox.checked) {
+        label.classList.add('selected');
+    } else {
+        label.classList.remove('selected');
+    }
+}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ dish }}{% endblock %}
+
+{% block content %}
+    <div class="centerbox2">
+        <div class="container2" style="max-height: fit-content;">
+            <form>
+                <div class="form-group">
+                    <input type="text" value="{{ dish }}" readonly>
+                    <label class="form-label">Заголовок</label>
+                </div>
+                <div class="post_column" id="formset-container">
+                    {% for step in steps %}
+                        <div class="step-form">
+                            <label>{{ step.title }}:</label>
+                            <textarea class="recipe_detail" readonly>{{ step.text }}</textarea>
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+            <a href="{% url 'recipe_result' %}" class="buttona">Вернуться к результатам</a>
+        </div>
+    </div>
+
+<script>
+    function autoResizeTextarea(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight + 5) + 'px';
+  }
+  
+  window.addEventListener('load', () => {
+    const textareas = document.querySelectorAll('textarea');
+  
+    textareas.forEach(textarea => {
+      autoResizeTextarea(textarea);
+  
+      textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+    });
+  });
+</script>
+{% endblock %}

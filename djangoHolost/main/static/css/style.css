@@ -8,7 +8,8 @@ html,body{
 }
 
 header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer, 
-.modal-content, .cropper-modal, .close, .recipe_title, .like, .top-list {
+.modal-content, .cropper-modal, .close, .recipe_title, .like, .top-list, .scrollable-list,
+.autocomplete-suggestions {
         transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 /* LIGHT THEME */
@@ -1880,7 +1881,7 @@ textarea::-webkit-scrollbar {
 
 .top::-webkit-scrollbar {
         display: none;
-    }
+}
 
 #scroll {
         user-select: none;
@@ -1921,3 +1922,72 @@ textarea::-webkit-scrollbar {
                 width: 340px !important;
         };
 }
+
+/* APP */
+
+.ingredient-list {
+        position: relative;
+        width: 100%;
+        user-select: none;
+    }
+    .scrollable-list {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid var(--border-radius);
+        border-radius: 5px;
+    }
+
+    .scrollable-list label {
+        display: block;
+        padding: 5px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .scrollable-list label.selected {
+        background-color: var(--accent-color);
+        color: white;
+    }
+
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--header);
+        border: 1px solid var(--border-radius);
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 10;
+        display: none;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .autocomplete-suggestions::-webkit-scrollbar,
+    .scrollable-list::-webkit-scrollbar {
+        display: none;
+    }       
+
+    .autocomplete-suggestions div {
+        padding: 8px;
+        cursor: pointer;
+    }
+    .autocomplete-suggestions div:hover {
+        background-color: var(--border);
+    }
+    .search {
+        width: 100%;
+    }
+
+    #ingredientSearch {
+        margin-top: 20px;
+    }
+
+    #ingredientSearch::placeholder {
+        color: #888;
+    }
+
+    .recipe_detail {
+        text-align: justify;
+    }

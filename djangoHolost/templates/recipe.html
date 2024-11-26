@@ -1,28 +1,8 @@
 {% extends 'layout.html' %}
-{% block title %}Результат рецепта{% endblock %}
+{% block title %}Рецепты{% endblock %}
 
 {% block content %}
 <style>
-
-    .container6 {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .ingredient-list {
-        margin-bottom: 20px;
-    }
-    .ingredient-list label {
-        display: block;
-        margin-bottom: 8px;
-    }
     .btn {
         background-color: #4CAF50;
         color: white;
@@ -33,33 +13,22 @@
         font-size: 16px;
         width: 100%;
     }
-    .btn:hover {
-        background-color: #45a049;
-    }
     .result {
         margin-top: 20px;
         padding: 10px;
-        background-color: #f8f8f8;
         border-radius: 5px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    .error {
-        color: red;
-    }
 </style>
-<div class="container6">
-    <div id="recipeResult" class="result">
-        {% if dishes %}
-        <ul>
+<div class="centerbox2">
+    {% if dishes %}
             {% for dish, details in dishes.items %}
-                <li>
-                    <h3>{{ dish }}</h3>
-                    <p>{{ details }}</p>
-                </li>
+                <div class="container2">
+                    <p class="post_title">{{ dish }}</p>
+                    <a class="buttona" href="{% url 'recipe_detail' dish %}">Посмотреть рецепт</a>
+                </div>
             {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    <a href="{% url 'app' %}" class="btn">Вернуться к выбору ингредиентов</a>
+    {% endif %}
+    <a href="{% url 'app' %}" class="new_post">Вернуться к выбору ингредиентов</a>
 </div>
 {% endblock %}
