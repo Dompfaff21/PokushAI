@@ -396,17 +396,16 @@ class UsersPostsGetView(APIView):
         post = Posts.objects.all().order_by('-created_at')
 
         for item in post:
-            post_data = {
+            data.append({
                     "author": item.author.username,
                     "title": item.title,
                     "des": item.description,
+                    "image": request.build_absolute_uri(item.post_image.url) if item.post_image else None,
                     "created_at": item.created_at,
                     "update_at": item.update_at,
                     "views": item.views,
-                }
-            if item.post_image:
-                post_data["image"] = request.build_absolute_uri(item.post_image.url)
-            data.append(post_data)
+                    "likes": item.likes.count()
+                })
         profiles = Profile.objects.all()
 
         for item in profiles:
