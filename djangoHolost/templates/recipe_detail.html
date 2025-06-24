@@ -5,20 +5,20 @@
 {% block content %}
     <div class="centerbox2">
         <div class="container2" style="max-height: fit-content;">
-            <form>
-                <div class="form-group">
-                    <input type="text" value="{{ dish }}" readonly>
-                    <label class="form-label">Заголовок</label>
+            <h2>{{ dish }}</h2>
+            <h3>Ингредиенты:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Шаги:</h3>
+            {% for step in steps %}
+                <div class="step-form">
+                    <label>{{ step.title }}:</label>
+                    <textarea class="recipe_detail" readonly>{{ step.text }}</textarea>
                 </div>
-                <div class="post_column" id="formset-container">
-                    {% for step in steps %}
-                        <div class="step-form">
-                            <label>{{ step.title }}:</label>
-                            <textarea class="recipe_detail" readonly>{{ step.text }}</textarea>
-                        </div>
-                    {% endfor %}
-                </div>
-            </form>
+            {% endfor %}
             <a href="{% url 'recipe_result' %}" class="buttona">Вернуться к результатам</a>
         </div>
     </div>

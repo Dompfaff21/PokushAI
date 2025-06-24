@@ -21,14 +21,12 @@
     }
 </style>
 <div class="centerbox2">
-    {% if dishes %}
-            {% for dish, details in dishes.items %}
-                <div class="container2">
-                    <p class="post_title">{{ dish }}</p>
-                    <a class="buttona" href="{% url 'recipe_detail' dish %}">Посмотреть рецепт</a>
-                </div>
-            {% endfor %}
-    {% endif %}
+    {% for dish, data in recipes.items %}
+        <div class="container2">
+            <p class="post_title">{{ dish }}</p>
+            <a class="buttona" href="{% url 'recipe_detail' dish %}">Посмотреть рецепт</a>
+        </div>
+    {% endfor %}
     <a href="{% url 'app' %}" class="new_post">Вернуться к выбору ингредиентов</a>
 </div>
 {% endblock %}
