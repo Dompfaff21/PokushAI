@@ -3,6 +3,7 @@
 {% block title %}Приложение{% endblock %}
 
 {% block content %}
+<script src="{% static '/js/script_app.js' %}" type="text/javascript" defer></script>
     {% if messages %}
       <div class="messages-popup" style="width: calc(100vw - 14px);">
           <ul class="messages">
@@ -21,18 +22,21 @@
     {% endif %}
 <div class="centerbox2">
     <div class="container2">
-        <h1>Выберите ингредиенты</h1>
-
+        <h1 style="text-align: center;">Выберите ингредиенты</h1>
+        <div id="chosenIngredients" class="chosen-ingredients"></div>
         <form method="POST">
             {% csrf_token %}
             <div class="ingredient-list">
-                <input type="text" id="ingredientSearch" placeholder="Поиск ингредиентов" onkeyup="filterIngredients()">
+                <div class="search-container">
+                    <input type="text" id="ingredientSearch" placeholder="Поиск ингредиентов" onkeyup="filterIngredients()">
+                    <span id="clearSearch" class="clear-search">&times;</span>
+                </div>
                 <div id="suggestionsList" class="autocomplete-suggestions"></div>
             </div>
             <div id="selectedIngredients" class="ingredient-list">
                 <div class="scrollable-list">
                     {% for ingredient in ingredients %}
-                        <label onclick="toggleIngredientSelection(this)">
+                        <label data-ingredient="{{ ingredient }}">
                             <input type="checkbox" name="ingredients" value="{{ ingredient }}" style="display:none;">{{ ingredient }}
                         </label>
                     {% endfor %}
@@ -45,7 +49,10 @@
 
 <script >
     const scrollableList = document.querySelector('.scrollable-list');
-    const ingredients = Array.from(scrollableList.querySelectorAll('label')).map(label => label.textContent.trim());
+    const ingredients = Array.from(scrollableList.querySelectorAll('label')).map(label => ({
+        name: label.dataset.ingredient,
+        element: label
+    }));
 </script>
 
 {% endblock %}

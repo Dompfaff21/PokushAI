@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% block title %}Рецептор{% endblock %}
+{% block title %}ПокушAI{% endblock %}
 
 {% block content %}
       {% if messages %}
@@ -20,7 +20,7 @@
       </div>
       {% endif %}
       <div class="name">
-        <h1>Рецептор</h1>
+        <h1>ПокушAI</h1>
         <p>Кулинарное приложение с мобильной версией.
         Отличные блюда из подручных продуктов.</p>
         <a href="#next-section" class="scroll-button">
@@ -66,7 +66,7 @@
             </div>
           </div>
       </div>
-    {% if top_posts %}
+    {% if top_posts|length > 2 %}
         <div class="top-list">
             <h2>Популярные рецепты</h2>
             <div class="swiper-container top">
@@ -118,9 +118,7 @@
                 {% endfor %}
                 </div>
             </div>
-        </div>
-    {% else %}
-                
+        </div>          
     {% endif %}
     <!-- <div class="us">
         <div class="us_row">
