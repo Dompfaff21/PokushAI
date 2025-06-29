@@ -89,9 +89,9 @@ async function setThemeIcons() {
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = dark_theme_svgs[4];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = dark_theme_svgs[5];
         } else if (document.getElementById('user')) {
             document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
@@ -102,9 +102,9 @@ async function setThemeIcons() {
         document.getElementById('programm').innerHTML = dark_theme_svgs[1];
         document.getElementById('recipe').innerHTML = dark_theme_svgs[2];
         if (document.getElementById('auth-icon')) {
-            document.getElementById('auth-icon').innerHTML = isDarkTheme ? dark_theme_svgs[4] : light_theme_svgs[7];
+            document.getElementById('auth-icon').innerHTML = dark_theme_svgs[4];
         } else if (document.getElementById('logout-icon')) {
-            document.getElementById('logout-icon').innerHTML = isDarkTheme ? dark_theme_svgs[5] : light_theme_svgs[6];
+            document.getElementById('logout-icon').innerHTML = dark_theme_svgs[5];
         } else if (document.getElementById('user')) {
             document.getElementById('user').innerHTML = dark_theme_svgs[3];
         }
