@@ -380,7 +380,7 @@ class UserProfileUpdateView(APIView):
         
 class UserUpdatePasswordView(APIView):
     def post(self, request):
-        user =  User.objects.get(id=request.data.get('userId'))
+        user = User.objects.get(id=request.data.get('userId'))
         if user.check_password(request.data.get('oldPassword')):
             user.set_password(request.data.get('password'))
             user.save()

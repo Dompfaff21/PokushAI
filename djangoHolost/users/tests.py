@@ -1,7 +1,7 @@
 from django.test import TestCase
 from users.models import Profile
 from django.contrib.auth.models import User
-from users.forms import SignUpForm
+from users.forms import SignUpForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm
 
 
 """Тесты моделей"""
@@ -105,6 +105,55 @@ class TestFormSignUpForm(TestCase):
         form = SignUpForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertEquals(form.errors['phone'], ['Номер телефона уже используется.'])
+
+class TestFormLoginForm(TestCase):
+    def test_valid_form(self):
+        User.objects.create_user(username='logintest', password='PasswordForTest01')
+        form_data = {
+            'name': 'logintest',
+            'password': 'PasswordForTest01'
+        }
+
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+class TestFormCustomPasswordResetForm(TestCase):
+    def test_valid_form(self):
+        User.objects.create_user(username='testemail', password='PasswordForTest01', email='test@test.com')
+        form_data = {'email': 'test@test.com'}
+
+        form = CustomPasswordResetForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_email_exist(self):
+        User.objects.create_user(username='testemail1', password='PasswordForTest01', email='test1@test.com')
+        form_data = {'email': 'uncorrect@test.com'}
+
+        form = CustomPasswordResetForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEquals(form.errors['email'], ['Эта почта не зарегистрирована'])
+
+class TestFormCustomSetPasswordForm(TestCase):
+    def test_valid_form(self):
+        user = User.objects.create_user(username='testuser', password='ChangePasswordTest01')
+        form_data = {
+            'new_password1': 'PasswordForTest01',
+            'new_password2': 'PasswordForTest01'
+        }
+
+        form = CustomSetPasswordForm(data=form_data, user=user)
+        self.assertTrue(form.is_valid())
+
+    def test_password_mismatch(self):
+        user = User.objects.create_user(username='testuser', password='ChangePasswordTest01')
+        form_data = {
+            'new_password1': 'PasswordForTest01',
+            'new_password2': 'PasswordForTest02'
+        }
+
+        form = CustomSetPasswordForm(data=form_data, user=user)
+        self.assertFalse(form.is_valid())
+        self.assertEquals(form.error_messages['password_mismatch'], 'Пароли не совпадают.')
 
 
 """Тесты вьюх"""
