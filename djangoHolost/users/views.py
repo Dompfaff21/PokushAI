@@ -1,32 +1,24 @@
 import os
 
+from djangoHolost.permissions import *
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer, LoginSerializer
+from rest_framework import generics
+from .serializers import *
 from .models import Profile
 from recipe.models import Posts
 
 
-
-
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({
-                "message": "Пользователь успешно зарегистрирован",
-                "userId": user.id
-            }, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CreateUserView(generics.CreateAPIView):
+    serializer_class = UserDetailSerializer
     
-        
-class LoginView(APIView):
+class ListUserView(generics.ListAPIView):
+    serializer_class = ListUsersSerializer
+    queryset = User.objects.all()
+
+class LoginUserView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
 
@@ -47,25 +39,9 @@ class LoginView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserProfileView(APIView):
-    def get(self, request, id):
-        try:
-            user = User.objects.get(id=id)
-            profile = Profile.objects.get(user=user.id)
-            if profile.image:
-                image_url = request.build_absolute_uri(profile.image.url)
-                return Response({
-                    "username": user.username,
-                    "userId": user.id,
-                    "userImage": image_url
-                }, status=status.HTTP_200_OK)
-            else:
-                return Response({
-                    "username": user.username,
-                    "userId": user.id,
-                }, status=status.HTTP_200_OK)
-        except User.DoesNotExist:
-            return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
+class UserGetProfileView(generics.RetrieveAPIView):
+    serializer_class = DetailProfileSerializer
+    queryset = User.objects.all()
 
 
 class UserProfileUpdatePicsView(APIView):
@@ -99,21 +75,12 @@ class UserProfileDeleteImageView(APIView):
         profile.save()
         return Response(status=status.HTTP_200_OK)
 
-class UserProfileUpdateView(APIView):
-    def post(self, request):
-        user = User.objects.get(id=request.data.get('userId'))
-        profile = Profile.objects.get(user=user)
-        if profile:
-            user.username = request.data.get('username')
-            user.email = request.data.get('email')
-            profile.phone = request.data.get('phone')
-            user.save()
-            profile.save()
-            return Response(
-                {"message": "Смена данных успешна"},
-                status=status.HTTP_200_OK)
-        else:
-            return Response({"message": "Ошибка"}, status=status.HTTP_404_NOT_FOUND)
+class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
+    serializer_class = DetailProfileSerializer
+    #permission_classes = (IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        return User.objects.select_related('profile')
         
 class UserUpdatePasswordView(APIView):
     def post(self, request):

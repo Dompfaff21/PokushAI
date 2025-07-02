@@ -1,7 +1,12 @@
 from django.urls import path, include
-from . import views
-from django.contrib.auth.views import LogoutView
-from .views import get_num_forms
-from django.conf import settings
-from django.conf.urls.static import static
+from .views import *
 
+app_name = 'users'
+urlpatterns = [
+    path('user/register/', CreateUserView.as_view()),
+    path('user/login/', LoginUserView.as_view(), name='login'),
+    path('user/list/', ListUserView.as_view()),
+    path('user/profile/<int:pk>/', UserGetProfileView.as_view()),
+    path('user/profile/update/<int:pk>/', UserProfileUpdateView.as_view()),
+
+]
