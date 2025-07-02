@@ -43,25 +43,6 @@ class UserGetProfileView(generics.RetrieveAPIView):
     serializer_class = DetailProfileSerializer
     queryset = User.objects.all()
 
-
-class UserProfileUpdatePicsView(APIView):
-    def post(self, request):
-        user = User.objects.get(id=request.POST.get('userId'))
-        profile = Profile.objects.get(user=user.id)
-        if request.FILES:
-            old_image_path = None
-            if profile.image:
-                old_image_path = profile.image.path
-            new_image = request.FILES.get('image')
-            if new_image:
-                profile.image = new_image
-            profile.save()
-            if new_image and old_image_path and os.path.exists(old_image_path):
-                os.remove(old_image_path)
-            return Response({"message": "Смена фото успешна"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Ошибка данных"}, status=status.HTTP_400_BAD_REQUEST)
-
 class UserProfileDeleteImageView(APIView):
     def delete(self, request, id):      #request не удалять, без него метод не работает, потому что Кирилл его добавил у себя в мобилке, зачем то
         user = User.objects.get(id=id)
@@ -84,7 +65,7 @@ class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
         
 class UserUpdatePasswordView(APIView):
     def post(self, request):
-        user =  User.objects.get(id=request.data.get('userId'))
+        user = User.objects.get(id=request.data.get('userId'))
         if user.check_password(request.data.get('oldPassword')):
             user.set_password(request.data.get('password'))
             user.save()
