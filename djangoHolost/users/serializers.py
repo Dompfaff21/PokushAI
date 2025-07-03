@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from recipe.models import Posts
+from recipe.models import Posts, Like
 from .models import Profile
 from django.contrib.auth.models import User
 
@@ -72,3 +72,20 @@ class DetailProfileSerializer(serializers.ModelSerializer):
         profile.save()
 
         return user
+
+class LikesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('__all__')
+
+class UserImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('image')
+
+class DetailPostSerializer(serializers.ModelSerializer):
+    image = UserImageSerializer(source='image')
+    likes = LikesSerializer(source='likes')
+    class Meta:
+        model = Posts
+        fields = ('__all__', 'image', 'likes')

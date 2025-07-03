@@ -1,5 +1,7 @@
 import os
 
+from django.db.models import Prefetch
+
 from djangoHolost.permissions import *
 from django.contrib.auth import authenticate
 from rest_framework import status
@@ -43,18 +45,28 @@ class UserGetProfileView(generics.RetrieveAPIView):
     serializer_class = DetailProfileSerializer
     queryset = User.objects.all()
 
-class UserProfileDeleteImageView(APIView):
-    def delete(self, request, id):      #request не удалять, без него метод не работает, потому что Кирилл его добавил у себя в мобилке, зачем то
-        user = User.objects.get(id=id)
-        profile = Profile.objects.get(user=user)
-        if profile.image:
-            image_path = profile.image.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
-        profile.image.delete()
+class UserProfileDeleteImageView(generics.DestroyAPIView):
+    queryset = Profile.objects.all()
+    #permission_classes = (IsOwnerOrReadOnly,)
+    lookup_field = 'pk'
+
+    def delete(self, request, *args, **kwargs):
+        profile = self.get_object()
+
+        if not profile.image:
+            return Response(
+                {"error": "Фото не существует"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        profile.image.delete(save=False)
         profile.image = None
         profile.save()
-        return Response(status=status.HTTP_200_OK)
+
+        return Response(
+            {"message": "Фото успешно удалено"},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
@@ -71,37 +83,11 @@ class UserUpdatePasswordView(APIView):
             user.save()
             return Response({"message": "Успешная смена пароля"}, status=status.HTTP_200_OK)
         else:
-             return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST) 
+             return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST)
+class UserPostGetView(generics.ListAPIView):
+    serializer_class = DetailPostSerializer
 
-class UsersPostsGetView(APIView):
-    def get(self, request):
-        data = []
-        user_data = []
-
-        post = Posts.objects.all().order_by('-created_at')
-
-        for item in post:
-            data.append({
-                    "author": item.author.username,
-                    "title": item.title,
-                    "des": item.description,
-                    "image": request.build_absolute_uri(item.post_image.url) if item.post_image else None,
-                    "created_at": item.created_at,
-                    "update_at": item.update_at,
-                    "views": item.views,
-                    "likes": item.likes.count()
-                })
-        profiles = Profile.objects.all()
-
-        for item in profiles:
-            if item.image:
-                user_data.append(
-                    {
-                        "user_image": request.build_absolute_uri(item.image)
-                    }
-                )
-
-        return Response({
-            "data": data,
-            "user_data": user_data
-        }, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return Posts.objects.prefetch_related(
+            Prefetch('likes', queryset=Like.objects.select_related('user'))
+        ).select_related('author').all()
