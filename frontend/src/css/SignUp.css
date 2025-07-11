@@ -1,0 +1,517 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.centerbox, form {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.container, input, .container1, .container2, .centerbox1 {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
+}
+
+.centerbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    @media only screen and (max-width:700px) {
+        block-size: fit-content;
+        height: 830px;
+    };
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        block-size: fit-content;
+    };
+
+    @media only screen and (min-width:1301px) {
+        height: 500px;
+        margin: 100px;
+    };
+}
+
+.light-theme .centerbox {
+    @media only screen and (max-width:1300px) {
+        background-color: var(--header);
+    };
+}
+
+.dark-theme .centerbox {
+    @media only screen and (max-width:1300px) {
+        background-color: var(--header);
+    };
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        min-height: 500px;
+    };
+
+    @media only screen and (min-width:1301px) {
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+        width: 1000px;
+        max-width: 100%;
+        min-height: 500px;
+    };
+}
+
+.light-theme .container {
+    background-color: var(--header);
+
+    @media only screen and (min-width:1301px) {
+        border: 2px solid var(--border-radius);
+    };
+}
+
+.dark-theme .container {
+    background-color: var(--header);
+    @media only screen and (min-width:1301px) {
+        border: 2px solid var(--border-radius);
+    };
+}
+
+.container h1 {
+    margin-bottom: 0px;
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        font-size: 24px;
+        margin: 0;
+        width:220px;
+        text-align: center;
+    };
+}
+
+.light-theme .container form h1{
+    color: #1A1A1A;
+}
+
+.dark-theme .container form h1{
+    color: #FBFFFE;
+}
+
+.container p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 10px 0;
+}
+
+.container a {
+    text-decoration: none;
+    margin: 15px 0 10px;
+
+    @media only screen and (max-width:1300px) {
+        font-size: 13px;
+    };
+
+    @media only screen and (min-width:1301px) {
+        font-size: 16px;
+    };
+}
+
+.light-theme .container a{
+    color: var(--text-color);
+}
+
+.dark-theme .container a{
+    color: var(--text-color);
+}
+
+.container button {
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 45px;
+}
+
+.container button.hidden {
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.container form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input {
+    margin: 8px 0 13px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 900;
+    outline: none;
+}
+
+.light-theme .container input {
+    background-color: var(--header);
+    border: 1.75px solid var(--border-radius);
+    color: var(--text-color);
+    box-shadow: 0 0 0 30px var(--header) inset !important;
+}
+
+.dark-theme .container input {
+    background-color: var(--header);
+    border: 1.75px solid var(--border-radius);
+    color: var(--text-color);
+    box-shadow: 0 0 0 30px var(--header) inset !important;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+}
+
+.eye {
+    cursor: pointer;
+    position: absolute;
+    top: 17.5px;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+    transform: scale(1.5);
+}
+
+.dark-theme .eye path {
+    fill: white;
+}
+
+.light-theme .eye path{
+    fill: black;
+}
+
+.svg-icon {
+    position: absolute;
+    top: 17.5px;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+    transform: scale(1.5);
+}
+
+.dark-theme .svg-icon path {
+    fill: white;
+}
+
+.light-theme .svg-icon path{
+    fill: black;
+}
+
+.form-label {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    font-size: 14px;
+    transition: 0.3s ease all;
+    pointer-events: none;
+    color: var(--text-color);
+}
+
+.form-container {
+    position: absolute;
+    transition: all 0.2s ease-out;
+
+    @media only screen and (max-width:700px) {
+        left: 0;
+        width: 100%;
+    };
+
+    @media only screen and (min-width:701px) {
+        top: 0;
+        height: 100%;
+    };
+}
+
+.sign-in {
+    z-index: 2;
+    opacity: 1;
+    animation: move 0.2s ease-out;
+
+    @media only screen and (max-width:700px) {
+        top: 150px;
+        height: calc(500px - 150px);
+    };
+
+    @media only screen and (min-width:701px) {
+        left: 0;
+        width: 50%;
+    };
+}
+
+.container.active .sign-in {
+    opacity: 0;
+    z-index: 0;
+    @media only screen and (max-width:700px) {
+        transform: translateY(100%);
+        
+    };
+    @media only screen and (min-width:701px) {
+        transform: translateX(100%);
+    };
+}
+
+.sign-up {
+    opacity: 0;
+    z-index: 0;
+
+    @media only screen and (max-width:700px) {
+        top: 215px;
+        height: calc(500px - 150px);
+    };
+
+    @media only screen and (min-width:701px) {
+        left: 0;
+        width: 50%;
+    };
+}
+
+.container.active .sign-up {
+    opacity: 1;
+    z-index: 2;
+    animation: move 0.2s ease-out;
+
+    @media only screen and (max-width:700px) {
+        transform: translateY(100%);
+        
+    };
+
+    @media only screen and (min-width:701px) {
+        transform: translateX(100%);
+    };
+}
+
+@keyframes move {
+    0%, 49.99% {
+        opacity: 0;
+        z-index: 0;
+    }
+    50%, 100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.social-icons {
+    margin: 10px 0;
+}
+
+.social-icons a {
+    border: 0.1px solid #000000;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+
+    @media only screen and (max-width:1300px) {
+        width: 30px;
+        height: 30px;
+    };
+
+    @media only screen and (min-width:1301px) {
+        width: 40px;
+        height: 40px;
+    };
+}
+
+
+
+.toggle-container {
+    overflow: hidden;
+    transition: all 0.6s ease-out;
+    z-index: 999;
+    position: absolute;
+
+    @media only screen and (max-width:700px) {
+        left: 0;
+        top: 500px;
+        width: 100%;
+        height: calc(500px - 17px);
+    };
+
+    @media only screen and (min-width:701px) {
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+    };
+}
+
+.container.active .toggle-container {
+    @media only screen and (max-width:700px) {
+        transform: translateY(-100%);
+        top: 500px;
+    };
+
+    @media only screen and (min-width:701px) and (max-width:1300px) {
+        transform: translateX(-100%);
+    };
+
+    @media only screen and (min-width:1301px) {
+        transform: translateX(-100%);
+    };
+}
+
+.toggle {
+    background-color: #d98236;
+    color: #fff;
+    position: relative;
+    transition: all 0.6s ease-out;
+
+    @media only screen and (max-width:700px) {
+        width: 100%;
+        top: -100%;
+        height: 199.3%;
+        transform: translateY(0);
+    };
+
+    @media only screen and (min-width:701px) {
+        height: 100%;
+        left: -100%;
+        width: 200%;
+        transform: translateX(0);
+    };
+}
+
+.container.active .toggle {
+    @media only screen and (max-width:700px) {
+        transform: translateY(50%);
+    };
+
+    @media only screen and (min-width:701px) {
+        transform: translateX(50%);
+    };
+}
+
+.toggle-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    transition: all 0.6s ease-out;
+
+    @media only screen and (max-width:700px) {
+        width: 86%;
+        height: 50%;
+        left: 0;
+        transform: translateY(0);
+    };
+
+    @media only screen and (min-width:701px) {
+        width: 44%;
+        height: 100%;
+        top: 0;
+        transform: translateX(0);
+    };
+}
+
+.container.active .toggle-left {
+    @media only screen and (max-width:700px) {
+        transform: translateY(0);
+        top: 50px;
+    };
+
+    @media only screen and (min-width:701px) {
+        transform: translateX(0);
+    };
+
+}
+
+.toggle-left {
+    @media only screen and (max-width:700px) {
+        top: 50px;
+    };
+}
+
+.toggle-right {
+    @media only screen and (max-width:700px) {
+        bottom: 0;
+        transform: translateY(0);
+    };
+
+    @media only screen and (min-width:701px) {
+        right: 0;
+        transform: translateX(0);
+    };
+}
+
+.container.active .toggle-right {
+    @media only screen and (max-width:700px) {
+        transform: translateY(0);
+    };
+}
+
+/* INPUT: */
+
+/* Базовые стили для всех input */
+.form-group input {
+    padding-right: 45px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Специальный стиль для поля телефона */
+.form-group .phone-input {
+    padding-left: 15px;
+}
+
+/* Стили для иконок */
+.form-group input:focus ~ .eye path,
+.form-group input:not(:placeholder-shown) ~ .eye path,
+.form-group input:focus ~ .svg-icon path,
+.form-group input:not(:placeholder-shown) ~ .svg-icon path {
+    fill: var(--accent-color);
+}
+
+/* Стили для состояний input */
+.form-group input:focus,
+.form-group input:not(:placeholder-shown) {
+    border-color: var(--accent-color);
+}
+
+/* Стили для label */
+.form-group input:focus + .form-label,
+.form-group input:not(:placeholder-shown) + .form-label {
+    top: -7px;
+    font-size: 16px;
+    color: var(--accent-color);
+    background-color: var(--header);
+    padding: 0 6px;
+}
+
+/* Placeholder */
+.form-group input::placeholder {
+    color: transparent;
+    user-select: none;
+}
+
+/* Стили для автозаполнения */
+input:-webkit-autofill {
+    box-shadow: 0 0 0 30px var(--header) inset !important;
+    -webkit-text-fill-color: var(--text-color) !important;
+    caret-color: var(--text-color) !important;
+}
