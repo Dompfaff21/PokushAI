@@ -23,7 +23,7 @@ const Header = () => {
     e.preventDefault();
     console.log('Logout clicked');
     setIsAuthenticated(false);
-    navigate('/');
+    navigate('/signup');
   };
 
   const handleProfile = (e) => {
