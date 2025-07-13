@@ -9,23 +9,23 @@ import '../css/SignUp.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(() => {
-    return localStorage.getItem('containerState') === 'active';
-  });
-  
   const phoneInputRef = useRef(null);
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false); // false = login, true = register
   
-  const [signUpForm, setSignUpForm] = useState({
-    username: '',
-    phone: '+7 (',
-    email: '',
-    password1: '',
-    password2: ''
-  });
-  
-  const [signInForm, setSignInForm] = useState({
-    name: '',
-    password: ''
+  const [forms, setForms] = useState({
+    signUp: {
+      username: '',
+      phone: '+7 (',
+      email: '',
+      password1: '',
+      password2: ''
+    },
+    signIn: {
+      name: '',
+      password: ''
+    }
   });
 
   const [showPassword, setShowPassword] = useState({
@@ -42,141 +42,138 @@ const SignUp = () => {
     }
   }, [isSignUp]);
 
-  const handleToggle = (isActive) => {
-    setIsSignUp(isActive);
-    localStorage.setItem('containerState', isActive ? 'active' : '');
-  };
-
   const formatPhone = (value) => {
-    // Удаляем все нецифровые символы, кроме +
     let numbers = value.replace(/[^\d+]/g, '');
     
-    // Если номер не начинается с +7, добавляем +7
     if (!numbers.startsWith('+7')) {
-      numbers = '+7' + numbers.replace(/[^\d]/g, '');
+      numbers = '+7' + numbers.replace(/^\+/, '');
     }
     
-    // Ограничиваем длину номера (11 цифр после +7)
     numbers = numbers.substring(0, 12);
     
-    // Форматируем номер
-    let formatted = numbers.substring(0, 2); // +7
-    if (numbers.length > 2) {
-      formatted += ' (' + numbers.substring(2, 5); // +7 (XXX
-    }
-    if (numbers.length > 5) {
-      formatted += ') ' + numbers.substring(5, 8); // +7 (XXX) XXX
-    }
-    if (numbers.length > 8) {
-      formatted += '-' + numbers.substring(8, 10); // +7 (XXX) XXX-XX
-    }
-    if (numbers.length > 10) {
-      formatted += '-' + numbers.substring(10, 12); // +7 (XXX) XXX-XX-XX
-    }
+    let formatted = numbers.substring(0, 2);
+    if (numbers.length > 2) formatted += ' (' + numbers.substring(2, 5);
+    if (numbers.length > 5) formatted += ') ' + numbers.substring(5, 8);
+    if (numbers.length > 8) formatted += '-' + numbers.substring(8, 10);
+    if (numbers.length > 10) formatted += '-' + numbers.substring(10, 12);
     
     return formatted;
   };
 
+  const validateForm = (formName) => {
+    const newErrors = {};
+    const form = forms[formName];
+    
+    if (formName === 'signUp') {
+      if (!form.username.trim()) newErrors.username = 'Введите логин';
+      if (!form.email.includes('@')) newErrors.email = 'Некорректный email';
+      
+      const phoneDigits = form.phone.replace(/[^\d]/g, '');
+      if (phoneDigits.length < 11) newErrors.phone = 'Некорректный номер';
+      
+      if (form.password1.length < 6) newErrors.password1 = 'Минимум 6 символов';
+      if (form.password1 !== form.password2) newErrors.password2 = 'Пароли не совпадают';
+    } else {
+      if (!form.name.trim()) newErrors.name = 'Введите логин';
+      if (!form.password) newErrors.password = 'Введите пароль';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (formName, e) => {
+    const { name, value } = e.target;
+    
+    setForms(prev => ({
+      ...prev,
+      [formName]: {
+        ...prev[formName],
+        [name]: name === 'phone' ? formatPhone(value) : value
+      }
+    }));
+    
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
   const handlePhoneKeyDown = (e) => {
-    // Разрешаем удаление только если курсор не в начале
     if (e.key === 'Backspace' && phoneInputRef.current.selectionStart <= 4) {
       e.preventDefault();
     }
     
-    // Разрешаем только цифры, Backspace, Delete, стрелки
     if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|ArrowUp|ArrowDown/.test(e.key)) {
       e.preventDefault();
     }
-  };
-
-  const handlePhoneChange = (e) => {
-    const { value } = e.target;
-    const formattedValue = formatPhone(value);
-    
-    // Сохраняем позицию курсора
-    const cursorPosition = e.target.selectionStart;
-    const oldLength = e.target.value.length;
-    
-    setSignUpForm(prev => ({ ...prev, phone: formattedValue }));
-    
-    // Корректируем позицию курсора после обновления
-    setTimeout(() => {
-      if (phoneInputRef.current) {
-        let newCursorPosition = cursorPosition;
-        const newLength = formattedValue.length;
-        
-        // Если символ был удален
-        if (newLength < oldLength) {
-          newCursorPosition = Math.max(4, cursorPosition - (oldLength - newLength));
-        } 
-        // Если символ был добавлен
-        else if (newLength > oldLength) {
-          newCursorPosition = cursorPosition + (newLength - oldLength);
-        }
-        
-        // Корректируем позицию для форматирующих символов
-        if (formattedValue[newCursorPosition - 1] === ' ' || 
-            formattedValue[newCursorPosition - 1] === '(' || 
-            formattedValue[newCursorPosition - 1] === ')' ||
-            formattedValue[newCursorPosition - 1] === '-') {
-          newCursorPosition += 1;
-        }
-        
-        phoneInputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
-      }
-    }, 0);
-  };
-
-  const handleSignUpChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'phone') {
-      handlePhoneChange(e);
-    } else {
-      setSignUpForm(prev => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleSignInChange = (e) => {
-    const { name, value } = e.target;
-    setSignInForm(prev => ({ ...prev, [name]: value }));
   };
 
   const togglePasswordVisibility = (field) => {
     setShowPassword(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const handleSignUpSubmit = (e) => {
+  const handleSubmit = async (formName, e) => {
     e.preventDefault();
+    if (!validateForm(formName)) return;
     
-    const phoneToSend = signUpForm.phone.replace(/[^\d+]/g, '');
+    setIsLoading(true);
     
-    if (!phoneToSend.startsWith('+7') || phoneToSend.length < 12) {
-        alert('Пожалуйста, введите корректный номер телефона');
-        return;
+    try {
+      // Здесь будет реальный запрос к API
+      console.log(`${formName} submitted:`, forms[formName]);
+      
+      // Имитация успешной авторизации
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      localStorage.setItem('authToken', 'mock-token');
+      navigate('/profile');
+    } catch (error) {
+      setErrors(prev => ({ ...prev, form: error.message || 'Произошла ошибка' }));
+    } finally {
+      setIsLoading(false);
     }
-
-    const formData = { 
-        ...signUpForm, 
-        phone: phoneToSend
-    };
-    
-    console.log('Sign Up Submitted:', formData);
-    navigate('/account');
-  };
-
-  const handleSignInSubmit = (e) => {
-    e.preventDefault();
-    console.log('Sign In Submitted:', signInForm);
-    navigate('/account');
   };
 
   return (
     <div className="centerbox">
-      <div className={`container ${isSignUp ? 'active' : ''}`} id="container">
-        {/* Sign Up Form */}
-        <div className="form-container sign-up">
-          <form onSubmit={handleSignUpSubmit}>
+      {/* Сообщения об ошибках */}
+      {errors.form && (
+        <div className="messages-popup">
+          <ul className="messages">
+            <div className="error-message">{errors.form}</div>
+            <span 
+              className="close-button" 
+              onClick={() => setErrors(prev => ({ ...prev, form: '' }))}
+            >
+              &times;
+            </span>
+          </ul>
+        </div>
+      )}
+      
+      <div className="auth-container">
+        {/* Переключатель между формами */}
+        <div className="auth-switcher">
+          <button 
+            className={`auth-switch-btn ${!isSignUp ? 'active' : ''}`}
+            onClick={() => setIsSignUp(false)}
+            disabled={isLoading}
+          >
+            Вход
+          </button>
+          <button 
+            className={`auth-switch-btn ${isSignUp ? 'active' : ''}`}
+            onClick={() => setIsSignUp(true)}
+            disabled={isLoading}
+          >
+            Регистрация
+          </button>
+        </div>
+
+        {isSignUp ? (
+          /* Форма регистрации */
+          <form className="auth-form" onSubmit={(e) => handleSubmit('signUp', e)}>
             <h1>Создать аккаунт</h1>
+            
             <div className="social-icons">
               <a href="/" className="icons" style={{backgroundColor: '#28a7e8'}}>
                 <i className='bx bxl-telegram'></i>
@@ -193,88 +190,98 @@ const SignUp = () => {
               <input 
                 type="text" 
                 name="username" 
-                value={signUpForm.username}
-                onChange={handleSignUpChange}
+                value={forms.signUp.username}
+                onChange={(e) => handleChange('signUp', e)}
                 required 
                 placeholder=" "
+                className={errors.username ? 'error' : ''}
               />
               <label className="form-label">Логин</label>
               <div className="svg-icon">
                 <LoginIcon />
               </div>
+              {errors.username && <span className="error-text">{errors.username}</span>}
             </div>
             
             <div className="form-group">
               <input 
                 type="tel" 
                 name="phone" 
-                value={signUpForm.phone}
-                onChange={handleSignUpChange}
+                value={forms.signUp.phone}
+                onChange={(e) => handleChange('signUp', e)}
                 onKeyDown={handlePhoneKeyDown}
                 ref={phoneInputRef}
                 required 
                 placeholder=" "
-                className="phone-input"
+                className={`phone-input ${errors.phone ? 'error' : ''}`}
               />
               <label className="form-label">Номер телефона</label>
               <div className="svg-icon">
                 <PhoneIcon />
               </div>
+              {errors.phone && <span className="error-text">{errors.phone}</span>}
             </div>
             
             <div className="form-group">
               <input 
                 type="email" 
                 name="email" 
-                value={signUpForm.email}
-                onChange={handleSignUpChange}
+                value={forms.signUp.email}
+                onChange={(e) => handleChange('signUp', e)}
                 required 
                 placeholder=" "
+                className={errors.email ? 'error' : ''}
               />
               <label className="form-label">E-mail</label>
               <div className="svg-icon">
                 <MailIcon />
               </div>
+              {errors.email && <span className="error-text">{errors.email}</span>}
             </div>
             
             <div className="form-group">
               <input 
                 type={showPassword.password1 ? "text" : "password"}
                 name="password1" 
-                value={signUpForm.password1}
-                onChange={handleSignUpChange}
+                value={forms.signUp.password1}
+                onChange={(e) => handleChange('signUp', e)}
                 required 
                 placeholder=" "
+                className={errors.password1 ? 'error' : ''}
               />
               <label className="form-label">Пароль</label>
               <div className="eye" onClick={() => togglePasswordVisibility('password1')}>
                 {showPassword.password1 ? <HideEyeIcon /> : <ShowEyeIcon />}
               </div>
+              {errors.password1 && <span className="error-text">{errors.password1}</span>}
             </div>
             
             <div className="form-group">
               <input 
                 type={showPassword.password2 ? "text" : "password"}
                 name="password2" 
-                value={signUpForm.password2}
-                onChange={handleSignUpChange}
+                value={forms.signUp.password2}
+                onChange={(e) => handleChange('signUp', e)}
                 required 
                 placeholder=" "
+                className={errors.password2 ? 'error' : ''}
               />
               <label className="form-label">Повторите пароль</label>
               <div className="eye" onClick={() => togglePasswordVisibility('password2')}>
                 {showPassword.password2 ? <HideEyeIcon /> : <ShowEyeIcon />}
               </div>
+              {errors.password2 && <span className="error-text">{errors.password2}</span>}
             </div>
             
-            <button type="submit">Зарегистрироваться</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Загрузка...' : 'Зарегистрироваться'}
+            </button>
           </form>
-        </div>
-        
-        {/* Sign In Form */}
-        <div className="form-container sign-in">
-          <form onSubmit={handleSignInSubmit}>
+        ) : (
+          /* Форма входа */
+          <form className="auth-form" onSubmit={(e) => handleSubmit('signIn', e)}>
             <h1>Вход в аккаунт</h1>
+            
             <div className="social-icons">
               <a href="/" className="icons" style={{backgroundColor: '#28a7e8'}}>
                 <i className='bx bxl-telegram'></i>
@@ -291,52 +298,42 @@ const SignUp = () => {
               <input 
                 type="text" 
                 name="name" 
-                value={signInForm.name}
-                onChange={handleSignInChange}
+                value={forms.signIn.name}
+                onChange={(e) => handleChange('signIn', e)}
                 required 
                 placeholder=" "
+                className={errors.name ? 'error' : ''}
               />
               <label className="form-label">Логин</label>
               <div className="svg-icon">
                 <LoginIcon />
               </div>
+              {errors.name && <span className="error-text">{errors.name}</span>}
             </div>
             
             <div className="form-group">
               <input 
                 type={showPassword.password ? "text" : "password"}
                 name="password" 
-                value={signInForm.password}
-                onChange={handleSignInChange}
+                value={forms.signIn.password}
+                onChange={(e) => handleChange('signIn', e)}
                 required 
                 placeholder=" "
+                className={errors.password ? 'error' : ''}
               />
               <label className="form-label">Пароль</label>
               <div className="eye" onClick={() => togglePasswordVisibility('password')}>
                 {showPassword.password ? <HideEyeIcon /> : <ShowEyeIcon />}
               </div>
+              {errors.password && <span className="error-text">{errors.password}</span>}
             </div>
             
             <a href="/password-reset">Забыли пароль?</a>
-            <button type="submit">Войти</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Загрузка...' : 'Войти'}
+            </button>
           </form>
-        </div>
-
-        {/* Toggle Container */}
-        <div className="toggle-container">
-          <div className="toggle">
-            <div className="toggle-panel toggle-left">
-              <h1>ПокушAI</h1>
-              <p>Уже есть аккаунт?</p>
-              <button className="hidden" onClick={() => handleToggle(false)}>Войти</button>
-            </div>
-            <div className="toggle-panel toggle-right">
-              <h1>Добро пожаловать</h1>
-              <p>У вас еще нет аккаунта?</p>
-              <button className="hidden" onClick={() => handleToggle(true)}>Зарегистрироваться</button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

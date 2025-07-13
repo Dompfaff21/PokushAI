@@ -1,0 +1,7 @@
+{
+  "isAuthenticated": true, 
+  "username": "testuser",
+  "email": "test@example.com",
+  "avatar": "/pictures/ava.jpg",
+  "phone": "+7 (123) 456-78-90"
+}

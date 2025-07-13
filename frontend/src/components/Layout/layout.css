@@ -13,6 +13,14 @@ header, .name, .advantages, main, .sidebarp ul, .us, textarea, footer,
         transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.centerbox, form {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.container, input, .container1, .container2, .centerbox1 {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease;
+}
+
 html::-webkit-scrollbar {
         width: 0.3vw;
         background-color: transparent;
@@ -293,6 +301,11 @@ header {
     height: 100vh;
     width: 100%;
   }
+
+  .sidebar:not(.collapsed) .close-btn {
+    right:10px;
+    position: absolute;
+  }
 }
 
 /* SIDEBAR ITEMS */
@@ -347,9 +360,7 @@ header {
 /* CLOSE BUTTON */
 .close-btn {
   cursor: pointer;
-  position: fixed; /* Изменено с absolute на fixed */
-  right: 20px;
-  top: calc(var(--header-height, 0) + 20px); /* Позиционирование под хедером */
+  margin-left: 10px;
   font-size: 30px; /* Уменьшен размер */
   color: var(--text-color);
   display: none;
@@ -385,13 +396,15 @@ header {
 
 .dark-theme #home path,
 .dark-theme #programm path,
-.dark-theme #recipe path {
+.dark-theme #recipe path,
+.dark-theme #user path {
   fill: var(--text-color);
 }
 
 .light-theme #home path,
 .light-theme #programm path,
-.light-theme #recipe path {
+.light-theme #recipe path,
+.light-theme #user path {
   fill: var(--text-color);
 }
 
@@ -435,3 +448,52 @@ footer {
     color: var(--text-color)
 }
 
+/* LOGOUT BUTTON */
+
+.logout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        position: absolute;
+        left: 10px;
+        top:10px;
+        background-color: #00000000;
+        border-color: #00000000;
+        text-decoration: none;
+        color: #FFFFFFFF;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0px;
+
+        @media only screen and (max-width:700px) {
+                font-size: 12px;
+                top: 39px;
+        };
+}
+
+.light-theme .logout{
+        color: var(--text-color);
+}
+
+.dark-theme .logout {
+        color: var(--text-color);
+}
+
+#logout-icon {
+        width: 40px;
+        height: 40px;
+}
+
+.dark-theme #logout-icon path {
+        fill: #f5f5f5;
+}
+
+.light-theme #logout-icon path {
+        fill: #1A1A1A;
+}
+
+.logout p {
+        margin: 0;
+        font-family: 'Manrope', 'sans-serif';
+}

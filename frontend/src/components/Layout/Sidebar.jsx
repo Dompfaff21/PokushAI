@@ -19,20 +19,31 @@ const Sidebar = () => {
   }, []);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+  const closeSidebar = () => {
+    if (isMobile) {
+      setIsCollapsed(true);
+    }
+  };
 
   return (
     <aside 
       className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}
       onMouseEnter={() => !isMobile && setIsCollapsed(false)}
       onMouseLeave={() => !isMobile && setIsCollapsed(true)}
-      onClick={isMobile && isCollapsed ? toggleSidebar : undefined}
+      onClick={isMobile ? (isCollapsed ? toggleSidebar : undefined) : undefined}
     >
       <div className="sidebar__content">
         <div className="sidebar__item">
             <button 
                 className="hamburger-icon" 
                 aria-label="Меню"
-                >
+                onClick={(e) => {
+                  if (isMobile) {
+                    e.stopPropagation();
+                    toggleSidebar();
+                  }
+                }}
+            >
                 <span className="hamburger-bar"></span>
                 <span className="hamburger-bar"></span>
                 <span className="hamburger-bar"></span>
@@ -44,8 +55,8 @@ const Sidebar = () => {
             
             {isMobile && !isCollapsed && (
                 <span className="close-btn" onClick={(e) => {
-                e.stopPropagation();
-                setIsCollapsed(true);
+                  e.stopPropagation();
+                  setIsCollapsed(true);
                 }}>&times;</span>
             )}
         </div>
@@ -61,7 +72,7 @@ const Sidebar = () => {
             />
           </div>
           <div className="item__text">
-            <Link to="/" className="sidebar-link">Главная</Link>
+            <Link to="/" className="sidebar-link" onClick={closeSidebar}>Главная</Link>
           </div>
         </div>
         
@@ -75,7 +86,7 @@ const Sidebar = () => {
             />
           </div>
           <div className="item__text">
-            <Link to="/app" className="sidebar-link">Приложение</Link>
+            <Link to="/app" className="sidebar-link" onClick={closeSidebar}>Приложение</Link>
           </div>
         </div>
         
@@ -89,7 +100,7 @@ const Sidebar = () => {
             />
           </div>
           <div className="item__text">
-            <Link to="/posts" className="sidebar-link">Подборки</Link>
+            <Link to="/posts" className="sidebar-link" onClick={closeSidebar}>Подборки</Link>
           </div>
         </div>
       </div>
