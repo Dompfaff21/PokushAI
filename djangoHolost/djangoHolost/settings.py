@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'recipe',
     'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,7 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware'
+    'django.middleware.csrf.CsrfViewMiddleware',
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 
@@ -145,6 +147,11 @@ DJOSER = {
         'user_create': 'users.serializers.UserDetailSerializer',
     }
 }
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000"  # Адрес вашего React-приложения
+]
 
 # Настройка почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
