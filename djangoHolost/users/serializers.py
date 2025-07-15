@@ -33,6 +33,11 @@ class UserDetailSerializer(serializers.ModelSerializer):
         )
         return user
 
+    def get_image(self):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image)
+        return None
 
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
