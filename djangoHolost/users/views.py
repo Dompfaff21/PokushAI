@@ -1,7 +1,7 @@
 from django.db.models import Prefetch
 
 from djangoHolost.permissions import *
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,6 +30,7 @@ class LoginUserView(APIView):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
+                login(request, user)
                 return Response({
                     "message": "Вход выполнен успешно",
                     "userId": user.id
