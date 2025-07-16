@@ -56,10 +56,6 @@ class DetailProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'phone', 'image')
-        extra_kwargs = {
-            'username': {'required': False},
-            'email': {'required': False}
-        }
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('profile', {})

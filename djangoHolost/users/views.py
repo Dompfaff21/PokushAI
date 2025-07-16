@@ -83,18 +83,15 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = (IsOwnerOrReadOnly, )
-
-    def get_queryset(self):
-        return User.objects.select_related('profile')
+    permission_classes = (IsOwnerOrReadOnly,)
 
     def get_object(self):
-        return self.request.user
+        return self.request.user 
 
 
 class UserUpdatePasswordView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly,)
     authentication_classes = [JWTAuthentication]
 
     def get_object(self):
