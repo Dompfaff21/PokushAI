@@ -63,7 +63,6 @@ class DetailProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('profile', {})
-
         user = super().update(instance, validated_data)
 
         profile = instance.profile

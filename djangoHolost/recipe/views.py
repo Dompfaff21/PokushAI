@@ -1,11 +1,13 @@
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .serializers import *
 from djangoHolost.permissions import *
-from rest_framework import generics, permissions
+from rest_framework import generics
 
 
 class RecipeCreatePostView(generics.CreateAPIView):
     serializer_class = RecipePostCreateSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    authentication_classes = [JWTAuthentication]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -14,4 +16,4 @@ class RecipeCreatePostView(generics.CreateAPIView):
 class RecipeUpdatePostView(generics.RetrieveUpdateAPIView):
     serializer_class = RecipePostUpdateSerializer
     queryset = Posts.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, )
+    authentication_classes = [JWTAuthentication]

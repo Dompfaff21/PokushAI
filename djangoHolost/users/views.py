@@ -1,10 +1,11 @@
 from django.db.models import Prefetch
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from djangoHolost.permissions import *
 from django.contrib.auth import authenticate, login
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import generics
 from .serializers import *
 from .models import Profile
@@ -20,27 +21,34 @@ class ListUserView(generics.ListAPIView):
     queryset = User.objects.all()
 
 
-class LoginUserView(APIView):
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+class LoginUserView(generics.CreateAPIView):
+    serializer_class = LoginSerializer
 
-        if serializer.is_valid():
-            username = serializer.validated_data['username']
-            password = serializer.validated_data['password']
-            user = authenticate(request, username=username, password=password)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            if user is not None:
-                login(request, user)
-                return Response({
-                    "message": "Вход выполнен успешно",
-                    "userId": user.id
-                }, status=status.HTTP_200_OK)
-            else:
-                return Response({
-                    "error": "Неверное имя пользователя или пароль"
-                }, status=status.HTTP_400_BAD_REQUEST)
+        user = authenticate(
+            request,
+            username=serializer.validated_data['username'],
+            password=serializer.validated_data['password']
+        )
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not user:
+            return Response(
+                {"error": "Неверное имя пользователя или пароль"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        login(request, user)
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+            "message": "Вход выполнен успешно",
+            "userId": user.id
+        }, status=status.HTTP_200_OK)
 
 
 class UserGetProfileView(generics.RetrieveAPIView):
@@ -50,8 +58,8 @@ class UserGetProfileView(generics.RetrieveAPIView):
 
 class UserProfileDeleteImageView(generics.DestroyAPIView):
     queryset = Profile.objects.all()
+    authentication_classes = [JWTAuthentication]
     permission_classes = (IsOwnerOrReadOnly, )
-    lookup_field = 'pk'
 
     def delete(self, request, *args, **kwargs):
         profile = self.get_object()
@@ -74,16 +82,20 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
 
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
-
+    authentication_classes = [JWTAuthentication]
     permission_classes = (IsOwnerOrReadOnly, )
 
     def get_queryset(self):
         return User.objects.select_related('profile')
 
+    def get_object(self):
+        return self.request.user
+
 
 class UserUpdatePasswordView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
     permission_classes = (IsOwnerOrReadOnly, )
+    authentication_classes = [JWTAuthentication]
 
     def get_object(self):
         return self.request.user
