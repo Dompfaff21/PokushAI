@@ -15,10 +15,12 @@ from recipe.models import Posts
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserDetailSerializer
-    
+
+
 class ListUserView(generics.ListAPIView):
     serializer_class = ListUsersSerializer
     queryset = User.objects.all()
+
 
 class LoginUserView(APIView):
     def post(self, request):
@@ -41,13 +43,15 @@ class LoginUserView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class UserGetProfileView(generics.RetrieveAPIView):
     serializer_class = DetailProfileSerializer
     queryset = User.objects.all()
 
+
 class UserProfileDeleteImageView(generics.DestroyAPIView):
     queryset = Profile.objects.all()
-    #permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
     lookup_field = 'pk'
 
     def delete(self, request, *args, **kwargs):
@@ -68,22 +72,24 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
             status=status.HTTP_204_NO_CONTENT
         )
 
+
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
-    #permission_classes = (IsOwnerOrReadOnly,)
+
+    # permission_classes = (IsOwnerOrReadOnly,)
 
     def get_queryset(self):
         return User.objects.select_related('profile')
-        
-class UserUpdatePasswordView(APIView):
-    def post(self, request):
-        user = User.objects.get(id=request.data.get('userId'))
-        if user.check_password(request.data.get('oldPassword')):
-            user.set_password(request.data.get('password'))
-            user.save()
-            return Response({"message": "Успешная смена пароля"}, status=status.HTTP_200_OK)
-        else:
-             return Response({"message": "Ошибка, пароли не совпадают"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserUpdatePasswordView(generics.UpdateAPIView):
+    serializer_class = UserUpdatePasswordSerializer
+    # permission_classes = (IsOwnerOrReadOnly)
+
+    def get_object(self):
+        return self.request.user
+
+
 class UserPostGetView(generics.ListAPIView):
     serializer_class = DetailPostSerializer
 

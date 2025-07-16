@@ -33,6 +33,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
@@ -72,19 +73,49 @@ class DetailProfileSerializer(serializers.ModelSerializer):
 
         return user
 
+
 class LikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('__all__')
+
 
 class UserImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('image')
 
+
 class DetailPostSerializer(serializers.ModelSerializer):
     image = UserImageSerializer(source='image')
     likes = LikesSerializer(source='likes')
+
     class Meta:
         model = Posts
         fields = ('__all__', 'image', 'likes')
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    new_password1 = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    new_password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
+
+    class Meta:
+        model = User
+        fields = ('old_password', 'new_password1', 'new_password2')
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Неверный старый пароль")
+        return value
+
+    def validate(self, data):
+        if data['new_password1'] != data['new_password2']:
+            raise serializers.ValidationError("Пароли не совпадают")
+        return data
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['new_password1'])
+        instance.save()
+        return instance
