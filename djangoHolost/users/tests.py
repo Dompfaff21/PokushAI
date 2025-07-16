@@ -3,6 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import Profile
 
@@ -62,3 +63,54 @@ class LoginUserViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('error', response.data)
         self.assertEqual(response.data['error'], 'Неверное имя пользователя или пароль')
+
+class UserUpdatePasswordViewTest(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='userPass',
+            password='oldpassword',
+        )
+
+        refresh = RefreshToken.for_user(self.user)
+        self.access_token = str(refresh.access_token)
+
+    def test_success_change(self):
+        url = '/api/v1/users/user/profile/password_reset/'
+        data = {
+            'old_password': 'oldpassword',
+            'new_password1': 'new_password',
+            'new_password2': 'new_password'
+        }
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('new_password'))
+
+    def test_uncorrected_data(self):
+        url = '/api/v1/users/user/profile/password_reset/'
+        data = {
+            'old_password': 'wrongoldpassword',
+            'new_password1': 'wrongnew_password',
+            'new_password2': 'anothernew_password'
+        }
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_change_without_token(self):
+        url = '/api/v1/users/user/profile/password_reset/'
+        data = {
+            'old_password': 'oldpassword',
+            'new_password1': 'new_password',
+            'new_password2': 'new_password'
+        }
+
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data['detail'], 'Требуется авторизация')

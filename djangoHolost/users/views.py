@@ -1,7 +1,8 @@
 from django.db.models import Prefetch
+from rest_framework.exceptions import PermissionDenied
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from django.contrib.auth.models import AnonymousUser
 from djangoHolost.permissions import *
 from django.contrib.auth import authenticate, login
 from rest_framework import status
@@ -95,6 +96,9 @@ class UserUpdatePasswordView(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
 
     def get_object(self):
+        user = self.request.user
+        if isinstance(user, AnonymousUser):
+            raise PermissionDenied("Требуется авторизация")
         return self.request.user
 
 
