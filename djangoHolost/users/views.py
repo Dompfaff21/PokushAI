@@ -1,5 +1,3 @@
-import os
-
 from django.db.models import Prefetch
 
 from djangoHolost.permissions import *
@@ -51,7 +49,7 @@ class UserGetProfileView(generics.RetrieveAPIView):
 
 class UserProfileDeleteImageView(generics.DestroyAPIView):
     queryset = Profile.objects.all()
-    # permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly, )
     lookup_field = 'pk'
 
     def delete(self, request, *args, **kwargs):
@@ -76,7 +74,7 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
 
-    # permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly, )
 
     def get_queryset(self):
         return User.objects.select_related('profile')
@@ -84,7 +82,7 @@ class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
 
 class UserUpdatePasswordView(generics.UpdateAPIView):
     serializer_class = UserUpdatePasswordSerializer
-    # permission_classes = (IsOwnerOrReadOnly)
+    permission_classes = (IsOwnerOrReadOnly, )
 
     def get_object(self):
         return self.request.user
