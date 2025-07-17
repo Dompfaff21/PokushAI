@@ -338,7 +338,7 @@ const Profile = () => {
       <div className={`container1 ${activeTab === 'posts-info' ? 'no-background' : ''}`}>
         <div className="content">
           <div id="personal-info" className="content-box" style={{display: activeTab === 'personal-info' ? 'block' : 'none'}}>
-            <h1>Профиль {user.username}</h1>
+            <h1>Мой профиль</h1>
             <form onSubmit={handleProfileSubmit}>
               <AvatarCropper 
                 currentAvatar={user.image}
