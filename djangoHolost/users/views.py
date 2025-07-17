@@ -85,7 +85,7 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
 
         return Response(
             {"message": "Фото успешно удалено"},
-            status=status.HTTP_204_NO_CONTENT
+            status=status.HTTP_200_OK
         )
 
 
