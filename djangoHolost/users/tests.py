@@ -1,3 +1,4 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 from rest_framework.test import APITestCase
@@ -114,3 +115,46 @@ class UserUpdatePasswordViewTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(response.data['detail'], 'Требуется авторизация')
+
+class UserProfileUpdateViewTest(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword',
+            email='testmail@mail.com'
+        )
+        self.profile = Profile.objects.create(
+            user=self.user,
+            phone='+7 (111) 111-11-11',
+            image=None
+        )
+
+        refresh = RefreshToken.for_user(self.user)
+        self.access_token = str(refresh.access_token)
+
+    def test_success_change(self):
+        url = '/api/v1/users/user/profile/update/'
+        test_image = SimpleUploadedFile(
+            name='111.jpg',
+            content=open('C:/Users/kutse/Desktop/Work/PokushAI/djangoHolost/media/profile_pics/111.jpg', 'rb').read(),
+            content_type='image/jpeg'
+        )
+
+        data = {
+            'username': 'changeuser',
+            'email': 'change@mail.com',
+            'phone': '+7 (222) 222-22-22',
+            'image': test_image
+        }
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+        responce = self.client.put(url, data, format='multipart')
+
+        self.assertEqual(responce.status_code, status.HTTP_200_OK)
+        saved_profile = Profile.objects.first()
+        #self.assertEqual(saved_profile.image, '111.jpg')
+        self.assertEqual(saved_profile.phone, '+7 (222) 222-22-22')
+        saved_user = User.objects.first()
+        self.assertEqual(saved_user.username, 'changeuser')
+        self.assertEqual(saved_user.email, 'change@mail.com')

@@ -1,5 +1,6 @@
 from django.db.models import Prefetch
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.parsers import MultiPartParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import AnonymousUser
@@ -85,8 +86,12 @@ class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = (IsOwnerOrReadOnly,)
+    parser_classes = [MultiPartParser]
 
     def get_object(self):
+        user = self.request.user
+        if isinstance(user, AnonymousUser):
+            raise PermissionDenied("Требуется авторизация")
         return self.request.user 
 
 
