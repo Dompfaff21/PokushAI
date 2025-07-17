@@ -76,7 +76,7 @@ class UserUpdatePasswordViewTest(APITestCase):
         self.access_token = str(refresh.access_token)
 
     def test_success_change(self):
-        url = '/api/v1/users/user/profile/password_reset/'
+        url = '/api/v1/users/user/profile/password_update/'
         data = {
             'old_password': 'oldpassword',
             'new_password1': 'new_password',
@@ -91,7 +91,7 @@ class UserUpdatePasswordViewTest(APITestCase):
         self.assertTrue(self.user.check_password('new_password'))
 
     def test_uncorrected_data(self):
-        url = '/api/v1/users/user/profile/password_reset/'
+        url = '/api/v1/users/user/profile/password_update/'
         data = {
             'old_password': 'wrongoldpassword',
             'new_password1': 'wrongnew_password',
@@ -104,7 +104,7 @@ class UserUpdatePasswordViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_change_without_token(self):
-        url = '/api/v1/users/user/profile/password_reset/'
+        url = '/api/v1/users/user/profile/password_update/'
         data = {
             'old_password': 'oldpassword',
             'new_password1': 'new_password',
@@ -153,7 +153,7 @@ class UserProfileUpdateViewTest(APITestCase):
 
         self.assertEqual(responce.status_code, status.HTTP_200_OK)
         saved_profile = Profile.objects.first()
-        #self.assertEqual(saved_profile.image, '111.jpg')
+        self.assertTrue(saved_profile.image)
         self.assertEqual(saved_profile.phone, '+7 (222) 222-22-22')
         saved_user = User.objects.first()
         self.assertEqual(saved_user.username, 'changeuser')

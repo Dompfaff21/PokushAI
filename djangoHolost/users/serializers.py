@@ -62,8 +62,15 @@ class DetailProfileSerializer(serializers.ModelSerializer):
         user = super().update(instance, validated_data)
 
         profile = instance.profile
-        for attr, value in profile_data.items():
-            setattr(profile, attr, value)
+        if 'image' in profile_data:
+            new_image = profile_data['image']
+            if profile.image and (new_image is None or new_image != profile.image):
+                profile.image.delete(save=False)
+            profile.image = new_image if new_image is not None else None
+
+        if 'phone' in profile_data:
+            profile.phone = profile_data['phone']
+
         profile.save()
 
         return user

@@ -92,7 +92,7 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = DetailProfileSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated, )
     parser_classes = [MultiPartParser]
 
     def get_object(self):
