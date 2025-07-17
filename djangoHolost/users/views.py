@@ -64,6 +64,9 @@ class UserProfileDeleteImageView(generics.DestroyAPIView):
     permission_classes = (IsOwnerOrReadOnly, )
 
     def delete(self, request, *args, **kwargs):
+        user = self.request.user
+        if isinstance(user, AnonymousUser):
+            raise PermissionDenied("Требуется авторизация")
         profile = self.get_object()
 
         if not profile.image:

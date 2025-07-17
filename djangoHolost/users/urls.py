@@ -9,6 +9,7 @@ urlpatterns = [
     path('user/posts/', UserPostGetView.as_view()),
     path('user/profile/<int:pk>/', UserGetProfileView.as_view()),
     path('user/profile/update/', UserProfileUpdateView.as_view()),
-    path('user/profile/password_reset/', UserUpdatePasswordView.as_view()),
+    path('user/profile/password_update/', UserUpdatePasswordView.as_view()),
+    path('user/profile/image_delete/', UserProfileDeleteImageView.as_view()),
 
 ]
