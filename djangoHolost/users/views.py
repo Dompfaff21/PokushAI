@@ -1,6 +1,7 @@
 from django.db.models import Prefetch
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import AnonymousUser
@@ -61,12 +62,15 @@ class UserGetProfileView(generics.RetrieveAPIView):
 class UserProfileDeleteImageView(generics.DestroyAPIView):
     queryset = Profile.objects.all()
     authentication_classes = [JWTAuthentication]
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, )
+
+    def get_object(self):
+        try:
+            return self.request.user.profile
+        except Profile.DoesNotExist:
+            raise NotFound("Профиль не найден")
 
     def delete(self, request, *args, **kwargs):
-        user = self.request.user
-        if isinstance(user, AnonymousUser):
-            raise PermissionDenied("Требуется авторизация")
         profile = self.get_object()
 
         if not profile.image:
