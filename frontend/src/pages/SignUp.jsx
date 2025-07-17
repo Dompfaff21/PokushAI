@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LoginIcon } from '../svg/login_dark.svg';
 import { ReactComponent as PhoneIcon } from '../svg/phone_dark.svg';
@@ -6,13 +6,17 @@ import { ReactComponent as MailIcon } from '../svg/mail_dark.svg';
 import { ReactComponent as ShowEyeIcon } from '../svg/eye_dark.svg';
 import { ReactComponent as HideEyeIcon } from '../svg/hide_eye_dark.svg';
 import '../css/SignUp.css';
+import { AuthContext } from '../context/AuthContext';
+
+const API_BASE_URL = 'http://localhost:8000/api/v1/users';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const phoneInputRef = useRef(null);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false); // false = login, true = register
+  const [isSignUp, setIsSignUp] = useState(false);
   
   const [forms, setForms] = useState({
     signUp: {
@@ -50,6 +54,8 @@ const SignUp = () => {
     }
     
     numbers = numbers.substring(0, 12);
+    
+    if (numbers.length <= 2) return numbers;
     
     let formatted = numbers.substring(0, 2);
     if (numbers.length > 2) formatted += ' (' + numbers.substring(2, 5);
@@ -112,20 +118,73 @@ const SignUp = () => {
     setShowPassword(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
+  const handleRegister = async () => {
+    try {
+      const formattedPhone = forms.signUp.phone;
+      const response = await fetch(`${API_BASE_URL}/user/register/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: forms.signUp.username,
+          email: forms.signUp.email,
+          password1: forms.signUp.password1,
+          password2: forms.signUp.password2,
+          phone: formattedPhone
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || JSON.stringify(errorData));
+      }
+
+      await handleLogin(forms.signUp.username, forms.signUp.password1);
+    } catch (error) {
+      setErrors(prev => ({ ...prev, form: error.message || 'Ошибка регистрации' }));
+    }
+  };
+
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/user/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ошибка входа');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('token', data.access); 
+      login(data.userId, username);
+      navigate('/profile');
+    } catch (error) {
+      setErrors(prev => ({ ...prev, form: error.message || 'Ошибка входа' }));
+    }
+  };
+
   const handleSubmit = async (formName, e) => {
     e.preventDefault();
     if (!validateForm(formName)) return;
     
     setIsLoading(true);
+    setErrors(prev => ({ ...prev, form: '' }));
     
     try {
-      // Здесь будет реальный запрос к API
-      console.log(`${formName} submitted:`, forms[formName]);
-      
-      // Имитация успешной авторизации
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      localStorage.setItem('authToken', 'mock-token');
-      navigate('/profile');
+      if (formName === 'signUp') {
+        await handleRegister();
+      } else {
+        await handleLogin(forms.signIn.name, forms.signIn.password);
+      }
     } catch (error) {
       setErrors(prev => ({ ...prev, form: error.message || 'Произошла ошибка' }));
     } finally {
@@ -135,7 +194,6 @@ const SignUp = () => {
 
   return (
     <div className="centerbox">
-      {/* Сообщения об ошибках */}
       {errors.form && (
         <div className="messages-popup">
           <ul className="messages">
@@ -151,7 +209,6 @@ const SignUp = () => {
       )}
       
       <div className="auth-container">
-        {/* Переключатель между формами */}
         <div className="auth-switcher">
           <button 
             className={`auth-switch-btn ${!isSignUp ? 'active' : ''}`}
@@ -170,7 +227,6 @@ const SignUp = () => {
         </div>
 
         {isSignUp ? (
-          /* Форма регистрации */
           <form className="auth-form" onSubmit={(e) => handleSubmit('signUp', e)}>
             <h1>Создать аккаунт</h1>
             
@@ -278,7 +334,6 @@ const SignUp = () => {
             </button>
           </form>
         ) : (
-          /* Форма входа */
           <form className="auth-form" onSubmit={(e) => handleSubmit('signIn', e)}>
             <h1>Вход в аккаунт</h1>
             
@@ -320,6 +375,9 @@ const SignUp = () => {
                 required 
                 placeholder=" "
                 className={errors.password ? 'error' : ''}
+                autoComplete="new-password"
+                autoCorrect="off"
+                spellCheck="false"
               />
               <label className="form-label">Пароль</label>
               <div className="eye" onClick={() => togglePasswordVisibility('password')}>

@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react'; // Добавляем useContext
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { themeManager } from '../../utils/theme';
-import userData from '../../data/user.json';
+import { AuthContext } from '../../context/AuthContext';
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isInitialized, setIsInitialized] = useState(false);
-  
-  const [isAuthenticated, setIsAuthenticated] = useState(userData.isAuthenticated);
-  const isProfilePage = location.pathname === '/profile';
-  const isSignupPage = location.pathname === '/signup';
-  const isLoginPage = location.pathname === '/login';
+  const { authState, logout } = useContext(AuthContext); // Используем контекст
 
   useEffect(() => {
     themeManager.init()
@@ -19,16 +15,18 @@ const Header = () => {
       .catch(console.error);
   }, []);
 
+  const isProfilePage = location.pathname === '/profile';
+  const isSignupPage = location.pathname === '/signup';
+  const isLoginPage = location.pathname === '/login';
+
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log('Logout clicked');
-    setIsAuthenticated(false);
+    logout(); // Используем функцию logout из контекста
     navigate('/signup');
   };
 
   const handleProfile = (e) => {
     e.preventDefault();
-    console.log('Profile clicked');
     navigate('/profile');
   };
 
@@ -52,10 +50,9 @@ const Header = () => {
         <img alt="tg" src="/pictures/tg.png"/>
       </div>
 
-      {/* Показываем кнопки только если это не страницы signup или login */}
       {!isSignupPage && !isLoginPage && (
         <>
-          {isAuthenticated ? (
+          {authState.isAuthenticated ? ( // Используем authState из контекста
             isProfilePage ? (
               <button className="logout" onClick={handleLogout}>
                 <div id="logout-icon"></div>
@@ -64,7 +61,7 @@ const Header = () => {
             ) : (
               <button className="logout" onClick={handleProfile}>
                 <div id="user"></div>
-                <p>{userData.username}</p>
+                <p>{authState.username}</p>
               </button>
             )
           ) : (

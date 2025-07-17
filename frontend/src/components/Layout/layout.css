@@ -88,7 +88,7 @@ header {
         justify-content: center;
         padding: 10px;
         position: relative;
-        z-index: 1001;
+        z-index: 999;
         user-select: none;
 
         @media only screen and (max-width:700px) {
@@ -273,7 +273,7 @@ header {
     width var(--sidebar-transition), 
     height var(--sidebar-transition);
   overflow: hidden;
-  z-index: 1000;
+  z-index: 998;
   user-select: none;
   position: fixed;
   top: var(--header-height, 0);
@@ -364,7 +364,6 @@ header {
   font-size: 30px; /* Уменьшен размер */
   color: var(--text-color);
   display: none;
-  z-index: 1002;
   background-color: var(--border);
   width: 40px;
   height: 40px;
